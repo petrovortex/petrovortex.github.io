@@ -1,0 +1,46 @@
+---
+layout: default
+---
+
+<div class="wrapper">
+  
+  <!-- Закрепленная статья (О себе) -->
+  <div class="pinned-post">
+    <h2>{% if page.lang == 'en' %}About Author{% else %}Об авторе{% endif %}</h2>
+    <p>
+      {% if page.lang == 'en' %}
+        Hi, I'm Sasha. Welcome to my Open Thoughts blog.
+      {% else %}
+        Привет, я Саша. Добро пожаловать в мой блог открытых мыслей.
+      {% endif %}
+      <a href="#">Read more...</a>
+    </p>
+  </div>
+
+  <!-- Лента статей -->
+  <div class="post-list">
+    {% for post in site.posts %}
+      <!-- Фильтруем статьи по текущему языку страницы -->
+      {% if post.lang == page.lang %}
+      <article class="post-card">
+        {% if post.image %}
+        <div class="post-image" style="background-image: url('{{ post.image }}');"></div>
+        {% endif %}
+        
+        <div class="post-content">
+            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+            
+            <div class="post-meta">
+               <!-- Сюда JS потом подставит цифры -->
+               <span class="meta-item">👁️ <span class="view-count" data-slug="{{ post.lang_ref }}">...</span></span>
+               <span class="meta-item">❤️ <span class="like-count" data-slug="{{ post.lang_ref }}">...</span></span>
+            </div>
+
+            <p class="post-excerpt">{{ post.excerpt }}</p>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
