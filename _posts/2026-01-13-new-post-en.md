@@ -1,6 +1,6 @@
 ---
 title:  "Second blog"
-date:   2026-01-13 00:29:00 +0300
+date:   2026-01-13 00:29:00
 lang: en
 lang_ref: second-post
 excerpt: "Just second post"
