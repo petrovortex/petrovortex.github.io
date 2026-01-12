@@ -3,27 +3,48 @@ layout: default
 ---
 
 <div class="wrapper">
-  
-  <!-- Закрепленная статья (О себе) -->
-  <div class="pinned-post">
-    <h2>{% if page.lang == 'en' %}About Author{% else %}Об авторе{% endif %}</h2>
-    <p>
-      {% if page.lang == 'en' %}
-        Hi, I'm Sasha. Welcome to my Open Thoughts blog.
-      {% else %}
-        Привет, я Саша. Добро пожаловать в мой блог открытых мыслей.
-      {% endif %}
-      <a href="#">Read more...</a>
-    </p>
-  </div>
 
-  <!-- Лента статей -->
+  <!-- 1. ИЩЕМ И ВЫВОДИМ ЗАКРЕПЛЕННУЮ СТАТЬЮ -->
+  {% assign pinned_post = site.posts | where: "pinned", true | where: "lang", page.lang | first %}
+  
+  {% if pinned_post %}
+  <article class="post-card pinned-highlight">
+      
+      <!-- Картинка выводится ТОЛЬКО если она есть -->
+      {% if pinned_post.image and pinned_post.image != "" %}
+      <div class="post-image" style="background-image: url('{{ pinned_post.image }}');">
+           <a href="{{ pinned_post.url }}" style="display:block; width:100%; height:100%;"></a>
+      </div>
+      {% endif %}
+      
+      <div class="post-content">
+          <h3><a href="{{ pinned_post.url }}">{{ pinned_post.title }}</a></h3>
+          
+          <div class="post-date-line">
+              {{ pinned_post.date | date: "%d.%m.%Y" }} 
+              <!-- Можно добавить значок скрепки, если захочешь: 📌 -->
+          </div>
+
+          <p class="post-excerpt">{{ pinned_post.excerpt }}</p>
+
+          <div class="post-meta">
+             <span class="meta-item">👁️ <span class="view-count" data-slug="{{ pinned_post.lang_ref }}">0</span></span>
+             <span class="meta-item">❤️ <span class="like-count" data-slug="{{ pinned_post.lang_ref }}">0</span></span>
+          </div>
+      </div>
+  </article>
+  {% endif %}
+
+  <!-- 2. ВЫВОДИМ ОСТАЛЬНЫЕ СТАТЬИ -->
   <div class="post-list">
     {% for post in site.posts %}
-      <!-- Фильтруем статьи по языку -->
-      {% if post.lang == page.lang %}
+      <!-- Условие: Язык совпадает И статья НЕ закрепленная (чтобы не дублировать) -->
+      {% if post.lang == page.lang and post.pinned != true %}
+      
       <article class="post-card">
-        {% if post.image %}
+        
+        <!-- ЖЕСТКАЯ ПРОВЕРКА: Если ссылки на картинку нет, блок div даже не создается -->
+        {% if post.image and post.image != "" %}
         <div class="post-image" style="background-image: url('{{ post.image }}');">
              <a href="{{ post.url }}" style="display:block; width:100%; height:100%;"></a>
         </div>
@@ -32,20 +53,19 @@ layout: default
         <div class="post-content">
             <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
             
-            <!-- ДАТА ПУБЛИКАЦИИ -->
-            <div class="post-date-line" style="color: #999; font-size: 0.85rem; margin-bottom: 8px;">
+            <div class="post-date-line">
                 {{ post.date | date: "%d.%m.%Y" }}
             </div>
 
             <p class="post-excerpt">{{ post.excerpt }}</p>
 
-            <!-- ЛАЙКИ И ПРОСМОТРЫ В ЛЕНТЕ -->
-            <div class="post-meta" style="margin-top: 15px;">
+            <div class="post-meta">
                <span class="meta-item">👁️ <span class="view-count" data-slug="{{ post.lang_ref }}">0</span></span>
                <span class="meta-item">❤️ <span class="like-count" data-slug="{{ post.lang_ref }}">0</span></span>
             </div>
         </div>
       </article>
+
       {% endif %}
     {% endfor %}
   </div>
