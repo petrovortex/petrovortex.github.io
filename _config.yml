@@ -11,7 +11,7 @@ github_username:  petrovortex
 
 # Настройки сборки
 markdown: kramdown
-theme: minima
+permalink: /:year/:month/:day/:title/
 plugins:
   - jekyll-seo-tag
   - jekyll-feed
