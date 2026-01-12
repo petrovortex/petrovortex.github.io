@@ -4,6 +4,7 @@ description: >
   Блог Саши Петрова.
 url: "https://petrovortex.github.io"
 permalink: /:title/
+timezone: Europe/Moscow
 
 plugins:
   - jekyll-seo-tag
