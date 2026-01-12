@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Почему я завел этот блог"
-date:   2024-01-12 12:00:00 +0300
+date:   2026-01-12 14:00:00 +0300
 categories: life
 lang: ru
 lang_ref: first-post
