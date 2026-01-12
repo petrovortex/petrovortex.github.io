@@ -16,7 +16,6 @@ const firebaseConfig = {
 try {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    // console.log("Firebase connected"); // Можно закомментировать для чистоты
 
     // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ КЭША
     function getCachedStats(slug) {
@@ -31,13 +30,13 @@ try {
     if (window.articleSlug) {
         const postRef = ref(db, 'posts/' + window.articleSlug);
         
-        // A) МГНОВЕННЫЙ ПОКАЗ ИЗ КЭША (Пока грузится интернет)
+        // A) МГНОВЕННЫЙ ПОКАЗ ИЗ КЭША
         const cached = getCachedStats(window.articleSlug);
         if (cached) {
             updateUI(cached.views, cached.likes);
         }
 
-        // Б) СЧЕТЧИК ПРОСМОТРОВ (+1)
+        // Б) СЧЕТЧИК ПРОСМОТРОВ
         const viewedKey = 'viewed_' + window.articleSlug;
         if (!localStorage.getItem(viewedKey)) {
             runTransaction(postRef, (post) => {
@@ -48,7 +47,7 @@ try {
             localStorage.setItem(viewedKey, 'true');
         }
 
-        // В) СЛУШАЕМ ОБНОВЛЕНИЯ (Realtime)
+        // В) СЛУШАЕМ ОБНОВЛЕНИЯ
         onValue(postRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -57,7 +56,6 @@ try {
             }
         });
 
-        // Функция обновления интерфейса
         function updateUI(views, likes) {
             const viewEl = document.getElementById('meta-views');
             const likeEl = document.getElementById('meta-likes');
@@ -67,25 +65,26 @@ try {
             if (btnEl) btnEl.innerText = likes || 0;
         }
 
-        // Г) ЛОГИКА ЛАЙКА
+        // Г) ЛОГИКА ЛАЙКА (ИСПРАВЛЕННАЯ)
         function doLike() {
-            const likedKey = 'liked_' + window.articleSlug;
-            if (localStorage.getItem(likedKey)) {
-                alert("Вы уже поставили лайк этой статье!");
-                return;
-            }
-
-            // Анимации интерфейса
-            const heartAnim = document.getElementById('like-animation-heart'); // На всякий случай
+            // 1. Анимация кнопки (срабатывает ВСЕГДА, для фана)
             const likeBtn = document.getElementById('like-btn');
             if (likeBtn) {
                 likeBtn.style.transform = "scale(1.2)";
                 setTimeout(() => likeBtn.style.transform = "scale(1)", 200);
             }
 
-            // Оптимистичное обновление (сразу меняем цифру, не ждем ответа сервера)
+            // 2. Проверка: лайкал ли уже?
+            const likedKey = 'liked_' + window.articleSlug;
+            if (localStorage.getItem(likedKey)) {
+                // Если лайкал — просто молча уходим. 
+                // Анимация кнопки произошла, сердечко (если даблклик) вылетело, но база не меняется.
+                return;
+            }
+
+            // 3. Если не лайкал — обновляем цифры и базу
             const currentLikes = parseInt(document.getElementById('like-btn-count').innerText || 0);
-            updateUI(null, currentLikes + 1); // views не трогаем
+            updateUI(null, currentLikes + 1); 
 
             // Запись в базу
             runTransaction(postRef, (post) => {
@@ -104,7 +103,7 @@ try {
             contentBody.addEventListener('dblclick', (e) => {
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
                 
-                // Создаем сердечко в месте клика
+                // Создаем летящее сердечко (визуально)
                 const heart = document.createElement('div');
                 heart.innerText = '❤️';
                 heart.classList.add('heart-animation');
@@ -115,26 +114,25 @@ try {
                 requestAnimationFrame(() => { heart.classList.add('animate'); });
                 setTimeout(() => { heart.remove(); }, 800);
                 
+                // Вызываем логику (там внутри проверка на накрутку)
                 doLike();
             });
         }
     }
 
-    // --- 2. ЛОГИКА ДЛЯ ЛЕНТЫ (ГЛАВНАЯ) ---
+    // --- 2. ЛОГИКА ДЛЯ ЛЕНТЫ ---
     const viewCounts = document.querySelectorAll('.view-count');
     if (viewCounts.length > 0) {
         viewCounts.forEach(el => {
             const slug = el.getAttribute('data-slug');
             const likeEl = el.closest('.post-meta').querySelector('.like-count');
 
-            // 1. Сначала показываем из кэша (моментально)
             const cached = getCachedStats(slug);
             if (cached) {
                 el.innerText = cached.views || 0;
                 if(likeEl) likeEl.innerText = cached.likes || 0;
             }
 
-            // 2. Потом грузим свежее
             const pRef = ref(db, 'posts/' + slug);
             onValue(pRef, (snapshot) => {
                 const data = snapshot.val();
@@ -149,9 +147,7 @@ try {
 
     // --- 3. КНОПКА "НАВЕРХ" ---
     const backToTopBtn = document.getElementById('back-to-top');
-    const pinnedPost = document.querySelector('.pinned-post'); // или любой другой ориентир
-    
-    // Если pinnedPost нет (например, на странице статьи), берем просто отступ
+    const pinnedPost = document.querySelector('.pinned-post'); 
     const triggerHeight = pinnedPost ? (pinnedPost.offsetTop + pinnedPost.offsetHeight) : 300;
 
     window.addEventListener('scroll', () => {
