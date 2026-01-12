@@ -5,10 +5,15 @@ layout: default
   
   <header class="post-header">
     <h1 class="post-title">{{ page.title }}</h1>
+    
+    <!-- ДАТА -->
+    <p class="post-date-single" style="color: #888; margin-top: -10px; margin-bottom: 20px;">
+        {{ page.date | date: "%d.%m.%Y" }}
+    </p>
+
     <div class="post-meta-top">
-       <!-- Данные обновятся через JS -->
-       <span id="meta-views">👁️ ...</span>
-       <span id="meta-likes">❤️ ...</span>
+       <span id="meta-views">👁️ 0</span>
+       <span id="meta-likes" style="margin-left: 15px;">❤️ 0</span>
     </div>
   </header>
 
@@ -20,10 +25,8 @@ layout: default
     {{ content }}
   </div>
 
-  <!-- Скрытое сердечко для анимации -->
   <div id="like-animation-heart" class="heart-animation">❤️</div>
 
-  <!-- Нижняя кнопка лайка -->
   <div class="post-actions">
      <button id="like-btn" class="like-button">
         <span class="heart-icon">❤️</span> 
@@ -33,7 +36,6 @@ layout: default
 
 </article>
 
-<!-- Передаем ID статьи в JS для базы данных -->
 <script>
   window.articleSlug = "{{ page.lang_ref }}"; 
 </script>
