@@ -1,6 +1,6 @@
 ---
 title:  "Второй пост"
-date:   2026-01-13 00:29:00 +0300
+date:   2026-01-13 00:29:00
 lang: ru
 lang_ref: second-post
 excerpt: "Второй пост"
