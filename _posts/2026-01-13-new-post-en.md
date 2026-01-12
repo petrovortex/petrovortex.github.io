@@ -1,5 +1,5 @@
 ---
-title:  "Second blog"
+title:  "Second blog (updated)"
 date:   2026-01-13 00:29:00
 lang: en
 lang_ref: second-post
