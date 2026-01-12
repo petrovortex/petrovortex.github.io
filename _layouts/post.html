@@ -6,27 +6,30 @@ layout: default
   <header class="post-header">
     <h1 class="post-title">{{ page.title }}</h1>
     
-    <!-- ДАТА -->
-    <p class="post-date-single" style="color: #888; margin-top: -10px; margin-bottom: 20px;">
+    <p class="post-date-single">
         {{ page.date | date: "%d.%m.%Y" }}
     </p>
 
-    <div class="post-meta-top">
-       <span id="meta-views">👁️ 0</span>
-       <span id="meta-likes" style="margin-left: 15px;">❤️ 0</span>
+    <!-- Вывод статистики (цифры обновятся JS-ом) -->
+    <div class="post-meta-top" style="color: #888; font-size: 0.9rem;">
+       <span id="meta-views">👁️ ...</span>
+       <span id="meta-likes" style="margin-left: 15px;">❤️ ...</span>
     </div>
   </header>
 
   <div class="post-content-body">
-    {% if page.image %}
+    <!-- ПРОВЕРКА: Если картинки нет, этот блок не создастся -->
+    {% if page.image and page.image != "" %}
       <img src="{{ page.image }}" alt="{{ page.title }}" class="main-post-image">
     {% endif %}
     
     {{ content }}
   </div>
 
+  <!-- Сердечко для анимации -->
   <div id="like-animation-heart" class="heart-animation">❤️</div>
 
+  <!-- Кнопка лайка -->
   <div class="post-actions">
      <button id="like-btn" class="like-button">
         <span class="heart-icon">❤️</span> 
