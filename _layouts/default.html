@@ -6,7 +6,7 @@
   <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
   
   <!-- СТИЛИ -->
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v={{ site.time | date: '%s' }}">
   <!-- ФАВИКОН -->
   <link rel="icon" type="image/png" href="/assets/favicon.png"> 
   
@@ -60,6 +60,6 @@
 
   <button id="back-to-top" title="Go to top">↑</button>
 
-  <script type="module" src="/assets/js/main.js"></script>
+  <script type="module" src="/assets/js/main.js?v={{ site.time | date: '%s' }}"></script>
 </body>
 </html>
