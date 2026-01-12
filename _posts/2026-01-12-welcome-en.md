@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Why I started this blog"
-date:   2024-01-12 12:00:00 +0300
+date:   2026-01-12 14:00:00 +0300
 categories: life
 lang: en
 lang_ref: first-post
