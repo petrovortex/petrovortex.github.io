@@ -91,8 +91,34 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         if (contentBody) {
             contentBody.addEventListener('dblclick', (e) => {
-                // ВОТ ЭТА СТРОЧКА УБИРАЕТ ВЫДЕЛЕНИЕ ТЕКСТА:
+                // 1. Убираем выделение текста
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
+                
+                // 2. Создаем сердечко на лету
+                const heart = document.createElement('div');
+                heart.innerText = '❤️';
+                heart.classList.add('heart-animation'); // Берет стили из CSS
+                
+                // 3. Ставим его в координаты клика
+                // e.clientX и e.clientY — это координаты мышки/пальца
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+
+                // 4. Добавляем на страницу
+                document.body.appendChild(heart);
+
+                // 5. Запускаем анимацию
+                // requestAnimationFrame гарантирует, что браузер успеет отрисовать элемент перед добавлением класса
+                requestAnimationFrame(() => {
+                    heart.classList.add('animate');
+                });
+
+                // 6. Удаляем сердечко из HTML через 800мс (время анимации), чтобы не засорять память
+                setTimeout(() => {
+                    heart.remove();
+                }, 800);
+
+                // 7. Записываем лайк в базу
                 doLike();
             });
         }
