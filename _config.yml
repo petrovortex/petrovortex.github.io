@@ -1,17 +1,10 @@
 title: Open Thoughts
-author: Sasha Petrov
-email: alex.petrovortex@gmail.com
+email: your-email@example.com
 description: >
-  Блог Саши Петрова. Мысли, идеи, заметки.
-
-# Настройки для SEO
+  Блог Саши Петрова.
 url: "https://petrovortex.github.io"
-twitter_username: petrovortex
-github_username:  petrovortex
+permalink: /:title/
 
-# Настройки сборки
-markdown: kramdown
-permalink: /:year/:month/:day/:title/
 plugins:
   - jekyll-seo-tag
   - jekyll-feed
