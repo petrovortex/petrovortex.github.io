@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-// --- КОНФИГ (Твои данные) ---
+// --- КОНФИГ ---
 const firebaseConfig = {
   apiKey: "AIzaSyCT8cb1AQ4AylcD1b75bKa07Cbnt32M2yY",
   authDomain: "open-thoughts-by-petrovortex.firebaseapp.com",
@@ -13,19 +13,32 @@ const firebaseConfig = {
   measurementId: "G-SMNZKZV5W2"
 };
 
-// Оборачиваем в try-catch, чтобы ошибки не ломали сайт
 try {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-    console.log("Firebase connected");
+    // console.log("Firebase connected"); // Можно закомментировать для чистоты
+
+    // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ КЭША
+    function getCachedStats(slug) {
+        const cached = sessionStorage.getItem('stats_' + slug);
+        return cached ? JSON.parse(cached) : null;
+    }
+    function setCachedStats(slug, data) {
+        sessionStorage.setItem('stats_' + slug, JSON.stringify(data));
+    }
 
     // --- 1. ЛОГИКА ДЛЯ СТРАНИЦЫ СТАТЬИ ---
     if (window.articleSlug) {
         const postRef = ref(db, 'posts/' + window.articleSlug);
         
-        // Счетчик просмотров
+        // A) МГНОВЕННЫЙ ПОКАЗ ИЗ КЭША (Пока грузится интернет)
+        const cached = getCachedStats(window.articleSlug);
+        if (cached) {
+            updateUI(cached.views, cached.likes);
+        }
+
+        // Б) СЧЕТЧИК ПРОСМОТРОВ (+1)
         const viewedKey = 'viewed_' + window.articleSlug;
-        // Проверяем localStorage (чтобы не накручивать)
         if (!localStorage.getItem(viewedKey)) {
             runTransaction(postRef, (post) => {
                 if (post) { post.views = (post.views || 0) + 1; } 
@@ -35,22 +48,26 @@ try {
             localStorage.setItem(viewedKey, 'true');
         }
 
-        // Слушаем изменения в базе
+        // В) СЛУШАЕМ ОБНОВЛЕНИЯ (Realtime)
         onValue(postRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                // Добавил проверки (if), чтобы не было ошибок, если элементов нет
-                const viewEl = document.getElementById('meta-views');
-                const likeEl = document.getElementById('meta-likes');
-                const btnEl = document.getElementById('like-btn-count');
-
-                if (viewEl) viewEl.innerText = `👁️ ${data.views || 0}`;
-                if (likeEl) likeEl.innerText = `❤️ ${data.likes || 0}`;
-                if (btnEl) btnEl.innerText = data.likes || 0;
+                updateUI(data.views, data.likes);
+                setCachedStats(window.articleSlug, { views: data.views, likes: data.likes });
             }
         });
 
-        // Функция лайка
+        // Функция обновления интерфейса
+        function updateUI(views, likes) {
+            const viewEl = document.getElementById('meta-views');
+            const likeEl = document.getElementById('meta-likes');
+            const btnEl = document.getElementById('like-btn-count');
+            if (viewEl) viewEl.innerText = `👁️ ${views || 0}`;
+            if (likeEl) likeEl.innerText = `❤️ ${likes || 0}`;
+            if (btnEl) btnEl.innerText = likes || 0;
+        }
+
+        // Г) ЛОГИКА ЛАЙКА
         function doLike() {
             const likedKey = 'liked_' + window.articleSlug;
             if (localStorage.getItem(likedKey)) {
@@ -58,20 +75,17 @@ try {
                 return;
             }
 
-            // Анимации
-            const heartAnim = document.getElementById('like-animation-heart');
+            // Анимации интерфейса
+            const heartAnim = document.getElementById('like-animation-heart'); // На всякий случай
             const likeBtn = document.getElementById('like-btn');
-            
-            if (heartAnim) {
-                heartAnim.classList.remove('animate');
-                void heartAnim.offsetWidth; 
-                heartAnim.classList.add('animate');
-            }
-
             if (likeBtn) {
                 likeBtn.style.transform = "scale(1.2)";
                 setTimeout(() => likeBtn.style.transform = "scale(1)", 200);
             }
+
+            // Оптимистичное обновление (сразу меняем цифру, не ждем ответа сервера)
+            const currentLikes = parseInt(document.getElementById('like-btn-count').innerText || 0);
+            updateUI(null, currentLikes + 1); // views не трогаем
 
             // Запись в базу
             runTransaction(postRef, (post) => {
@@ -79,46 +93,28 @@ try {
                 else { post = { views: 1, likes: 1 }; }
                 return post;
             });
-
             localStorage.setItem(likedKey, 'true');
         }
 
-        // КЛИК ПО КНОПКЕ
         const likeBtn = document.getElementById('like-btn');
         if (likeBtn) likeBtn.addEventListener('click', doLike);
 
-        // ДВОЙНОЙ КЛИК ПО ТЕКСТУ
         const contentBody = document.querySelector('.post-content-body');
         if (contentBody) {
             contentBody.addEventListener('dblclick', (e) => {
-                // 1. Убираем выделение текста
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
                 
-                // 2. Создаем сердечко на лету
+                // Создаем сердечко в месте клика
                 const heart = document.createElement('div');
                 heart.innerText = '❤️';
-                heart.classList.add('heart-animation'); // Берет стили из CSS
-                
-                // 3. Ставим его в координаты клика
-                // e.clientX и e.clientY — это координаты мышки/пальца
+                heart.classList.add('heart-animation');
                 heart.style.left = e.clientX + 'px';
                 heart.style.top = e.clientY + 'px';
-
-                // 4. Добавляем на страницу
                 document.body.appendChild(heart);
-
-                // 5. Запускаем анимацию
-                // requestAnimationFrame гарантирует, что браузер успеет отрисовать элемент перед добавлением класса
-                requestAnimationFrame(() => {
-                    heart.classList.add('animate');
-                });
-
-                // 6. Удаляем сердечко из HTML через 800мс (время анимации), чтобы не засорять память
-                setTimeout(() => {
-                    heart.remove();
-                }, 800);
-
-                // 7. Записываем лайк в базу
+                
+                requestAnimationFrame(() => { heart.classList.add('animate'); });
+                setTimeout(() => { heart.remove(); }, 800);
+                
                 doLike();
             });
         }
@@ -129,13 +125,23 @@ try {
     if (viewCounts.length > 0) {
         viewCounts.forEach(el => {
             const slug = el.getAttribute('data-slug');
+            const likeEl = el.closest('.post-meta').querySelector('.like-count');
+
+            // 1. Сначала показываем из кэша (моментально)
+            const cached = getCachedStats(slug);
+            if (cached) {
+                el.innerText = cached.views || 0;
+                if(likeEl) likeEl.innerText = cached.likes || 0;
+            }
+
+            // 2. Потом грузим свежее
             const pRef = ref(db, 'posts/' + slug);
             onValue(pRef, (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
                     el.innerText = data.views || 0;
-                    const likeEl = el.closest('.post-meta').querySelector('.like-count');
                     if(likeEl) likeEl.innerText = data.likes || 0;
+                    setCachedStats(slug, { views: data.views, likes: data.likes });
                 }
             });
         });
@@ -143,14 +149,14 @@ try {
 
     // --- 3. КНОПКА "НАВЕРХ" ---
     const backToTopBtn = document.getElementById('back-to-top');
-    const pinnedPost = document.querySelector('.pinned-post');
+    const pinnedPost = document.querySelector('.pinned-post'); // или любой другой ориентир
+    
+    // Если pinnedPost нет (например, на странице статьи), берем просто отступ
+    const triggerHeight = pinnedPost ? (pinnedPost.offsetTop + pinnedPost.offsetHeight) : 300;
 
     window.addEventListener('scroll', () => {
-        let threshold = 300;
-        if (pinnedPost) { threshold = pinnedPost.offsetTop + pinnedPost.offsetHeight; }
-        
         if (backToTopBtn) {
-            if (window.scrollY > threshold) backToTopBtn.classList.add('visible');
+            if (window.scrollY > triggerHeight) backToTopBtn.classList.add('visible');
             else backToTopBtn.classList.remove('visible');
         }
     });
@@ -162,5 +168,5 @@ try {
     }
 
 } catch (e) {
-    console.error("Ошибка JS:", e);
+    console.error("JS Error:", e);
 }
