@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'ru' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+  <!-- Подключаем стили (создадим их позже) -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- Шрифты -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ШАПКА -->
+  <header class="site-header">
+    <div class="header-wrapper">
+      <a class="site-title" href="{% if page.lang == 'en' %}/en/{% else %}/{% endif %}">
+        Open Thoughts by Sasha Petrov
+      </a>
+
+      <!-- Логика переключателя языка -->
+      <div class="lang-toggle">
+        {% assign current_lang = page.lang | default: 'ru' %}
+        
+        {% if current_lang == 'ru' %}
+            <!-- Если сейчас РУ, ищем английскую версию этой же страницы -->
+            {% assign translated_url = "/en/" %}
+            {% for post in site.posts %}
+              {% if post.lang_ref == page.lang_ref and post.lang == 'en' %}
+                {% assign translated_url = post.url %}
+              {% endif %}
+            {% endfor %}
+            <a href="{{ translated_url }}" class="toggle-btn">RU <span>EN</span></a>
+        
+        {% else %}
+            <!-- Если сейчас EN, ищем русскую версию -->
+            {% assign translated_url = "/" %}
+            {% for post in site.posts %}
+              {% if post.lang_ref == page.lang_ref and post.lang == 'ru' %}
+                {% assign translated_url = post.url %}
+              {% endif %}
+            {% endfor %}
+            <a href="{{ translated_url }}" class="toggle-btn"><span>RU</span> EN</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <!-- КОНТЕНТ СТРАНИЦЫ -->
+  <main class="page-content" aria-label="Content">
+    {{ content }}
+  </main>
+
+  <!-- КНОПКА НАВЕРХ (скрыта по умолчанию) -->
+  <button id="back-to-top" title="Go to top">↑</button>
+
+  <!-- Скрипты (логика лайков и прочего) -->
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>
