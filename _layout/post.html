@@ -1,0 +1,39 @@
+---
+layout: default
+---
+<article class="post-full" id="article-container">
+  
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta-top">
+       <!-- Данные обновятся через JS -->
+       <span id="meta-views">👁️ ...</span>
+       <span id="meta-likes">❤️ ...</span>
+    </div>
+  </header>
+
+  <div class="post-content-body">
+    {% if page.image %}
+      <img src="{{ page.image }}" alt="{{ page.title }}" class="main-post-image">
+    {% endif %}
+    
+    {{ content }}
+  </div>
+
+  <!-- Скрытое сердечко для анимации -->
+  <div id="like-animation-heart" class="heart-animation">❤️</div>
+
+  <!-- Нижняя кнопка лайка -->
+  <div class="post-actions">
+     <button id="like-btn" class="like-button">
+        <span class="heart-icon">❤️</span> 
+        <span id="like-btn-count">Like</span>
+     </button>
+  </div>
+
+</article>
+
+<!-- Передаем ID статьи в JS для базы данных -->
+<script>
+  window.articleSlug = "{{ page.lang_ref }}"; 
+</script>
