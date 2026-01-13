@@ -117,6 +117,15 @@ try {
                 // Вызываем логику (там внутри проверка на накрутку)
                 doLike();
             });
+
+            const links = contentBody.querySelectorAll('a');
+            links.forEach(link => {
+                // Если ссылка ведет на другой сайт (не на наш)
+                if (link.hostname !== window.location.hostname) {
+                    link.setAttribute('target', '_blank'); // Открыть в новой вкладке
+                    link.setAttribute('rel', 'noopener noreferrer'); // Безопасность
+                }
+            });
         }
     }
 
