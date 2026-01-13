@@ -83,6 +83,18 @@ a:hover { opacity: 0.7; }
     -webkit-user-select: none;
 }
 
+.post-content-body a {
+    color: #ff3b30;            /* Цвет как у лайка/сердечка */
+    text-decoration: underline; /* Подчеркивание, чтобы точно поняли, что это ссылка */
+    font-weight: 600;           /* Чуть жирнее обычного текста */
+    transition: opacity 0.2s;
+}
+
+.post-content-body a:hover {
+    opacity: 0.7;               /* Эффект при наведении */
+    text-decoration: none;      /* Убираем подчеркивание при наведении */
+}
+
 /* --- КНОПКИ --- */
 .post-actions { margin-top: 60px; display: flex; justify-content: center; }
 .like-button {
