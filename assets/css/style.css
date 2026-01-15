@@ -95,6 +95,27 @@ a:hover { opacity: 0.7; }
     text-decoration: none;      /* Убираем подчеркивание при наведении */
 }
 
+/* --- ПАНЕЛЬ СОЦСЕТЕЙ В СТАТЬЕ --- */
+.social-bar {
+    display: flex;
+    gap: 18px;             /* Расстояние между иконками */
+    margin-bottom: 25px;   /* Отступ снизу до просмотров */
+    margin-top: -10px;     /* Чуть подтянем к дате */
+    align-items: center;
+}
+
+.social-icon {
+    width: 22px;           /* Размер иконок */
+    height: 22px;
+    fill: #a0a0a0;         /* Базовый серый цвет */
+    transition: fill 0.2s, transform 0.2s;
+}
+
+.social-bar a:hover .social-icon {
+    fill: #333;            /* Цвет при наведении */
+    transform: translateY(-2px); /* Легкое всплытие */
+}
+
 /* --- КНОПКИ --- */
 .post-actions { margin-top: 60px; display: flex; justify-content: center; }
 .like-button {
