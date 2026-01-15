@@ -24,23 +24,25 @@ try {
         sessionStorage.setItem('stats_' + slug, JSON.stringify(data));
     }
 
-    // ОПРЕДЕЛЯЕМ ЯЗЫК СТРАНИЦЫ (из тега html lang="...")
+    // ТЕКСТЫ ДЛЯ ПОДСКАЗОК
     const currentLang = document.documentElement.lang || 'ru';
     const textDict = {
         ru: {
             copied: "Ссылка на секцию скопирована!",
-            copyHint: "Скопировать ссылку",
+            copyHint: "Нажми, чтобы скопировать ссылку",
+            toggleHint: "Нажми на стрелку, чтобы свернуть",
             tocTitle: "Содержание"
         },
         en: {
             copied: "Section link copied!",
-            copyHint: "Copy link",
+            copyHint: "Click to copy link",
+            toggleHint: "Click arrow to toggle",
             tocTitle: "Table of Contents"
         }
     };
     const texts = textDict[currentLang] || textDict['ru'];
 
-    // --- 1. ЛОГИКА СТАТЬИ ---
+    // --- ЛОГИКА СТАТЬИ ---
     if (window.articleSlug) {
         
         // --- FIREBASE ---
@@ -99,6 +101,7 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         
         if (contentBody) {
+            // Лайк по даблклику
             contentBody.addEventListener('dblclick', (e) => {
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
@@ -113,6 +116,7 @@ try {
                 doLike();
             });
 
+            // Ссылки в новой вкладке
             const links = contentBody.querySelectorAll('a');
             links.forEach(link => {
                 if (link.hostname !== window.location.hostname && !link.hash) {
@@ -121,60 +125,60 @@ try {
                 }
             });
 
-            // ЗАПУСК ЛОГИКИ СЕКЦИЙ
+            // Запуск обработки секций
             processSections(contentBody);
         }
     }
 
-    // --- ФУНКЦИЯ ОБРАБОТКИ СЕКЦИЙ (ИСПРАВЛЕННАЯ) ---
+    // --- ФУНКЦИЯ ОБРАБОТКИ СЕКЦИЙ ---
     function processSections(contentBody) {
-        // 1. Ищем все H2
         const h2Elements = Array.from(contentBody.querySelectorAll('h2'));
-        if (h2Elements.length === 0) return; // Если секций нет - выходим
+        if (h2Elements.length === 0) return;
 
         const tocContainer = document.getElementById('toc-container');
         const tocList = document.createElement('ul');
         tocList.className = 'toc-list';
 
-        // 2. Проходим по каждому H2 и собираем контент ПОД ним
         h2Elements.forEach(h2 => {
-            // А. ID и Атрибуты
             if (!h2.id) h2.id = slugify(h2.innerText);
+            
             h2.className = 'section-header-h2';
-            h2.setAttribute('data-hint', texts.copyHint); // Текст подсказки (RU/EN)
+            // ДОБАВЛЯЕМ НАТИВНУЮ ПОДСКАЗКУ (TITLE)
+            h2.setAttribute('title', texts.copyHint);
 
-            // Б. Создаем DIV для контента секции
+            // Создаем DIV для контента
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section-content';
             sectionDiv.id = 'sec-' + h2.id;
 
-            // В. Собираем всех соседей, пока не встретим следующий H2
+            // Собираем контент
             let nextNode = h2.nextSibling;
             const elementsToMove = [];
-            
             while (nextNode) {
-                // Если встретили следующий H2 - стоп
                 if (nextNode.nodeType === 1 && nextNode.tagName === 'H2') break;
-                
                 const nodeToMove = nextNode;
-                nextNode = nextNode.nextSibling; // Сразу берем следующий, т.к. текущий переместим
+                nextNode = nextNode.nextSibling;
                 elementsToMove.push(nodeToMove);
             }
-
-            // Перемещаем найденные элементы внутрь DIV
-            // Вставляем DIV после H2
             h2.after(sectionDiv);
             elementsToMove.forEach(node => sectionDiv.appendChild(node));
 
-            // Г. Добавляем Шеврон (Птичку)
-            const chevron = document.createElement('svg');
-            chevron.className = 'section-toggle-icon';
-            // Используем простой путь для стрелки вниз
-            chevron.innerHTML = '<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>';
-            chevron.setAttribute('viewBox', '0 0 24 24');
+            // СОЗДАЕМ ИКОНКУ (ПРАВИЛЬНЫЙ МЕТОД CREATE ELEMENT NS)
+            const chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            chevron.setAttribute("class", "section-toggle-icon");
+            chevron.setAttribute("viewBox", "0 0 24 24");
+            // Добавляем подсказку отдельно для иконки
+            const chevronTitle = document.createElementNS("http://www.w3.org/2000/svg", "title");
+            chevronTitle.textContent = texts.toggleHint;
+            chevron.appendChild(chevronTitle);
+            
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", "M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z");
+            chevron.appendChild(path);
+            
             h2.insertBefore(chevron, h2.firstChild);
 
-            // Д. Добавляем в TOC (Содержание)
+            // TOC
             const tocLi = document.createElement('li');
             const tocLink = document.createElement('a');
             tocLink.href = '#' + h2.id;
@@ -182,16 +186,17 @@ try {
             tocLink.onclick = (e) => handleTocClick(e, h2.id);
             tocLi.appendChild(tocLink);
             
-            // Е. Ищем H3 внутри собранного sectionDiv
+            // Обработка H3 (Подсекции)
             const h3Elements = Array.from(sectionDiv.querySelectorAll('h3'));
             if (h3Elements.length > 0) {
                 const subUl = document.createElement('ul');
                 subUl.className = 'toc-sublist';
-                
                 h3Elements.forEach(h3 => {
                     if (!h3.id) h3.id = slugify(h3.innerText);
-                    h3.setAttribute('data-hint', texts.copyHint); // Подсказка
-                    h3.addEventListener('click', () => copyAnchor(h3.id)); // Копирование H3
+                    // ДОБАВЛЯЕМ ПОДСКАЗКУ ДЛЯ H3
+                    h3.setAttribute('title', texts.copyHint);
+                    
+                    h3.addEventListener('click', () => copyAnchor(h3.id));
 
                     const subLi = document.createElement('li');
                     const subLink = document.createElement('a');
@@ -205,11 +210,11 @@ try {
             }
             tocList.appendChild(tocLi);
 
-            // Ж. Обработчик клика по H2
+            // Клик по H2
             h2.addEventListener('click', (e) => {
-                // Если кликнули по тексту или пустому месту справа - копируем
-                // Если по иконке - сворачиваем
-                if (e.target === chevron || e.target.tagName === 'path' || e.target.tagName === 'svg') {
+                // Если клик по иконке - сворачиваем
+                // .closest помогает понять, кликнули ли мы ВНУТРИ svg
+                if (e.target.closest('.section-toggle-icon')) {
                      toggleSection(h2, sectionDiv);
                 } else {
                      copyAnchor(h2.id);
@@ -217,12 +222,10 @@ try {
             });
         });
 
-        // 3. Финализируем TOC
         tocContainer.innerHTML = `<h3 class="toc-title">${texts.tocTitle}</h3>`;
         tocContainer.appendChild(tocList);
         tocContainer.style.display = 'block';
 
-        // Открытие по ссылке
         if (window.location.hash) {
             setTimeout(() => {
                 const id = window.location.hash.substring(1);
@@ -232,15 +235,12 @@ try {
     }
 
     // --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
-    
     function toggleSection(header, contentDiv) {
         if (header.classList.contains('collapsed')) {
-            // Развернуть
             header.classList.remove('collapsed');
             contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
             setTimeout(() => contentDiv.style.maxHeight = "none", 400);
         } else {
-            // Свернуть
             contentDiv.style.maxHeight = contentDiv.scrollHeight + "px";
             requestAnimationFrame(() => {
                 header.classList.add('collapsed');
@@ -258,7 +258,6 @@ try {
     function openSectionById(id) {
         const target = document.getElementById(id);
         if (!target) return;
-
         const parentSection = target.closest('.section-content');
         if (parentSection) {
             const header = parentSection.previousElementSibling;
@@ -297,8 +296,7 @@ try {
             .replace(/\-\-+/g, '-');
     }
 
-    // --- ОСТАЛЬНАЯ ЛОГИКА ---
-    // (Лента, Кнопка наверх, Почта - без изменений, но они тут нужны)
+    // --- ОСТАЛЬНОЕ ---
     const viewCounts = document.querySelectorAll('.view-count');
     if (viewCounts.length > 0) {
         viewCounts.forEach(el => {
@@ -313,7 +311,6 @@ try {
             });
         });
     }
-
     const backToTopBtn = document.getElementById('back-to-top');
     const pinnedPost = document.querySelector('.pinned-post'); 
     const socialBar = document.querySelector('.social-bar');
@@ -340,6 +337,4 @@ try {
         });
     }
 
-} catch (e) {
-    console.error("JS Error:", e);
-}
+} catch (e) { console.error("JS Error:", e); }
