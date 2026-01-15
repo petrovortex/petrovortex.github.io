@@ -156,13 +156,27 @@ try {
 
     // --- 3. КНОПКА "НАВЕРХ" ---
     const backToTopBtn = document.getElementById('back-to-top');
-    const pinnedPost = document.querySelector('.pinned-post'); 
-    const triggerHeight = pinnedPost ? (pinnedPost.offsetTop + pinnedPost.offsetHeight) : 300;
+    const pinnedPost = document.querySelector('.pinned-post'); // Элемент на Главной
+    const socialBar = document.querySelector('.social-bar');   // Элемент в Статье
 
     window.addEventListener('scroll', () => {
-        if (backToTopBtn) {
-            if (window.scrollY > triggerHeight) backToTopBtn.classList.add('visible');
-            else backToTopBtn.classList.remove('visible');
+        if (!backToTopBtn) return;
+
+        let threshold = 300; // Значение по умолчанию (если элементов нет)
+
+        if (pinnedPost) {
+            // ЛОГИКА ГЛАВНОЙ: когда скроется закрепленный пост
+            threshold = pinnedPost.offsetTop + pinnedPost.offsetHeight;
+        } else if (socialBar) {
+            // ЛОГИКА СТАТЬИ: когда скроется панель соцсетей
+            threshold = socialBar.offsetTop + socialBar.offsetHeight;
+        }
+
+        // Показываем кнопку, если прокрутили ниже порога
+        if (window.scrollY > threshold) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
         }
     });
 
@@ -171,7 +185,7 @@ try {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
-
+  
     // --- 4. КОПИРОВАНИЕ ПОЧТЫ ---
     const emailBtn = document.getElementById('email-copy-btn');
     if (emailBtn) {
