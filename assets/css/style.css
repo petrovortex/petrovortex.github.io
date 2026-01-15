@@ -353,3 +353,42 @@ a:hover { opacity: 0.7; }
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
+
+/* --- 1. ЦВЕТ ВЫДЕЛЕНИЯ ТЕКСТА --- */
+/* Работает во всех современных браузерах */
+::selection {
+    background: #ff3b30; /* Красный (как сердечко) */
+    color: #ffffff;      /* Белый текст */
+}
+::-moz-selection {
+    background: #ff3b30;
+    color: #ffffff;
+}
+
+/* --- 2. СИСТЕМНЫЙ ЗАПРЕТ ВЫДЕЛЕНИЯ --- */
+
+/* --- 2. УПРАВЛЕНИЕ ВЫДЕЛЕНИЕМ (NO-SELECT) --- */
+
+/* Перечисляем всё, что НЕЛЬЗЯ выделять мышкой */
+button,                 /* Все кнопки браузера */
+img,                    /* Все картинки */
+svg,                    /* Все иконки */
+.section-header-h2,     /* Наши заголовки-кнопки */
+.post-content-body h3,  /* Подзаголовки (они работают как ссылки) */
+.social-bar a,          /* Иконки соцсетей */
+.like-button,           /* Кнопка лайка */
+#back-to-top            /* Кнопка "Наверх" */
+{
+    user-select: none;
+    -webkit-user-select: none; /* Для Safari */
+}
+
+/* На всякий случай оставляем класс-утилиту, вдруг пригодится в будущем */
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+}
+/* Обновляем курсор для заголовков, чтобы было понятно, что кликабельно всё */
+.section-header-h2 {
+    cursor: pointer;
+}
