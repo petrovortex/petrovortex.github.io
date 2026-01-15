@@ -242,3 +242,106 @@ a:hover { opacity: 0.7; }
     opacity: 1;
     bottom: 150%; /* Чуть всплывает вверх при появлении */
 }
+
+/* --- СОДЕРЖАНИЕ (Table of Contents) --- */
+.toc-container {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    display: none; /* Скрыто, пока JS не наполнит */
+}
+.toc-title {
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+.toc-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+.toc-list li { margin-bottom: 6px; }
+.toc-list a {
+    text-decoration: none;
+    color: #555;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+}
+.toc-list a:hover {
+    color: #000;
+    border-bottom-color: #000;
+}
+/* Отступ для подсекций (H3) */
+.toc-sublist {
+    padding-left: 20px;
+    margin-top: 5px;
+    list-style: none;
+}
+
+/* --- СЕКЦИИ СТАТЬИ --- */
+/* Заголовок H2 теперь интерактивный */
+.section-header-h2 {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.2s;
+}
+.section-header-h2:hover { opacity: 0.8; }
+
+/* Стрелочка сворачивания */
+.section-toggle-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    fill: #333;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+/* Когда свернуто - стрелка смотрит вправо */
+.section-header-h2.collapsed .section-toggle-icon {
+    transform: rotate(-90deg);
+}
+
+/* Контент внутри секции */
+.section-content {
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+}
+/* Класс для скрытия */
+.section-content.hidden {
+    display: none; /* JS будет менять это на max-height для анимации */
+}
+
+/* Заголовки H3 (Подсекции) */
+.post-content-body h3 {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+.post-content-body h3:hover::after {
+    content: "#";
+    position: absolute;
+    left: -20px;
+    color: #ccc;
+}
+
+/* ТУЛТИП "ССЫЛКА СКОПИРОВАНА" (Используем тот же стиль, что для email) */
+.anchor-tooltip {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+.anchor-tooltip.visible { opacity: 1; }
