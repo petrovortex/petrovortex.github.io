@@ -58,7 +58,9 @@
     {{ content }}
   </main>
 
-  <button id="back-to-top" title="Go to top">↑</button>
+  <button id="back-to-top" title="Go to top">
+    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+  </button>
 
   <script type="module" src="/assets/js/main.js?v={{ site.time | date: '%s' }}"></script>
 </body>
