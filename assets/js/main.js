@@ -172,6 +172,27 @@ try {
         });
     }
 
+    // --- 4. КОПИРОВАНИЕ ПОЧТЫ ---
+    const emailBtn = document.getElementById('email-copy-btn');
+    if (emailBtn) {
+        emailBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const email = "alex.petrovortex@gmail.com";
+            
+            navigator.clipboard.writeText(email).then(() => {
+                const tooltip = emailBtn.querySelector('.copy-tooltip');
+                tooltip.classList.add('visible');
+                
+                setTimeout(() => {
+                    tooltip.classList.remove('visible');
+                }, 2000);
+            }).catch(err => {
+                console.error('Ошибка копирования:', err);
+            });
+        });
+    }
+
 } catch (e) {
     console.error("JS Error:", e);
 }
