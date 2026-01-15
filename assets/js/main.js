@@ -29,14 +29,16 @@ try {
     const textDict = {
         ru: {
             copied: "Ссылка на секцию скопирована!",
-            copyHint: "Нажми: развернуть и скопировать", // Новая подсказка
-            toggleHint: "Только свернуть/развернуть",
+            copyHint: "Развернуть и скопировать ссылку", // Для H2
+            simpleCopy: "Скопировать ссылку", // Для H3
+            toggleHint: "Свернуть/развернуть",      // Для стрелки
             tocTitle: "Содержание"
         },
         en: {
             copied: "Section link copied!",
-            copyHint: "Click: toggle & copy link",
-            toggleHint: "Toggle only",
+            copyHint: "toggle & copy link",
+            simpleCopy: "copy link",
+            toggleHint: "toggle",
             tocTitle: "Table of Contents"
         }
     };
@@ -101,7 +103,7 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         
         if (contentBody) {
-            // Лайк по даблклику
+            // ГЛОБАЛЬНЫЙ ДАБЛКЛИК (Лайки)
             contentBody.addEventListener('dblclick', (e) => {
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
@@ -191,7 +193,8 @@ try {
                 subUl.className = 'toc-sublist';
                 h3Elements.forEach(h3 => {
                     if (!h3.id) h3.id = slugify(h3.innerText);
-                    h3.setAttribute('title', "Нажми, чтобы скопировать ссылку");
+                    // ИСПРАВЛЕНО: Теперь берем текст из словаря (RU/EN)
+                    h3.setAttribute('title', texts.simpleCopy);
                     
                     h3.addEventListener('click', () => copyAnchor(h3.id));
 
@@ -207,17 +210,16 @@ try {
             }
             tocList.appendChild(tocLi);
 
-            // --- НОВАЯ ЛОГИКА (ОДИНАРНЫЙ КЛИК ДЕЛАЕТ ВСЁ) ---
+            // --- НОВАЯ ЛОГИКА (ОДИНАРНЫЙ КЛИК) ---
             h2.addEventListener('click', (e) => {
-                // 1. Всегда сворачиваем/разворачиваем
+                // Всегда сворачиваем
                 toggleSection(h2, sectionDiv);
 
-                // 2. Если кликнули НЕ по стрелочке (то есть по тексту) - копируем
+                // Если кликнули по тексту - еще и копируем
                 if (!e.target.closest('.section-toggle-icon')) {
                      copyAnchor(h2.id);
                 }
             });
-            // Двойной клик больше не обрабатываем отдельно
         });
 
         tocContainer.innerHTML = `<h3 class="toc-title">${texts.tocTitle}</h3>`;
