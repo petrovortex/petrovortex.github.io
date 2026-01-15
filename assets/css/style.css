@@ -171,3 +171,45 @@ a:hover { opacity: 0.7; }
 }
 #back-to-top.visible { opacity: 1; pointer-events: auto; }
 #back-to-top:hover { transform: translateY(-3px); }
+
+/* --- ТУЛТИП ДЛЯ КОПИРОВАНИЯ ПОЧТЫ --- */
+#email-copy-btn {
+    position: relative; /* Чтобы тултип позиционировался относительно иконки */
+}
+
+.copy-tooltip {
+    position: absolute;
+    bottom: 130%; /* Висит над иконкой */
+    left: 50%;
+    transform: translateX(-50%); /* Центрируем */
+    
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    white-space: nowrap; /* Текст в одну строку */
+    pointer-events: none; /* Чтобы не мешал кликать */
+    
+    opacity: 0; /* Скрыт по умолчанию */
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    z-index: 100;
+}
+
+/* Маленький треугольничек снизу (стрелочка) */
+.copy-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Класс, который добавляет JS при клике */
+.copy-tooltip.visible {
+    opacity: 1;
+    bottom: 150%; /* Чуть всплывает вверх при появлении */
+}
