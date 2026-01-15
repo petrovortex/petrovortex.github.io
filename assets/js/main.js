@@ -29,14 +29,14 @@ try {
     const textDict = {
         ru: {
             copied: "Ссылка на секцию скопирована!",
-            copyHint: "Дважды нажми, чтобы скопировать", // Обновили подсказку
-            toggleHint: "Нажми, чтобы свернуть/развернуть",
+            copyHint: "Нажми: развернуть и скопировать", // Новая подсказка
+            toggleHint: "Только свернуть/развернуть",
             tocTitle: "Содержание"
         },
         en: {
             copied: "Section link copied!",
-            copyHint: "Double click to copy link",
-            toggleHint: "Click to toggle",
+            copyHint: "Click: toggle & copy link",
+            toggleHint: "Toggle only",
             tocTitle: "Table of Contents"
         }
     };
@@ -101,11 +101,9 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         
         if (contentBody) {
-            // ГЛОБАЛЬНЫЙ ДАБЛКЛИК (Лайки)
+            // Лайк по даблклику
             contentBody.addEventListener('dblclick', (e) => {
-                // ИСКЛЮЧЕНИЯ: Не запускать сердечки на заголовках (там своя логика)
-                if (e.target.closest('h2') || e.target.closest('h3') || e.target.closest('a')) return; 
-                
+                if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
                 const heart = document.createElement('div');
                 heart.innerText = '❤️';
@@ -145,14 +143,12 @@ try {
             
             h2.className = 'section-header-h2';
             // Подсказка нативной всплывашкой
-            h2.setAttribute('title', texts.toggleHint + " / " + texts.copyHint);
+            h2.setAttribute('title', texts.copyHint);
 
-            // Создаем DIV для контента
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section-content';
             sectionDiv.id = 'sec-' + h2.id;
 
-            // Собираем контент
             let nextNode = h2.nextSibling;
             const elementsToMove = [];
             while (nextNode) {
@@ -168,6 +164,12 @@ try {
             const chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             chevron.setAttribute("class", "section-toggle-icon");
             chevron.setAttribute("viewBox", "0 0 24 24");
+            
+            // Подсказка отдельно для иконки
+            const chevronTitle = document.createElementNS("http://www.w3.org/2000/svg", "title");
+            chevronTitle.textContent = texts.toggleHint;
+            chevron.appendChild(chevronTitle);
+            
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
             path.setAttribute("d", "M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z");
             chevron.appendChild(path);
@@ -189,9 +191,8 @@ try {
                 subUl.className = 'toc-sublist';
                 h3Elements.forEach(h3 => {
                     if (!h3.id) h3.id = slugify(h3.innerText);
-                    h3.setAttribute('title', texts.copyHint);
+                    h3.setAttribute('title', "Нажми, чтобы скопировать ссылку");
                     
-                    // Клик по H3 - копирование (тут сворачивания нет)
                     h3.addEventListener('click', () => copyAnchor(h3.id));
 
                     const subLi = document.createElement('li');
@@ -206,21 +207,17 @@ try {
             }
             tocList.appendChild(tocLi);
 
-            // --- НОВАЯ ЛОГИКА КЛИКОВ ПО H2 ---
-            
-            // 1. Одиночный клик = Свернуть/Развернуть
+            // --- НОВАЯ ЛОГИКА (ОДИНАРНЫЙ КЛИК ДЕЛАЕТ ВСЁ) ---
             h2.addEventListener('click', (e) => {
-                // Если сработает даблклик, то браузер пошлет: click -> click -> dblclick
-                // Секция свернется и развернется обратно (или наоборот), что выглядит как "мигание", 
-                // но зато копирование сработает. Это стандартное поведение веба.
+                // 1. Всегда сворачиваем/разворачиваем
                 toggleSection(h2, sectionDiv);
-            });
 
-            // 2. Двойной клик = Копировать
-            h2.addEventListener('dblclick', (e) => {
-                e.stopPropagation(); // Остановить всплытие, чтобы не сработали лайки
-                copyAnchor(h2.id);
+                // 2. Если кликнули НЕ по стрелочке (то есть по тексту) - копируем
+                if (!e.target.closest('.section-toggle-icon')) {
+                     copyAnchor(h2.id);
+                }
             });
+            // Двойной клик больше не обрабатываем отдельно
         });
 
         tocContainer.innerHTML = `<h3 class="toc-title">${texts.tocTitle}</h3>`;
