@@ -24,30 +24,24 @@ try {
         sessionStorage.setItem('stats_' + slug, JSON.stringify(data));
     }
 
-    // ТЕКСТЫ ДЛЯ ПОДСКАЗОК
     const currentLang = document.documentElement.lang || 'ru';
     const textDict = {
         ru: {
             copied: "Ссылка на секцию скопирована!",
-            copyHint: "Развернуть и скопировать ссылку", // Для H2
-            simpleCopy: "Скопировать ссылку", // Для H3
-            toggleHint: "Свернуть/развернуть",      // Для стрелки
+            copyHint: "Скопировать ссылку",
+            toggleHint: "Свернуть/развернуть",
             tocTitle: "Содержание"
         },
         en: {
             copied: "Section link copied!",
-            copyHint: "toggle & copy link",
-            simpleCopy: "copy link",
-            toggleHint: "toggle",
+            copyHint: "Copy link",
+            toggleHint: "Toggle",
             tocTitle: "Table of Contents"
         }
     };
     const texts = textDict[currentLang] || textDict['ru'];
 
-    // --- ЛОГИКА СТАТЬИ ---
     if (window.articleSlug) {
-        
-        // --- FIREBASE ---
         const postRef = ref(db, 'posts/' + window.articleSlug);
         const cached = getCachedStats(window.articleSlug);
         if (cached) updateUI(cached.views, cached.likes);
@@ -103,7 +97,6 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         
         if (contentBody) {
-            // ГЛОБАЛЬНЫЙ ДАБЛКЛИК (Лайки)
             contentBody.addEventListener('dblclick', (e) => {
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
@@ -118,7 +111,6 @@ try {
                 doLike();
             });
 
-            // Ссылки в новой вкладке
             const links = contentBody.querySelectorAll('a');
             links.forEach(link => {
                 if (link.hostname !== window.location.hostname && !link.hash) {
@@ -131,7 +123,6 @@ try {
         }
     }
 
-    // --- ФУНКЦИЯ ОБРАБОТКИ СЕКЦИЙ ---
     function processSections(contentBody) {
         const h2Elements = Array.from(contentBody.querySelectorAll('h2'));
         if (h2Elements.length === 0) return;
@@ -144,8 +135,7 @@ try {
             if (!h2.id) h2.id = slugify(h2.innerText);
             
             h2.className = 'section-header-h2';
-            // Подсказка нативной всплывашкой
-            h2.setAttribute('title', texts.copyHint);
+            h2.setAttribute('title', texts.toggleHint);
 
             const sectionDiv = document.createElement('div');
             sectionDiv.className = 'section-content';
@@ -162,46 +152,41 @@ try {
             h2.after(sectionDiv);
             elementsToMove.forEach(node => sectionDiv.appendChild(node));
 
-            // СОЗДАЕМ ИКОНКУ
             const chevron = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             chevron.setAttribute("class", "section-toggle-icon");
             chevron.setAttribute("viewBox", "0 0 24 24");
-            
-            // Подсказка отдельно для иконки
-            const chevronTitle = document.createElementNS("http://www.w3.org/2000/svg", "title");
-            chevronTitle.textContent = texts.toggleHint;
-            chevron.appendChild(chevronTitle);
-            
-            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute("d", "M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z");
-            chevron.appendChild(path);
-            
+            chevron.innerHTML = '<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>';
             h2.insertBefore(chevron, h2.firstChild);
 
-            // TOC
+            const linkIconH2 = createLinkIcon();
+            h2.appendChild(linkIconH2);
+
             const tocLi = document.createElement('li');
             const tocLink = document.createElement('a');
             tocLink.href = '#' + h2.id;
-            tocLink.innerText = h2.innerText;
+            tocLink.innerText = h2.firstChild.nextSibling.textContent;
             tocLink.onclick = (e) => handleTocClick(e, h2.id);
             tocLi.appendChild(tocLink);
             
-            // Подсекции H3
             const h3Elements = Array.from(sectionDiv.querySelectorAll('h3'));
             if (h3Elements.length > 0) {
                 const subUl = document.createElement('ul');
                 subUl.className = 'toc-sublist';
                 h3Elements.forEach(h3 => {
                     if (!h3.id) h3.id = slugify(h3.innerText);
-                    // ИСПРАВЛЕНО: Теперь берем текст из словаря (RU/EN)
-                    h3.setAttribute('title', texts.simpleCopy);
                     
-                    h3.addEventListener('click', () => copyAnchor(h3.id));
+                    const linkIconH3 = createLinkIcon();
+                    h3.appendChild(linkIconH3);
+                    
+                    linkIconH3.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copyAnchor(h3.id);
+                    });
 
                     const subLi = document.createElement('li');
                     const subLink = document.createElement('a');
                     subLink.href = '#' + h3.id;
-                    subLink.innerText = h3.innerText;
+                    subLink.innerText = h3.firstChild.textContent;
                     subLink.onclick = (e) => handleTocClick(e, h3.id);
                     subLi.appendChild(subLink);
                     subUl.appendChild(subLi);
@@ -210,14 +195,11 @@ try {
             }
             tocList.appendChild(tocLi);
 
-            // --- НОВАЯ ЛОГИКА (ОДИНАРНЫЙ КЛИК) ---
             h2.addEventListener('click', (e) => {
-                // Всегда сворачиваем
-                toggleSection(h2, sectionDiv);
-
-                // Если кликнули по тексту - еще и копируем
-                if (!e.target.closest('.section-toggle-icon')) {
+                if (e.target.closest('.copy-anchor-icon')) {
                      copyAnchor(h2.id);
+                } else {
+                     toggleSection(h2, sectionDiv);
                 }
             });
         });
@@ -234,7 +216,17 @@ try {
         }
     }
 
-    // --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
+    function createLinkIcon() {
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "copy-anchor-icon");
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.innerHTML = '<path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>';
+        const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        title.textContent = "Copy link"; 
+        svg.appendChild(title);
+        return svg;
+    }
+
     function toggleSection(header, contentDiv) {
         if (header.classList.contains('collapsed')) {
             header.classList.remove('collapsed');
@@ -273,7 +265,7 @@ try {
     function copyAnchor(id) {
         const url = window.location.href.split('#')[0] + '#' + id;
         navigator.clipboard.writeText(url).then(() => {
-            showToast(texts.copied);
+            showToast(document.documentElement.lang === 'en' ? "Link copied!" : "Ссылка скопирована!");
         });
     }
 
@@ -296,7 +288,6 @@ try {
             .replace(/\-\-+/g, '-');
     }
 
-    // --- ОСТАЛЬНОЕ ---
     const viewCounts = document.querySelectorAll('.view-count');
     if (viewCounts.length > 0) {
         viewCounts.forEach(el => {
