@@ -257,7 +257,8 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 }
 
 .copy-anchor-icon {
-    width: 18px; height: 18px;
+    width: 30px; 
+    height: 30px;
     margin-left: 12px;
     fill: #d1d1d1;
     cursor: pointer;
