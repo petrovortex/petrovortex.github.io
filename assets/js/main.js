@@ -219,10 +219,10 @@ try {
     function createLinkIcon() {
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.setAttribute("class", "copy-anchor-icon");
-        svg.setAttribute("viewBox", "0 0 24 24");
-        svg.innerHTML = '<path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>';
-        const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-        title.textContent = "Copy link"; 
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.innerHTML = '<path d="M7.775 3.275a.75.75 0 0 0 1.06 1.06l1.25-1.25a2 2 0 1 1 2.83 2.83l-2.5 2.5a2 2 0 0 1-2.83 0 .75.75 0 0 0-1.06 1.06 3.5 3.5 0 0 0 4.95 0l2.5-2.5a3.5 3.5 0 0 0-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 0 1 0-2.83l2.5-2.5a2 2 0 0 1 2.83 0 .75.75 0 0 0 1.06-1.06 3.5 3.5 0 0 0-4.95 0l-2.5 2.5a3.5 3.5 0 0 0 4.95 4.95l1.25-1.25a.75.75 0 0 0-1.06-1.06l-1.25 1.25a2 2 0 0 1-2.83 0z"/>';
+                const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        title.textContent = document.documentElement.lang === 'en' ? "Copy link" : "Скопировать ссылку"; 
         svg.appendChild(title);
         return svg;
     }
