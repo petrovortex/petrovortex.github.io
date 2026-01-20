@@ -1,4 +1,3 @@
-/* --- ОСНОВНЫЕ НАСТРОЙКИ --- */
 :root {
     --bg-color: #ffffff;
     --text-color: #1a1a1a;
@@ -9,7 +8,6 @@
 
 * { 
     box-sizing: border-box; 
-    /* 1. УБИРАЕМ ГОЛУБОЕ ВЫДЕЛЕНИЕ ПРИ ТАПЕ НА МОБИЛЬНЫХ */
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -23,12 +21,10 @@ body {
 
 a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 
-/* Эффект наведения только для ПК (где есть мышка) */
 @media (hover: hover) {
     a:hover { opacity: 0.7; }
 }
 
-/* --- ШАПКА --- */
 .site-header {
     position: fixed; top: 0; left: 0; width: 100%; height: 60px;
     background: rgba(255, 255, 255, 0.98);
@@ -44,7 +40,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 .lang-toggle .toggle-btn { font-size: 0.85rem; font-weight: 600; cursor: pointer; }
 .lang-toggle span { color: #ccc; }
 
-/* --- КОНТЕНТ --- */
 .page-content {
     padding-top: 100px;
     max-width: 700px;
@@ -53,10 +48,7 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     padding-left: 20px; padding-right: 20px;
 }
 
-/* --- КАРТОЧКА СТАТЬИ --- */
 .post-card { margin-bottom: 60px; }
-
-/* Опционально: если хочешь чуть выделить закрепленную статью */
 .pinned-highlight { border-bottom: 1px solid #000; padding-bottom: 40px; margin-bottom: 60px; }
 
 .post-image {
@@ -70,7 +62,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 .post-excerpt { margin-top: 0; margin-bottom: 15px; color: #444; }
 .post-meta { font-size: 0.85rem; color: var(--gray-color); display: flex; gap: 15px; }
 
-/* --- СТРАНИЦА СТАТЬИ --- */
 .post-header { margin-bottom: 30px; text-align: left; }
 .post-title { font-size: 2.2rem; line-height: 1.2; margin-bottom: 10px; margin-top: 0; letter-spacing: -0.03em;}
 .post-date-single { color: #999; font-size: 0.9rem; margin-bottom: 25px; }
@@ -95,7 +86,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     transition: opacity 0.2s;
 }
 
-/* Hover только для ПК */
 @media (hover: hover) {
     .post-content-body a:hover {
         opacity: 0.7;
@@ -103,7 +93,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     }
 }
 
-/* --- ПАНЕЛЬ СОЦСЕТЕЙ В СТАТЬЕ --- */
 .social-bar {
     display: flex;
     gap: 18px;
@@ -119,7 +108,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     transition: fill 0.2s, transform 0.2s;
 }
 
-/* Hover только для ПК */
 @media (hover: hover) {
     .social-bar a:hover .social-icon {
         fill: #333;
@@ -127,7 +115,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     }
 }
 
-/* --- КНОПКИ --- */
 .post-actions { margin-top: 60px; display: flex; justify-content: center; }
 .like-button {
     background: #f7f7f7; border: none; padding: 12px 28px;
@@ -136,14 +123,11 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     transition: all 0.2s;
     color: #333;
 }
-/* Hover только для ПК */
 @media (hover: hover) {
     .like-button:hover { background: #eee; }
 }
-/* Active работает везде (эффект нажатия) */
 .like-button:active { transform: scale(0.95); }
 
-/* --- АНИМАЦИИ --- */
 .heart-animation {
     position: fixed;
     transform: translate(-50%, -50%) scale(0);
@@ -164,7 +148,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     100% { transform: translate(-50%, -50%) scale(1.5) translateY(-50px); opacity: 0; }
 }
 
-/* --- КНОПКА НАВЕРХ --- */
 #back-to-top {
     position: fixed; 
     bottom: 30px; right: 30px;
@@ -182,7 +165,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     opacity: 1; pointer-events: auto; 
 }
 
-/* Hover только для ПК */
 @media (hover: hover) {
     #back-to-top:hover { 
         transform: translateY(-3px); 
@@ -194,7 +176,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     width: 32px; height: 32px; fill: #fff;
 }
 
-/* --- ТУЛТИП ДЛЯ КОПИРОВАНИЯ ПОЧТЫ --- */
 #email-copy-btn { position: relative; }
 
 .copy-tooltip {
@@ -219,7 +200,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     opacity: 1; bottom: 150%;
 }
 
-/* --- СОДЕРЖАНИЕ (TOC) --- */
 .toc-container {
     background: #f5f5f5;
     border-radius: 12px;
@@ -240,7 +220,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     transition: all 0.2s;
 }
 
-/* Hover только для ПК */
 @media (hover: hover) {
     .toc-list a:hover { color: #000; border-bottom-color: #000; }
 }
@@ -248,20 +227,16 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 .toc-sublist { padding-left: 20px; margin-top: 5px; list-style: none; }
 .toc-sublist a { font-size: 0.95rem; color: #777; }
 
-/* --- СЕКЦИИ СТАТЬИ --- */
-
 .section-header-h2 {
     display: flex; align-items: center;
-    cursor: pointer;
+    width: fit-content;
     margin-top: 40px; margin-bottom: 20px;
-    transition: color 0.2s;
-    position: relative; /* Для подсказки */
+    cursor: pointer;
 }
 
-/* ИКОНКА-ПТИЧКА */
 .section-toggle-icon {
     min-width: 24px; width: 24px; height: 24px;
-    margin-right: 10px; fill: #1a1a1a;
+    margin-right: 15px; fill: #1a1a1a;
     transition: transform 0.3s ease, fill 0.2s;
     display: block;
 }
@@ -276,42 +251,24 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     padding-left: 4px; 
 }
 
-/* ПОДСЕКЦИИ (H3) */
 .post-content-body h3 {
-    cursor: pointer; display: inline-block;
-    transition: color 0.2s;
-    position: relative;
+    display: inline-flex;
+    align-items: center;
 }
 
-/* 2. ИСПРАВЛЕНИЕ: Hover на заголовках только для мыши */
+.copy-anchor-icon {
+    width: 18px; height: 18px;
+    margin-left: 12px;
+    fill: #d1d1d1;
+    cursor: pointer;
+    transition: fill 0.2s;
+}
+
 @media (hover: hover) {
-    .section-header-h2:hover { color: #ff3b30; }
-    .section-header-h2:hover .section-toggle-icon { fill: #ff3b30; }
-    
-    .post-content-body h3:hover {
-        color: #ff3b30;
-        text-decoration: underline;
-        text-decoration-style: dotted;
-    }
-
-    /* ПОДСКАЗКА "COPY LINK" (Только на ПК) */
-    .section-header-h2::after, 
-    .post-content-body h3::after {
-        content: attr(data-hint); /* Удален из JS? Если нет, то сработает */
-        position: absolute;
-        left: 100%; margin-left: 15px;
-        white-space: nowrap; font-size: 0.75rem;
-        color: #999; font-weight: 400;
-        opacity: 0; transition: opacity 0.2s;
-        pointer-events: none;
-    }
-    .section-header-h2:hover::after,
-    .post-content-body h3:hover::after {
-        opacity: 1;
-    }
+    .section-header-h2:hover .section-toggle-icon { fill: #555; }
+    .copy-anchor-icon:hover { fill: #333; }
 }
 
-/* УВЕДОМЛЕНИЕ (TOAST) */
 .anchor-tooltip {
     position: fixed; bottom: 30px; left: 50%;
     transform: translateX(-50%) translateY(20px);
@@ -326,7 +283,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     opacity: 1; transform: translateX(-50%) translateY(0);
 }
 
-/* --- 1. ЦВЕТ ВЫДЕЛЕНИЯ ТЕКСТА --- */
 ::selection {
     background: #ff3b30; color: #ffffff;
 }
@@ -334,7 +290,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     background: #ff3b30; color: #ffffff;
 }
 
-/* --- 2. СИСТЕМНЫЙ ЗАПРЕТ ВЫДЕЛЕНИЯ --- */
 button, img, svg,
 .section-header-h2,
 .post-content-body h3,
@@ -348,4 +303,3 @@ button, img, svg,
     user-select: none;
     -webkit-user-select: none;
 }
-.section-header-h2 { cursor: pointer; }
