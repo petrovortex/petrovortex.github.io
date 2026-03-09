@@ -305,15 +305,6 @@ button, img, svg,
     -webkit-user-select: none;
 }
 
-.post-content-body img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 25px 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    display: block;
-}
-
 /* === РАЗДЕЛ ССЫЛОК === */
 .references-section {
     margin-top: 50px;
