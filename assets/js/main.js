@@ -120,7 +120,51 @@ try {
             });
 
             processSections(contentBody);
+            generateReferences(contentBody);
         }
+    }
+
+    function generateReferences(contentBody) {
+        const externalLinksMap = new Map();
+        let counter = 0;
+
+        contentBody.querySelectorAll('a').forEach(link => {
+            // Только внешние ссылки (точно как у тебя уже сделано)
+            if (link.hostname !== window.location.hostname && !link.hash) {
+                const url = link.href;
+                if (!externalLinksMap.has(url)) {
+                    counter++;
+                    const refId = `ref-link-${counter}`;
+                    link.id = refId;                    // ставим якорь на первую ссылку
+                    externalLinksMap.set(url, {
+                        refId: refId,
+                        url: url
+                    });
+                }
+            }
+        });
+
+        if (externalLinksMap.size === 0) return;
+
+        const isEnglish = document.documentElement.lang === 'en';
+        const title = isEnglish ? 'Links' : 'Ссылки';
+
+        const refsHTML = `
+            <h2 id="references">${title}</h2>
+            <ul class="reference-list">
+                ${Array.from(externalLinksMap.values()).map(item => `
+                    <li>
+                        <a href="#${item.refId}" class="back-arrow" title="${isEnglish ? 'Back to link' : 'Вернуться к ссылке'}">↑</a>
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.url}</a>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+
+        const refsDiv = document.createElement('div');
+        refsDiv.className = 'references-section';
+        refsDiv.innerHTML = refsHTML;
+        contentBody.appendChild(refsDiv);
     }
 
     function processSections(contentBody) {
