@@ -305,6 +305,12 @@ button, img, svg,
     -webkit-user-select: none;
 }
 
+.post-content-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* === РАЗДЕЛ ССЫЛОК === */
 .references-section {
     margin-top: 50px;
