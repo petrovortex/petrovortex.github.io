@@ -114,6 +114,8 @@ try {
                 doLike();
             });
 
+            processObsidianWikiLinks(contentBody);
+
             const links = contentBody.querySelectorAll('a');
             links.forEach(link => {
                 if (link.hostname !== window.location.hostname && !link.hash) {
@@ -124,7 +126,6 @@ try {
 
             processSections(contentBody);
             generateReferences(contentBody);
-            processObsidianWikiLinks(contentBody);
         }
     }
 
