@@ -338,7 +338,7 @@ img {
 /* Кнопка возврата */
 .back-link {
     text-decoration: none !important;
-    color: #ff3b30 !important;
+    color: #a3a1a1 !important;
     font-weight: bold;
     font-size: 1.2rem;
     transition: transform 0.2s ease;
@@ -369,4 +369,18 @@ pre {
 code {
     font-family: 'Fira Code', 'Courier New', monospace;
     font-size: 0.9rem;
+}
+
+/* Obsidian-style внутренние ссылки */
+.internal-wiki-link {
+    color: #ff3b30;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+@media (hover: hover) {
+    .internal-wiki-link:hover {
+        opacity: 0.7;
+        text-decoration: none;
+    }
 }

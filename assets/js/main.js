@@ -97,7 +97,6 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         
         if (contentBody) {
-            contentBody.innerHTML = contentBody.innerHTML.replace(/\[\[#([^|]+)\|([^\]]+)\]\]/g, '<a href="#$1">$2</a>');
             contentBody.querySelectorAll('img').forEach(img => {
                 img.addEventListener('contextmenu', e => e.preventDefault()); // Запрет правой кнопки на фото
             });
@@ -125,6 +124,7 @@ try {
 
             processSections(contentBody);
             generateReferences(contentBody);
+            processObsidianWikiLinks(contentBody);
         }
     }
 
@@ -165,6 +165,19 @@ try {
         });
 
         contentBody.appendChild(refsDiv);
+    }
+
+    function processObsidianWikiLinks(contentBody) {
+        let html = contentBody.innerHTML;
+
+        // Конвертируем [[#Заголовок|Текст ссылки]] и [[#Заголовок]]
+        html = html.replace(/\[\[#([^\]|]+?)(?:\|([^|\]]+?))?\]\]/g, (match, headerRaw, displayText) => {
+            const slug = slugify(headerRaw.trim());
+            const text = displayText ? displayText.trim() : headerRaw.trim();
+            return `<a href="#${slug}" class="internal-wiki-link">${text}</a>`;
+        });
+
+        contentBody.innerHTML = html;
     }
 
     function processSections(contentBody) {
