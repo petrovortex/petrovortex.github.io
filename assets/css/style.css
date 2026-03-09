@@ -311,45 +311,62 @@ button, img, svg,
     display: block;
 }
 
-/* === РАЗДЕЛ ССЫЛОК === */
-.references-section {
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid #eee;
+img {
+    -webkit-user-drag: none;
 }
 
-.references-section h2 {
-    font-size: 1.6rem;
-    margin: 0 0 20px 0;
-    letter-spacing: -0.02em;
+/* === РАЗДЕЛ ССЫЛОК === */
+.references-section {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
 }
 
 .reference-list {
     list-style: none;
     padding-left: 0;
-    margin: 0;
 }
 
 .reference-list li {
-    margin-bottom: 10px;
     display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 1.05rem;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
 }
 
-.back-arrow {
-    font-size: 1.3rem;
+/* Кнопка возврата */
+.back-link {
+    text-decoration: none !important;
+    color: #ff3b30 !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+    display: inline-block;
     line-height: 1;
-    text-decoration: none;
-    color: #ff3b30;
-    min-width: 24px;
-    transition: transform 0.2s;
 }
 
-@media (hover: hover) {
-    .back-arrow:hover {
-        transform: scale(1.3);
-        color: #000;
-    }
+.back-link:hover {
+    transform: translateY(-3px);
+    opacity: 1 !important;
+}
+
+.external-ref {
+    color: #555 !important;
+    word-break: break-all;
+}
+
+/* Стили блоков кода */
+pre {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto; /* Включает горизонтальный скролл */
+    position: relative;
+    border: 1px solid #eee;
+}
+
+code {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.9rem;
 }

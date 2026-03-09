@@ -97,6 +97,10 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         
         if (contentBody) {
+            contentBody.innerHTML = contentBody.innerHTML.replace(/\[\[#([^|]+)\|([^\]]+)\]\]/g, '<a href="#$1">$2</a>');
+            contentBody.querySelectorAll('img').forEach(img => {
+                img.addEventListener('contextmenu', e => e.preventDefault()); // Запрет правой кнопки на фото
+            });
             contentBody.addEventListener('dblclick', (e) => {
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
@@ -127,19 +131,15 @@ try {
     function generateReferences(contentBody) {
         const externalLinksMap = new Map();
         let counter = 0;
-
+        
         contentBody.querySelectorAll('a').forEach(link => {
-            // Только внешние ссылки (точно как у тебя уже сделано)
-            if (link.hostname !== window.location.hostname && !link.hash) {
+            if (link.hostname !== window.location.hostname && !link.hash && link.href.startsWith('http')) {
                 const url = link.href;
                 if (!externalLinksMap.has(url)) {
                     counter++;
                     const refId = `ref-link-${counter}`;
-                    link.id = refId;                    // ставим якорь на первую ссылку
-                    externalLinksMap.set(url, {
-                        refId: refId,
-                        url: url
-                    });
+                    link.id = refId;
+                    externalLinksMap.set(url, { refId: refId, url: url });
                 }
             }
         });
@@ -149,21 +149,21 @@ try {
         const isEnglish = document.documentElement.lang === 'en';
         const title = isEnglish ? 'Links' : 'Ссылки';
 
-        const refsHTML = `
-            <h2 id="references">${title}</h2>
-            <ul class="reference-list">
-                ${Array.from(externalLinksMap.values()).map(item => `
-                    <li>
-                        <a href="#${item.refId}" class="back-arrow" title="${isEnglish ? 'Back to link' : 'Вернуться к ссылке'}">↑</a>
-                        <a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.url}</a>
-                    </li>
-                `).join('')}
-            </ul>
-        `;
-
         const refsDiv = document.createElement('div');
         refsDiv.className = 'references-section';
-        refsDiv.innerHTML = refsHTML;
+        
+        refsDiv.innerHTML = `<h2 id="references">${title}</h2><ul class="reference-list"></ul>`;
+        const list = refsDiv.querySelector('ul');
+
+        externalLinksMap.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <a href="#${item.refId}" class="back-link" title="${isEnglish ? 'Back' : 'Назад'}">↑</a>
+                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="external-ref">${item.url}</a>
+            `;
+            list.appendChild(li);
+        });
+
         contentBody.appendChild(refsDiv);
     }
 
