@@ -114,6 +114,8 @@ try {
                 doLike();
             });
 
+            processObsidianWikiLinks(contentBody);
+
             const links = contentBody.querySelectorAll('a');
             links.forEach(link => {
                 if (link.hostname !== window.location.hostname && !link.hash) {
@@ -124,6 +126,7 @@ try {
 
             processSections(contentBody);
             generateReferences(contentBody);
+            processObsidianWikiLinks(contentBody);
         }
     }
 
@@ -164,6 +167,19 @@ try {
         });
 
         contentBody.appendChild(refsDiv);
+    }
+
+    function processObsidianWikiLinks(contentBody) {
+        let html = contentBody.innerHTML;
+
+        // Конвертируем [[#Заголовок|Текст ссылки]] и [[#Заголовок]]
+        html = html.replace(/\[\[#([^\]|]+?)(?:\|([^|\]]+?))?\]\]/g, (match, headerRaw, displayText) => {
+            const slug = slugify(headerRaw.trim());
+            const text = displayText ? displayText.trim() : headerRaw.trim();
+            return `<a href="#${slug}" class="internal-wiki-link">${text}</a>`;
+        });
+
+        contentBody.innerHTML = html;
     }
 
     function processSections(contentBody) {
