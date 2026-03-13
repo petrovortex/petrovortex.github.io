@@ -384,3 +384,7 @@ code {
         text-decoration: none;
     }
 }
+
+h2, h3, [id^="ref-link-"] {
+    scroll-margin-top: 80px;
+}

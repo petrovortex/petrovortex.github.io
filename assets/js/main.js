@@ -182,6 +182,15 @@ try {
         });
 
         contentBody.appendChild(refsDiv);
+
+        refsDiv.querySelectorAll('.back-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                openSectionById(targetId);
+                history.pushState(null, null, '#' + targetId);
+            });
+        });
     }
 
     function processSections(contentBody) {
@@ -311,16 +320,21 @@ try {
     function openSectionById(id) {
         const target = document.getElementById(id);
         if (!target) return;
+        
+        let scrollDelay = 50;
         const parentSection = target.closest('.section-content');
+        
         if (parentSection) {
             const header = parentSection.previousElementSibling;
             if (header && header.classList.contains('collapsed')) {
                 toggleSection(header, parentSection);
+                scrollDelay = 420; 
             }
         }
+        
         setTimeout(() => {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+        }, scrollDelay);
     }
 
     function copyAnchor(id) {
