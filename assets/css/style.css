@@ -366,9 +366,22 @@ pre {
     border: 1px solid #eee;
 }
 
+/* Инлайн-код (внутри текста) */
 code {
     font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.85em;
+    background-color: #f0f0f0;
+    color: #1a1a1a;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+}
+
+/* Отменяем эти стили для многострочных блоков, т.к. у pre уже есть свой фон */
+pre code {
+    background-color: transparent;
+    padding: 0;
     font-size: 0.9rem;
+    color: inherit;
 }
 
 /* Obsidian-style внутренние ссылки */
@@ -387,4 +400,37 @@ code {
 
 h2, h3, [id^="ref-link-"] {
     scroll-margin-top: 80px;
+}
+
+/* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
+
+/* Жестко запрещаем иконке сжиматься при нехватке места */
+.copy-anchor-icon {
+    flex-shrink: 0 !important;
+}
+
+/* Правила для экранов телефонов (уже 600px) */
+@media (max-width: 600px) {
+    /* Уменьшаем шрифты заголовков */
+    .post-title {
+        font-size: 1.8rem;
+    }
+    
+    .section-header-h2 {
+        font-size: 1.4rem;
+        align-items: flex-start; /* Если текст в 2 строки, иконки будут по верхней линии */
+    }
+
+    .post-content-body h3 {
+        font-size: 1.2rem;
+    }
+
+    /* Выравниваем иконки визуально с первой строкой текста */
+    .section-toggle-icon {
+        margin-top: 3px; 
+    }
+    
+    .copy-anchor-icon {
+        margin-top: 1px; 
+    }
 }
