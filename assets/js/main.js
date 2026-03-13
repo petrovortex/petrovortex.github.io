@@ -97,8 +97,26 @@ try {
         const contentBody = document.querySelector('.post-content-body');
         
         if (contentBody) {
+            contentBody.innerHTML = contentBody.innerHTML.replace(/\[\[([^|\]]+)(?:\\?\|([^\]]+))?\]\]/g, (match, target, text) => {
+                let href = target.trim();
+                let displayText = (text || href).trim();
+                if (href.startsWith('#')) {
+                    href = '#' + slugify(href.substring(1));
+                }
+                return `<a href="${href}" class="internal-wiki-link" data-target="${href.substring(1)}">${displayText}</a>`;
+            });
+
+            contentBody.querySelectorAll('.internal-wiki-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-target');
+                    openSectionById(targetId);
+                    history.pushState(null, null, '#' + targetId);
+                });
+            });
+
             contentBody.querySelectorAll('img').forEach(img => {
-                img.addEventListener('contextmenu', e => e.preventDefault()); // Запрет правой кнопки на фото
+                img.addEventListener('contextmenu', e => e.preventDefault());
             });
             contentBody.addEventListener('dblclick', (e) => {
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
