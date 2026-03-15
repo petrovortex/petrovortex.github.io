@@ -115,6 +115,9 @@ try {
                 });
             });
 
+            contentBody.querySelectorAll('img').forEach(img => {
+                img.addEventListener('contextmenu', e => e.preventDefault());
+            });
             contentBody.addEventListener('dblclick', (e) => {
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
@@ -137,8 +140,8 @@ try {
                 }
             });
 
-            generateReferences(contentBody);
             processSections(contentBody);
+            generateReferences(contentBody);
         }
     }
 
@@ -199,8 +202,7 @@ try {
         tocList.className = 'toc-list';
 
         h2Elements.forEach(h2 => {
-            const originalText = h2.innerText;
-            if (!h2.id) h2.id = slugify(originalText);
+            if (!h2.id) h2.id = slugify(h2.innerText);
             
             h2.className = 'section-header-h2';
             h2.setAttribute('title', texts.toggleHint);
@@ -226,12 +228,13 @@ try {
             chevron.innerHTML = '<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>';
             h2.insertBefore(chevron, h2.firstChild);
 
-            h2.appendChild(createLinkIcon());
+            const linkIconH2 = createLinkIcon();
+            h2.appendChild(linkIconH2);
 
             const tocLi = document.createElement('li');
             const tocLink = document.createElement('a');
             tocLink.href = '#' + h2.id;
-            tocLink.innerText = originalText;
+            tocLink.innerText = h2.firstChild.nextSibling.textContent;
             tocLink.onclick = (e) => handleTocClick(e, h2.id);
             tocLi.appendChild(tocLink);
             
@@ -242,9 +245,10 @@ try {
                 h3Elements.forEach(h3 => {
                     if (!h3.id) h3.id = slugify(h3.innerText);
                     
-                    h3.appendChild(createLinkIcon());
+                    const linkIconH3 = createLinkIcon();
+                    h3.appendChild(linkIconH3);
                     
-                    h3.querySelector('.copy-anchor-icon').addEventListener('click', (e) => {
+                    linkIconH3.addEventListener('click', (e) => {
                         e.stopPropagation();
                         copyAnchor(h3.id);
                     });
@@ -252,7 +256,7 @@ try {
                     const subLi = document.createElement('li');
                     const subLink = document.createElement('a');
                     subLink.href = '#' + h3.id;
-                    subLink.innerText = h3.innerText;
+                    subLink.innerText = h3.firstChild.textContent;
                     subLink.onclick = (e) => handleTocClick(e, h3.id);
                     subLi.appendChild(subLink);
                     subUl.appendChild(subLi);

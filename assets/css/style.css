@@ -75,6 +75,8 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 .post-content-body { 
     font-size: 1.15rem; 
     line-height: 1.7;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .post-content-body a {
@@ -226,8 +228,8 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 .toc-sublist a { font-size: 0.95rem; color: #777; }
 
 .section-header-h2 {
-    display: flex; 
-    align-items: flex-start;
+    display: flex; align-items: center;
+    width: fit-content;
     margin-top: 40px; margin-bottom: 20px;
     cursor: pointer;
 }
@@ -237,25 +239,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     margin-right: 15px; fill: #1a1a1a;
     transition: transform 0.3s ease, fill 0.2s;
     display: block;
-    margin-top: 6px;
-}
-
-.post-content-body h3 {
-    display: block; 
-    margin-top: 30px;
-    margin-bottom: 15px;
-}
-
-.copy-anchor-icon {
-    width: 26px; 
-    height: 26px;
-    margin-left: 12px;
-    fill: #d1d1d1;
-    cursor: pointer;
-    transition: fill 0.2s;
-    display: inline-block;
-    vertical-align: middle;
-    flex-shrink: 0;
 }
 
 .section-header-h2.collapsed .section-toggle-icon {
@@ -268,6 +251,19 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     padding-left: 4px; 
 }
 
+.post-content-body h3 {
+    display: inline-flex;
+    align-items: center;
+}
+
+.copy-anchor-icon {
+    width: 26px; 
+    height: 26px;
+    margin-left: 12px;
+    fill: #d1d1d1;
+    cursor: pointer;
+    transition: fill 0.2s;
+}
 
 @media (hover: hover) {
     .section-header-h2:hover .section-toggle-icon { fill: #555; }
@@ -295,7 +291,9 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     background: #ff3b30; color: #ffffff;
 }
 
-button,
+button, img, svg,
+.section-header-h2,
+.post-content-body h3,
 .social-bar a,
 .like-button,
 #back-to-top {
@@ -313,6 +311,11 @@ button,
     display: block;
 }
 
+img {
+    -webkit-user-drag: none;
+}
+
+/* === РАЗДЕЛ ССЫЛОК === */
 .references-section {
     margin-top: 80px;
     padding-top: 40px;
