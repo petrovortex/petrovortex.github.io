@@ -120,8 +120,7 @@ try {
             });
             contentBody.addEventListener('dblclick', (e) => {
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
-                document.onselectstart = () => false;
-                
+                if (window.getSelection) { window.getSelection().removeAllRanges(); }
                 const heart = document.createElement('div');
                 heart.innerText = '❤️';
                 heart.classList.add('heart-animation');
