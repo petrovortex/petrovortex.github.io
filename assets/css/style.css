@@ -415,11 +415,10 @@ h2, h3, [id^="ref-link-"] {
         font-size: 1.2rem;
     }
 
-    /* Выравниваем иконки визуально с первой строкой текста */
     .section-toggle-icon, .copy-anchor-icon {
         width: 18px;
         height: 18px;
         min-width: 18px;
-        margin-top: 6px;
+        vertical-align: middle;
     }
 }
