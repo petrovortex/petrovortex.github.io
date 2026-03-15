@@ -215,7 +215,7 @@ I didn't have time to test this feature during the project, but when a suitable 
 
 ## Outro
 
-It took me a long time to write and rewrite this text, and I'm very glad I didn't quit. I gained so much valuable experience, and writing my first article for my personal website allowed me to fully process and consolidate it. Of course, I left out many technical details of the implementation, so if you're interested in them, be sure to check out the project [repository](https://github.com/petrovortex/dls-homework-sem-2)!
+It took me a long time to write and rewrite this text, and I'm very glad I didn't quit. I gained so much valuable experience, and writing my first article for my personal website allowed me to fully process and consolidate it. Of course, I left out many technical details of the implementation, so if you're interested in them, be sure to check out the [repository](https://github.com/petrovortex/dls-homework-sem-2)!
 
 I'd be happy if my project trajectory serves as a good learning example for other people or AI agents :)
 
