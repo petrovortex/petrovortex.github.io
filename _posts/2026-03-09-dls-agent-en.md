@@ -19,7 +19,7 @@ I have a lot to share, and in this article, I want to talk about the experience 
 3. Why I decided against using frameworks;
 4. How I avoided going broke on testing (despite making around 4,000 heavy LLM requests)
 
-I want to emphasize that this article is primarily about my personal experience and the journey of building the project. If you are only interested in the final result, feel free to check out the [project repository](https://github.com/petrovortex/dls-homework-sem-2). 
+I want to emphasize that this article is primarily about my personal experience and the journey of building the project. If you are only interested in the final result, feel free to check out the [repository](https://github.com/petrovortex/dls-homework-sem-2). 
 
 I really enjoyed working on this project and writing this article, and I plan to keep sharing my future projects. I also recently started a new job, so [stay tuned](https://x.com/petrovortex) :)
 
