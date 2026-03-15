@@ -1,5 +1,5 @@
 ---
-title: "My first expirience with Agentic AI"
+title: "My first experience with Agentic AI"
 date: 2026-03-09 19:56:00 +0300
 lang: en
 lang_ref: dls_agent
