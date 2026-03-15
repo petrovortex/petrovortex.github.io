@@ -401,24 +401,21 @@ h2, h3, [id^="ref-link-"] {
 
 /* Правила для экранов телефонов (уже 600px) */
 @media (max-width: 600px) {
-    /* Уменьшаем шрифты заголовков */
     .post-title {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
     }
     
     .section-header-h2 {
-        font-size: 1.4rem;
-        align-items: flex-start; /* Если текст в 2 строки, иконки будут по верхней линии */
+        font-size: 1.2rem;
     }
 
     .post-content-body h3 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .section-toggle-icon, .copy-anchor-icon {
         width: 18px;
         height: 18px;
         min-width: 18px;
-        vertical-align: middle;
     }
 }
