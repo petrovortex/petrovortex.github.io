@@ -119,6 +119,7 @@ try {
                 img.addEventListener('contextmenu', e => e.preventDefault());
             });
             contentBody.addEventListener('dblclick', (e) => {
+                e.preventDefault();
                 if (e.target.closest('h2') || e.target.closest('h3') || e.target.tagName === 'A') return; 
                 if (window.getSelection) { window.getSelection().removeAllRanges(); }
                 const heart = document.createElement('div');

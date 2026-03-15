@@ -75,8 +75,6 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 .post-content-body { 
     font-size: 1.15rem; 
     line-height: 1.7;
-    user-select: none;
-    -webkit-user-select: none;
 }
 
 .post-content-body a {
@@ -228,9 +226,11 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
 .toc-sublist a { font-size: 0.95rem; color: #777; }
 
 .section-header-h2 {
-    display: flex; align-items: center;
+    display: flex; 
+    align-items: center;
     width: fit-content;
-    margin-top: 40px; margin-bottom: 20px;
+    margin-top: 40px; 
+    margin-bottom: 20px;
     cursor: pointer;
 }
 
@@ -291,16 +291,10 @@ a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
     background: #ff3b30; color: #ffffff;
 }
 
-button, img, svg,
-.section-header-h2,
-.post-content-body h3,
+button,
 .social-bar a,
 .like-button,
 #back-to-top {
-    user-select: none;
-    -webkit-user-select: none;
-}
-.no-select {
     user-select: none;
     -webkit-user-select: none;
 }
@@ -309,10 +303,6 @@ button, img, svg,
     max-width: 100%;
     height: auto;
     display: block;
-}
-
-img {
-    -webkit-user-drag: none;
 }
 
 /* === РАЗДЕЛ ССЫЛОК === */
@@ -426,11 +416,10 @@ h2, h3, [id^="ref-link-"] {
     }
 
     /* Выравниваем иконки визуально с первой строкой текста */
-    .section-toggle-icon {
-        margin-top: 3px; 
-    }
-    
-    .copy-anchor-icon {
-        margin-top: 1px; 
+    .section-toggle-icon, .copy-anchor-icon {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        margin-top: 6px;
     }
 }
