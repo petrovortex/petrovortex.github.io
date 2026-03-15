@@ -163,9 +163,9 @@ How is this implemented? The input to the first model now consists of (`query`, 
 
 Implementing the KB yielded **the best quality** -- the `GLM-4.5-air`-based agent now hit an `accuracy=0.86`.
 
-### Cost and speed optimization
+### Cost and latency optimization
 
-Upon first achieving an `accuracy=0.86`, I already knew that the "ground truth relevance" from the dataset wasn't always correct. The organizers confirmed this as well. Therefore, further quality improvements could lead to overfitting to noisy labels. So I decided that at this stage, I should focus on optimizing costs and speed.
+Upon first achieving an `accuracy=0.86`, I already knew that the "ground truth relevance" from the dataset wasn't always correct. The organizers confirmed this as well. Therefore, further quality improvements could lead to overfitting to noisy labels. So I decided that at this stage, I should focus on optimizing costs and latency.
 
 After adding examples from the knowledge base, the system prompt noticeably increased in size (even though there were only two examples). Consequently, smaller models started suffering from context forgetting, while larger models took far too long on examples with lengthy POI descriptions. I wondered: **is it possible to feed only a portion of the POI data?**
 
