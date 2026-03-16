@@ -8,9 +8,9 @@ excerpt: "Sharing my experience with the final project at Deep Learning School."
 
 ## Intro
 
-I recently finished a project as part of a course by [Deep Learning School](https://t.me/deep_learning_school_news) (DLS). The task was to build an LLM agent for Yandex Maps that helps determine the relevance of a point of interest (POI) on the map to a user's query.
+I recently completed a project for a course by [Deep Learning School](https://t.me/deep_learning_school_news) (DLS, MIPT). The task was to build an LLM agent for Yandex Maps that determines the relevance of a point of interest (POI) to a user's query.
 
-It was an engineering challenge, and I was extremely excited about it: I studied the fundamentals of agentic AI, tried various architectures, did a lot of debugging, and, obviously, did a fair amount of vibecoding.
+It was an engineering challenge, and I was extremely excited about it: I studied the fundamentals of agentic AI, tried various architectures, and, obviously, did a fair amount of vibecoding.
 
 I have a lot to share, and in this article, I want to talk about the experience I gained while working on the project. Specifically:
 
