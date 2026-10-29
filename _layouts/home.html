@@ -7,6 +7,7 @@ layout: default
     <p class="eyebrow"><span class="little-line" aria-hidden="true"></span>{{ t.intro_label }}</p>
     <h1 id="greeting">{{ t.greeting }}</h1>
     <p class="hero-bio">{{ t.bio }}</p>
+    <div class="hero-navigation">{{ t.bio_navigation | markdownify }}</div>
     <p class="hero-welcome">{{ t.welcome }}</p>
     <a class="text-link cv-link" href="{{ profile.cv[page.lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {% include components/icon.html name='arrow' %}</a>
   </div>
@@ -15,6 +16,6 @@ layout: default
 <section class="timeline-section" aria-labelledby="timeline-heading">
   <div class="section-intro"><h2 id="timeline-heading">{{ t.timeline }}</h2><p>{{ t.timeline_intro }}</p></div>
   <ol class="timeline">{% for event in profile.timeline %}
-    <li><span class="timeline-date">{{ event.date[page.lang] }}</span><div class="timeline-body"><h3>{{ event.title[page.lang] }}</h3><p class="timeline-place">{{ event.place[page.lang] }}</p><p class="timeline-detail">{{ event.detail[page.lang] }}</p></div></li>
+    <li><span class="timeline-date">{{ event.date[page.lang] }}</span><div class="timeline-body"><h3>{{ event.title[page.lang] }}</h3><p class="timeline-place">{{ event.place[page.lang] }}</p>{% if event.detail[page.lang] %}<p class="timeline-detail">{{ event.detail[page.lang] }}</p>{% endif %}</div></li>
   {% endfor %}</ol>
 </section>

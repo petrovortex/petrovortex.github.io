@@ -53,6 +53,14 @@ module SiteValidation
       raise "#{file}: status must be in_progress or complete" unless %w[in_progress complete].include?(data["status"])
       %w[course_id description source_author source_url].each { |key| raise "#{file}: #{key} is required" if data[key].to_s.strip.empty? }
       raise "#{file}: source_url must be an absolute web URL" unless data["source_url"].match?(/\Ahttps?:\/\//)
+      if data.key?("materials")
+        materials = data["materials"]
+        valid = materials.is_a?(Array) && !materials.empty? && materials.all? do |material|
+          material.is_a?(Hash) && material["title"].is_a?(String) && !material["title"].strip.empty? &&
+            material["url"].is_a?(String) && material["url"].match?(/\Ahttps?:\/\//)
+        end
+        raise "#{file}: materials must be a nonempty list of titles and absolute web URLs" unless valid
+      end
       raise "#{file}: invalid course permalink" unless data["permalink"].match?(/\A(?:\/ru)?\/library\/[a-z0-9-]+\/\z/)
       key = [data["lang"], data["course_id"]]
       raise "#{file}: duplicate course ID" if course_keys[key]

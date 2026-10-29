@@ -78,6 +78,20 @@ Do not add an import entry pointing to this directly authored file.
 
 In the course's top settings block, use `status: in_progress` while working and `status: complete` when finished. Set `topics` there; individual notes do not have topics. Update `last_modified_at` when the introduction or status changes. The displayed update date also includes changes to its notes.
 
+### Course materials
+
+In the course file (`content/_courses/en/your-course-en.md`), add `materials` inside its top `---` settings block. Each entry needs a title and an absolute web URL:
+
+```yaml
+materials:
+  - title: Course website
+    url: https://example.com/course
+  - title: Lecture slides
+    url: https://example.com/course/slides
+```
+
+The course page shows these links, in the listed order, inside a collapsed **Course materials** menu. If `materials` is omitted, the menu contains one link to `source_url`. Keep `source_author` and `source_url`: they supply attribution in each note's downloads. The Library cards and note headers do not repeat this credit.
+
 Field definitions: [Course fields](content-reference.md#course-fields).
 
 ## Add a note
@@ -98,20 +112,19 @@ Create its course first. Write the note in Obsidian, then open `config/obsidian-
       description: "The main ideas covered in this note."
       permalink: /library/example-course/introduction/
       math: true
-      references: false
 ```
 
 Replace the example paths, date, title, description, and IDs. Under `metadata:`, set `course` to the existing course's `course_id`; `lang` must also match. Set `permalink` to the course's URL followed by the note's short name and `/`.
 
-Give each note a unique positive integer `order` within that course and language. Values `10`, `20`, and `30` leave room to insert `15`; readers see consecutive chapter numbers. An optional `module: "Part I"` line under `metadata:` labels a group of consecutive notes. `math: true` enables formulas; `references: false` hides the list collected from ordinary external links; authored footnotes remain visible.
+Give each note a unique positive integer `order` within that course and language. Values `10`, `20`, and `30` leave room to insert `15`; readers see consecutive chapter numbers. An optional `module: "Part I"` line under `metadata:` labels a group of consecutive notes. `math: true` enables formulas.
 
-Save the configuration and run `npm run content:sync` in the site terminal. Open the local Library list, the course, then the note. Check its position, source credit, navigation, images, and downloads.
+Save the configuration and run `npm run content:sync` in the site terminal. Open the local Library list, the course, then the note. Check its position, navigation, images, and downloads, including the source credit in the downloads.
 
 For a directly authored note, copy `docs/templates/note.md` to `content/_notes/en/your-course-your-topic-en.md`. Edit the copy's top `---` settings and body, then run `npm run content:exports` in the site terminal.
 
 ## Add numbered references
 
-In the original Obsidian note, switch to Source mode. Write a marker after the name of the work, then define that marker at the bottom of the **same note**, outside the top settings block:
+Posts and notes use the same footnote syntax. In the original Obsidian note, switch to Source mode. For a directly authored article, open its file under `content/_posts/` or `content/_notes/` in a text editor. Write a marker after the name of the work, then define that marker at the bottom of the **same file**, outside the top settings block:
 
 ```markdown
 AlexNet[^alexnet] helped establish deep convolutional networks.
@@ -119,11 +132,11 @@ AlexNet[^alexnet] helped establish deep convolutional networks.
 [^alexnet]: Alex Krizhevsky et al. [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf). 2012.
 ```
 
-Use a distinct label for each source; reuse the same label when citing it again. You provide the source title and URL. Importing numbers the citations in order of first use and builds the references list below the article. Only the number is linked in the text. Do not write a separate References heading.
+Use a distinct label for each source; reuse the same label when citing it again. You provide the source title and URL. Exporting numbers the citations in order of first use and builds the references list below the article. Only the number is linked in the text. The generated References heading is a separate `##` section with its own collapse control and table-of-contents entry. Do not write a separate References heading.
 
 Save the note, then run `npm run content:sync` in the [site terminal](setup.md#where-to-run-commands). Check the citation, its return link, and both downloads. For a post or note written directly in the repository, put the same syntax in its Markdown body and run `npm run content:exports` instead.
 
-References work with or without formulas. PDF editions include the list and clickable citations; Markdown editions retain the footnote syntax. The `references: false` setting only disables the older list collected from ordinary external links; it does not hide footnotes you wrote.
+References work with or without formulas. PDF editions include the list and clickable citations; Markdown editions retain the footnote syntax. Ordinary links remain ordinary links and do not create references. The former `references` setting is no longer used and can be removed from article settings or import metadata.
 
 ## Add images
 

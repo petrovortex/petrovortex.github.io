@@ -2,40 +2,24 @@ export function slugify(text) {
   return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-а-яё]+/g, '').replace(/-+/g, '-');
 }
 
-export function addReferences(body, texts) {
-  const external = new Map();
-  const origins = new Set([body.ownerDocument.location.origin]);
-  try { origins.add(new URL(body.ownerDocument.querySelector('link[rel=canonical]')?.href).origin); } catch {}
-  for (const link of body.querySelectorAll('a[href]')) {
-    if (!/^https?:/.test(link.href) || origins.has(new URL(link.href).origin)) continue;
-    link.target = '_blank'; link.rel = 'noopener noreferrer';
-    if (!external.has(link.href)) {
-      const id = link.id || 'ref-link-' + (external.size + 1);
-      if (!link.id) link.id = id;
-      external.set(link.href, id);
-    }
-  }
-  if (!external.size || body.querySelector('#references, .footnotes')) return;
-  const doc = body.ownerDocument;
-  const section = doc.createElement('section'); section.className = 'references-section';
-  const heading = doc.createElement('h2'); heading.id = 'references'; heading.textContent = texts.references;
-  const list = doc.createElement('ol');
-  for (const [url, id] of external) {
-    const item = doc.createElement('li');
-    const back = doc.createElement('a'); back.href = '#' + id; back.textContent = '↑'; back.className = 'reference-back'; back.setAttribute('aria-label', texts.back);
-    const link = doc.createElement('a'); link.href = url; link.textContent = url.replace(/^https?:\/\//, ''); link.target = '_blank'; link.rel = 'noopener noreferrer';
-    item.append(back, link); list.append(item);
-  }
-  section.append(heading, list); body.append(section);
+function prepareTables(doc, texts) {
+  doc.querySelectorAll('.article-body table').forEach(table => {
+    if (table.parentElement.classList.contains('table-scroll')) return;
+    const wrap = doc.createElement('div');
+    wrap.className = 'table-scroll';
+    wrap.tabIndex = 0;
+    wrap.setAttribute('role', 'region');
+    wrap.setAttribute('aria-label', table.caption?.textContent.trim() || texts.table_scroll);
+    table.before(wrap); wrap.append(table);
+  });
 }
 
 export function initReader({ doc = document, texts, copy }) {
+  prepareTables(doc, texts);
   const body = doc.querySelector('.article-body');
   const rail = doc.querySelector('.toc-rail');
   if (!body || !rail) return;
   const win = doc.defaultView;
-  if (body.dataset.references !== "false") addReferences(body, texts);
-  body.querySelectorAll('table').forEach(table => { const wrap = doc.createElement('div'); wrap.className = 'table-scroll'; table.before(wrap); wrap.append(table); });
   const headings = [...body.querySelectorAll('h2, h3')];
   if (!headings.length) return;
   const taken = new Set([...doc.querySelectorAll('[id]')].map(el => el.id));

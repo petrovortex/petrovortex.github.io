@@ -22,7 +22,7 @@ en:
   open_course: "Open course"
   links_personal: "Personal pages"
   links_channels: "Channels & blogs"
-  links_code: "Code & practice"
+  links_code: Code
   copy_username: "Copy username"
   username_copied: "Username copied"
   credits: "Credits & colophon"
@@ -51,23 +51,25 @@ en:
   download: Download
   home: Home
   blog: Blog
+  post: Post
   library: Library
   links: Links
   menu: Menu
   navigation: Main navigation
   skip: Skip to content
   unavailable: Translation not available yet
-  intro_label: A little about me
+  intro_label: Main page
   greeting: Hi, I'm Alexander.
-  bio: My background spans applied mathematics, physics, and machine learning. Here I share projects, ideas, and notes from things I'm learning.
-  welcome: Welcome to my corner of the internet.
+  bio: This is where I showcase my projects, share my thoughts, and publish study notes on the topics that I like.
+  bio_navigation: You can read my [blog](./blog/) or something from my [library](./library/). Links to my other resources can be found [here](./links/).
+  welcome: "Currently: in Vietnam"
   cv: Curriculum vitae
   timeline: Along the way
-  timeline_intro: A few chapters in my work and education.
+  timeline_intro: A general timeline of my work and education.
   links_kicker: Find me
   contact: Get in touch
   blog_title: Open Notes
-  blog_intro: Projects, experiments, and things worth writing down.
+  blog_intro: My projects, thoughts, and things worth sharing.
   sort: Sort by
   newest: Newest
   views_sort: Most viewed
@@ -98,11 +100,13 @@ en:
   back_to_top: Back to top
   references: References
   back: Back
-  library_intro: Notes on courses, books, and other people's work, grouped into courses.
+  library_intro: My study notes, which I am structuring into courses.
   library_empty_title: A little room for learning.
   library_empty_text: I'm preparing my notes for this space. The first course will appear here when it's ready.
   library_empty_link: In the meantime, read the blog
-  source: Original material
+  course_materials: Course materials
+  course_website: Course website
+  table_scroll: Table — scroll horizontally to see more
   notes: notes
   note: Note
   library_kicker: Per aspera ad astra
@@ -111,7 +115,7 @@ en:
   course_empty: Notes for this course are being prepared.
   previous: Previous note
   next: Next note
-  links_intro: Where to find me, follow my work, or say hello.
+  links_intro: Feel free to reach out.
   email: Email
   rss: RSS feed
   feed_intro: New posts from Alexander Petrov.
@@ -141,7 +145,7 @@ ru:
   open_course: "Открыть курс"
   links_personal: "Личные страницы"
   links_channels: "Каналы и блоги"
-  links_code: "Код и практика"
+  links_code: Код
   copy_username: "Скопировать имя"
   username_copied: "Имя скопировано"
   credits: "Благодарности и оформление"
@@ -170,23 +174,25 @@ ru:
   download: Скачать
   home: Главная
   blog: Блог
+  post: Пост
   library: Библиотека
   links: Ссылки
   menu: Меню
   navigation: Основная навигация
   skip: Перейти к содержимому
   unavailable: Перевод пока не готов
-  intro_label: Немного обо мне
+  intro_label: Главная страница
   greeting: Привет, я Александр.
-  bio: Мой опыт объединяет прикладную математику, физику и машинное обучение. Здесь я делюсь проектами, идеями и заметками о том, что изучаю.
-  welcome: Добро пожаловать в мой уголок интернета.
+  bio: Здесь я рассказываю про свои проекты, делюсь мыслями и публикую свои учебные конспекты по интересующим меня темам.
+  bio_navigation: Вы можете почитать мой [блог](./blog/) или что-то из моей [библиотеки](./library/). Ссылки на мои другие ресурсы находятся [здесь](./links/).
+  welcome: "Сейчас: во Вьетнаме"
   cv: Резюме
   timeline: Мой путь
-  timeline_intro: Несколько глав из моей работы и учёбы.
+  timeline_intro: Главные эпизоды моей работы и учёбы.
   links_kicker: Где меня найти
   contact: На связи
   blog_title: Open Notes
-  blog_intro: Проекты, эксперименты и мысли, которые хочется записать.
+  blog_intro: Мои проекты, идеи и мысли, которыми хочу поделиться.
   sort: Сортировка
   newest: Сначала новые
   views_sort: По просмотрам
@@ -217,11 +223,13 @@ ru:
   back_to_top: Наверх
   references: Ссылки на материалы
   back: Назад
-  library_intro: Заметки по курсам, книгам и чужим материалам, объединённые в курсы.
-  library_empty_title: Немного места для знаний.
-  library_empty_text: Я готовлю свои конспекты к публикации. Первый курс появится здесь, когда всё будет готово.
+  library_intro: Мои учебные заметки, которые я структурирую в виде курсов.
+  library_empty_title: Здесь будут мои конспекты.
+  library_empty_text: Я готовлю их к публикации.
   library_empty_link: А пока можно почитать блог
-  source: Исходный материал
+  course_materials: Материалы курса
+  course_website: Сайт курса
+  table_scroll: Таблица — прокрутите по горизонтали, чтобы увидеть больше
   notes: заметок
   note: Заметка
   library_kicker: Per aspera ad astra
@@ -230,7 +238,7 @@ ru:
   course_empty: Заметки для этого курса готовятся к публикации.
   previous: Предыдущая заметка
   next: Следующая заметка
-  links_intro: Где найти меня, следить за моей работой или просто поздороваться.
+  links_intro: "Есть вопрос? Не стесняйся написать, один раз живем (наверное). И на тгк подписывайся! :)"
   email: Почта
   rss: RSS-лента
   feed_intro: Новые публикации Александра Петрова.

@@ -7,9 +7,8 @@
     <a href="{{ base | append: '/library/' | relative_url }}">{{ t.library }}</a><span aria-hidden="true">/</span><a href="{{ course.url | relative_url }}">{{ course.title }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span>
   {% else %}<a href="{{ base | append: '/blog/' | relative_url }}">{{ t.blog }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span>{% endif %}
   </nav>
-  <header class="reader-header"><p class="eyebrow">{% if page.layout == 'note' %}{{ t.note }}{% else %}{{ t.blog }}{% endif %}</p><h1>{{ page.title }}</h1>
+  <header class="reader-header"><p class="eyebrow">{% if page.layout == 'note' %}{{ t.note }}{% else %}{{ t.post }}{% endif %}</p><h1>{{ page.title }}</h1>
     {% if page.date %}<span class="created-date">{{ t.created }} <time datetime="{{ page.date | date_to_xmlschema }}" title="{{ page.date | date: '%d.%m.%Y %H:%M %Z' }}">{{ page.date | date: '%d.%m.%Y' }}</time></span>{% endif %}
-    {% if page.layout == 'note' %}<p class="source-credit">{{ t.source }}: <a href="{{ course.source_url }}" target="_blank" rel="noopener noreferrer">{{ course.source_author }}</a></p>{% endif %}
     {% include components/engagement.html id=stats_id url=page.url title=page.title %}
     {% include article/downloads.html %}
   </header>
@@ -18,7 +17,7 @@
   {% endif %}
   <div class="reader-grid">
     <article class="article-column">
-      <div class="article-body" data-references="{{ page.references }}">
+      <div class="article-body">
       {% include components/cover-image.html %}
       {% if download.html %}{% include {{ download.html }} %}{% else %}{{ include.body }}{% endif %}
       </div>

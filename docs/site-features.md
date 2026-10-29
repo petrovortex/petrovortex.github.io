@@ -38,9 +38,11 @@ Posts and notes share the reader layout. The desktop table of contents follows t
 
 Rendered formulas can be clicked or focused and activated with Enter/Space to copy their original Markdown: `$...$` for inline math and `$$...$$` for display math. TeX commands and line breaks are preserved. A pointer cursor and tooltip indicate the action; formulas keep their normal appearance. Keyboard focus has the standard outline. Clipboard success uses a brief toast; blocked clipboard access opens selectable source text.
 
-Notes add breadcrumbs, course contents, source attribution, and previous/next links in the authored sequence. Each post/note offers its own PDF and Markdown editions. See [exports](content-workflow.md#downloadable-editions) for their contents and limits.
+Notes add breadcrumbs, course contents, and previous/next links in the authored sequence. Original source links appear in the course's collapsed Course materials menu. Each post/note offers its own PDF and Markdown editions; note downloads retain the course's source attribution. See [exports](content-workflow.md#downloadable-editions) for their contents and limits.
 
-Named footnotes become numbered citation links and a references list during export, including in PDFs. Repeated citations share a number; return links lead back to each mention. Follow [Add numbered references](author-guide.md#add-numbered-references) to write them in Obsidian or repository Markdown.
+Posts and notes use the same numbered references, generated from footnotes during export, including in PDFs. References form a separate section that can be collapsed independently. Repeated citations share a number; return links reveal the section containing the mention. Ordinary links do not add references. Follow [Add numbered references](author-guide.md#add-numbered-references) to write them in Obsidian or repository Markdown.
+
+Wide tables scroll horizontally within the article. Readers can swipe, use the scrollbar, or focus the table region with Tab and scroll with the arrow keys.
 
 ## Views and likes
 

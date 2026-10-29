@@ -9,7 +9,10 @@ layout: default
 <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ base | append: '/library/' | relative_url }}">{{ t.library }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span></nav>
 <header class="page-heading"><p class="eyebrow">{{ t.course }}</p><h1>{{ page.title }}</h1><p>{{ page.description }}</p>
 <div class="course-meta">{% include library/status.html course=page %}{% if page.date %}<span>{{ t.created }} <time datetime="{{ page.date | date_to_xmlschema }}" title="{{ page.date | date: '%d.%m.%Y %H:%M %Z' }}">{{ page.date | date: '%d.%m.%Y' }}</time></span>{% endif %}{% if course_updated %}<span>{{ t.updated }} <time datetime="{{ course_updated | date_to_xmlschema }}">{{ course_updated | date: '%d.%m.%Y' }}</time></span>{% endif %}</div>
-<p class="source-credit">{{ t.source }}: <a href="{{ page.source_url }}" target="_blank" rel="noopener noreferrer">{{ page.source_author }}</a></p>
+<details class="course-materials"><summary>{{ t.course_materials }}{% include components/icon.html name='chevron-down' %}</summary><ul>
+{% if page.materials %}{% for material in page.materials %}<li><a href="{{ material.url | escape }}" target="_blank" rel="noopener noreferrer">{{ material.title | escape }}</a></li>{% endfor %}
+{% else %}<li><a href="{{ page.source_url | escape }}" target="_blank" rel="noopener noreferrer">{{ t.course_website }}</a></li>{% endif %}
+</ul></details>
 {% include components/engagement.html id=stats_id url=page.url title=page.title %}
 </header>
 {% if page.image and page.image != '' %}{% include components/cover-image.html %}{% elsif page.banner %}{% include components/banner.html name=page.banner %}{% endif %}

@@ -37,7 +37,6 @@ Required fields below describe ordinary published content; legacy redirect files
 | `published` | All | Optional boolean; `false` excludes the document from normal site output |
 | `permalink` | All | Required for library content; optional explicit URL for a post |
 | `math` | Posts, notes | Optional boolean; `true` enables compiled TeX formulas |
-| `references` | Posts, notes | Set `false` to suppress the list collected from ordinary external links; authored footnote citations remain visible |
 | `copyright_year` | Posts, notes | Optional export notice override; otherwise the year of `date` is used |
 
 Defaults in [_config.yml](../_config.yml) assign `layout` and `section` by collection. Ordinary content does not need to repeat them.
@@ -66,6 +65,7 @@ Location: `content/_courses/en/slug-en.md`, or the corresponding `ru/` folder fo
 | `status` | Required: `in_progress` or `complete` |
 | `source_author` | Required original instructor or author credit |
 | `source_url` | Required absolute `https://` or `http://` source URL |
+| `materials` | Optional nonempty list of `{title, url}` entries for the collapsed Course materials menu; URLs must start with `https://` or `http://`. Omit it to use `source_url` as the sole link |
 | `permalink` | `/library/<slug>/` for English or `/ru/library/<slug>/` for Russian |
 | `image`, `preview_image` | Optional page cover and list thumbnail; see [image fields](#image-fields) |
 

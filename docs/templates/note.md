@@ -19,7 +19,6 @@ permalink: /library/example-course/first-topic/
 # preview_image: /assets/images/your-note/thumbnail.png
 # preview_image_dark: /assets/images/your-note/thumbnail-dark.png
 # math: true
-# references: false
 # published: false
 ---
 

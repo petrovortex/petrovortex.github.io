@@ -47,6 +47,11 @@ if (directory.endsWith('_site')) {
   const library = await read('library/index.html');
   const course = await read('library/efficient-ml/index.html');
   assert.equal(library.querySelectorAll('.course-row').length, 1);
+  assert(!library.querySelector('.card-source'));
+  const materials = course.querySelector('.course-materials');
+  assert(materials && !materials.open);
+  assert.equal(materials.querySelector('summary').textContent.trim(), 'Course materials');
+  assert.deepEqual([...materials.querySelectorAll('a')].map(a => a.getAttribute('href')), ['https://efficientml.ai/']);
   const blog = await read('blog/index.html');
   for (const prefix of ['', 'ru/']) {
     const blogPage = await read(prefix + 'blog/index.html');
@@ -74,6 +79,15 @@ if (directory.endsWith('_site')) {
   assert(course.querySelector('.chapter-preview .art-dark'));
   assert(!library.querySelector('[data-article-id]'), 'Library visits must not count as course views');
   const lecture = await read('library/efficient-ml/lecture-1-introduction/index.html');
+  assert(!lecture.querySelector('.reader-header .source-credit'));
+  for (const [file, label] of [['dls-agent-en/index.html', 'Post'], ['dls-agent-ru/index.html', 'Пост']]) {
+    const post = await read(file);
+    assert.equal(post.querySelector('.reader-header .eyebrow').textContent, label);
+    assert.equal(post.querySelectorAll('.references-section').length, 1);
+    assert.equal(post.querySelectorAll('.footnote-item').length, 5);
+    assert.equal(post.querySelector('#references').parentElement, post.querySelector('.article-body'));
+  }
+  assert.equal(lecture.querySelector('#references').parentElement, lecture.querySelector('.article-body'));
   assert.equal(lecture.querySelectorAll('.references-section').length, 1);
   assert(lecture.querySelector('.footnote-ref a[href="#fn1"]'));
   assert(lecture.querySelector('.footnotes-list a[href*="4824-imagenet-classification"]'));
@@ -105,6 +119,10 @@ if (directory.endsWith('fixture-site')) {
   assert(article.querySelector('.article-cover img[alt="Inputs and output of the project"]'));
   assert(article.querySelector('.article-cover figcaption'));
   const course = new JSDOM(await fs.readFile(path.join(directory, 'library/example/index.html'), 'utf8')).window.document;
+  assert(!course.querySelector('.course-materials').open);
+  assert.deepEqual([...course.querySelectorAll('.course-materials a')].map(a => [a.textContent, a.getAttribute('href')]), [
+    ['Course website', 'https://example.com/course'], ['Slides', 'https://example.com/course/slides'],
+  ]);
   const library = new JSDOM(await fs.readFile(path.join(directory, 'library/index.html'), 'utf8')).window.document;
   assert.equal(course.querySelectorAll('.article-cover').length, 1);
   assert(course.querySelector('.article-cover .art-light[src$="favicon-ap.png"][alt="Uploaded raster cover"]'));

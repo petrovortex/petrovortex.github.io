@@ -9,6 +9,11 @@ lang_ref: course-example
 description: Synthetic test content. Never published.
 source_author: Example instructor
 source_url: https://example.com/course
+materials:
+  - title: Course website
+    url: https://example.com/course
+  - title: Slides
+    url: https://example.com/course/slides
 image: /assets/favicon-ap.png
 image_alt: Uploaded raster cover
 image_caption: A caption for the uploaded cover.

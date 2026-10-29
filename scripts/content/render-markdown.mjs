@@ -25,7 +25,7 @@ export function renderArticle(source, enableMath = false, lang = 'en') {
   const md = new MarkdownIt({ html: true, linkify: false }).use(footnote);
   const references = lang === 'ru' ? 'Ссылки на материалы' : 'References';
   md.renderer.rules.footnote_caption = (tokens, i) => '[' + (tokens[i].meta.id + 1) + ']';
-  md.renderer.rules.footnote_block_open = () => '<section class="references-section footnotes" role="doc-endnotes">\n<h2 id="references">' + references + '</h2>\n<ol class="footnotes-list">\n';
+  md.renderer.rules.footnote_block_open = () => '<h2 id="references">' + references + '</h2>\n<section class="references-section footnotes" role="doc-endnotes" aria-labelledby="references">\n<ol class="footnotes-list">\n';
   if (enableMath) {
     md.inline.ruler.before('escape', 'math_inline', (state, silent) => {
       if (state.src[state.pos] !== '$' || state.src[state.pos + 1] === '$' || /\s/.test(state.src[state.pos + 1] || ' ')) return false;

@@ -239,6 +239,9 @@ test('references follow first citation order, localize headings, and avoid dupli
   assert.deepEqual([...doc.querySelectorAll('.footnote-item')].map(li => li.textContent.trim()[0]), ['B', 'A']);
   assert.deepEqual([...doc.querySelectorAll('.footnote-ref a')].map(a => a.textContent), ['[1]', '[2]', '[1]']);
   assert.equal(doc.querySelector('#references').textContent, 'Ссылки на материалы');
+  assert.equal(doc.querySelector('#references').parentElement, doc.body);
+  assert.equal(doc.querySelector('#references').nextElementSibling, doc.querySelector('.references-section'));
+  assert.equal(doc.querySelector('.references-section').getAttribute('aria-labelledby'), 'references');
   const ids = [...doc.querySelectorAll('[id]')].map(node => node.id);
   assert.equal(new Set(ids).size, ids.length);
 });

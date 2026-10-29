@@ -34,18 +34,23 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="site-name" href="{{ base | append: '/' | relative_url }}" {% if page.section == 'home' %}aria-current="page"{% endif %}>Alexander Petrov<span class="name-dot" aria-hidden="true">.</span></a>
-      <button class="menu-toggle" aria-label="{{ t.menu }}" aria-controls="site-navigation" aria-expanded="false" hidden>{{ t.menu }} <span aria-hidden="true">+</span></button>
       <nav id="site-navigation" class="site-nav" aria-label="{{ t.navigation }}">
         {% assign sections = 'blog,library,links' | split: ',' %}{% for section in sections %}
-        <a href="{{ base | append: '/' | append: section | append: '/' | relative_url }}" {% if page.section == section %}aria-current="page"{% endif %}>{{ t[section] }}</a>
+        <a data-section="{{ section }}" href="{{ base | append: '/' | append: section | append: '/' | relative_url }}" {% if page.section == section %}aria-current="page"{% endif %}>{{ t[section] }}</a>
         {% endfor %}
       </nav>
+      <button class="menu-toggle" type="button" aria-controls="header-menu" aria-expanded="false" hidden><span class="menu-icon" aria-hidden="true"></span><span class="sr-only">{{ t.menu }}</span></button>
+      <div id="header-menu" class="header-menu">
+      <nav class="menu-pages" aria-label="{{ t.navigation }}">{% for section in sections %}<a data-section="{{ section }}" href="{{ base | append: '/' | append: section | append: '/' | relative_url }}" {% if page.section == section %}aria-current="page"{% endif %}>{{ t[section] }}</a>{% endfor %}</nav>
+      <div class="header-settings">
       <nav class="language-nav" aria-label="Language">
         {% assign languages = 'en,ru' | split: ',' %}{% for language in languages %}{% assign alternative = translations | where: 'lang', language | where_exp: 'item', 'item.redirect_to == nil' | first %}
         {% if language == lang %}<span aria-current="true" lang="{{ language }}">{{ language | upcase }}</span>{% elsif alternative and page.lang_ref %}<a href="{{ alternative.url | relative_url }}" hreflang="{{ language }}" lang="{{ language }}">{{ language | upcase }}</a>{% else %}<span class="language-unavailable" aria-disabled="true" title="{{ t.unavailable }}">{{ language | upcase }}</span>{% endif %}
         {% endfor %}
       </nav>
       <button class="theme-toggle" type="button" aria-label="{{ t.dark_mode }}" aria-pressed="false" hidden><span class="theme-moon">{% include components/icon.html name='moon' %}</span><span class="theme-sun">{% include components/icon.html name='sun' %}</span></button>
+      </div>
+      </div>
     </div>
   </header>
   <main id="main" class="page-shell {% if page.layout == 'post' or page.layout == 'note' %}reading-shell{% endif %}" tabindex="-1">{{ content }}</main>

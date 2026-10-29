@@ -19,6 +19,11 @@ lang_ref: course-example
 description: One sentence describing this collection.
 source_author: Original author or instructor
 source_url: https://example.com/course
+# Optional ordered links for the collapsed Course materials menu.
+# If omitted, the menu links to source_url.
+# materials:
+#   - title: Course website
+#     url: https://example.com/course
 permalink: /library/example-course/
 ---
 

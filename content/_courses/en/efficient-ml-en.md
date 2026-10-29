@@ -13,11 +13,12 @@ lang_ref: efficient-ml
 description: "Lecture notes on efficient deep learning: compression, hardware constraints, and deploying models with fewer resources."
 source_author: "Song Han · MIT 6.5940"
 source_url: https://efficientml.ai/
+materials:
+  - title: Course website
+    url: https://efficientml.ai/
 permalink: /library/efficient-ml/
 ---
 
 My conspectuses of the Efficient ML course, taught by Song Han at MIT.
 
 These are my study notes. The lectures and original course materials belong to their authors.
-
-[Watch Lecture 1: Introduction](https://www.youtube.com/watch?v=tY75czj43_4).

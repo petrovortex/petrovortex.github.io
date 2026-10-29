@@ -11,7 +11,7 @@ Original publication: [https://petrovortex.github.io/dls-agent-en/](https://petr
 
 ## Intro
 
-I recently completed a project for a course by [Deep Learning School](https://t.me/deep_learning_school_news) (DLS, MIPT). The task was to build an LLM agent for Yandex Maps that determines the relevance of a point of interest (POI) to a user's query.
+I recently completed a project for a course by Deep Learning School[^dls] (DLS, MIPT). The task was to build an LLM agent for Yandex Maps that determines the relevance of a point of interest (POI) to a user's query.
 
 It was an engineering challenge, and I was extremely excited about it: I studied the fundamentals of agentic AI, tried various architectures, and, obviously, did a fair amount of vibecoding.
 
@@ -44,7 +44,7 @@ The goal was to build an LLM agent capable of accurately predicting a POI's rele
 
 Despite all the hype around AI agents, this project was the first time I encountered them as a developer rather than a user. Therefore, the first thing I did was look for various courses and tutorials.
 
-I got lucky -- I found Andrew Ng's [course](https://learn.deeplearning.ai/courses/agentic-ai). He is an awesome professor from Stanford who knows how to extract the core of any topic and explain it clearly.
+I got lucky -- I found Andrew Ng's course[^agentic-ai]. He is an awesome professor from Stanford who knows how to extract the core of any topic and explain it clearly.
 
 In his course, Andrew covers:
 1. What agents are and why we need them;
@@ -80,7 +80,7 @@ It's almost impossible to know in advance which agentic system will optimally so
 
 This cycle is complemented by an important piece of advice: build a high-quality, working system first, and only then optimize it for speed and cost. There's no point in optimizing a system that doesn't solve the task at hand. 
 
-You can read more about agentic workflows and Andrew's other tips on my [Telegram channel](https://t.me/open_notes), where I posted my notes. Or take [his course](https://learn.deeplearning.ai/courses/agentic-ai) yourself -- I highly recommend it!
+You can read more about agentic workflows and Andrew's other tips on my [Telegram channel](https://t.me/open_notes), where I posted my notes. Or take his course[^agentic-ai] yourself -- I highly recommend it!
 
 ## 2. Quick and dirty solution
 
@@ -99,7 +99,7 @@ The organizers warned us that experimenting with agents could be quite costly, m
 
 So, I decided to use **free models on openrouter.ai**. I solved the rate-limit issue by collecting a bunch of API keys from different accounts. In total, this gave me **up to 400 free requests per day**, which was more than enough to run a few [cycles](#how-to-build-agents).
 
-For **error analysis**, I found [Opik](https://www.comet.com/opik/) -- a trendy tool for conveniently monitoring agentic systems. It allows you to track custom metrics, run multiple experiments, and compare them against each other. For instance, comparing agents with different configurations: different LLMs, knowledge bases, web search, reflection, etc. All of this came in handy, but more on that later.
+For **error analysis**, I found Opik[^opik] -- a trendy tool for conveniently monitoring agentic systems. It allows you to track custom metrics, run multiple experiments, and compare them against each other. For instance, comparing agents with different configurations: different LLMs, knowledge bases, web search, reflection, etc. All of this came in handy, but more on that later.
 
 For now, let's get back to the baseline agent. I tried various models that had a free tier at the time. I ran validation on a subset of 50 POIs. The answers turned out to be on par with random guessing (`accuracy=0.4`), so I started analyzing the agent's logs.
 
@@ -133,7 +133,7 @@ Why was there no improvement? I hypothesized two reasons:
 
 Experiments showed that both assumptions were correct. Indeed, if you take a more powerful model (in my case, `GLM-4.5-air`), it will almost perfectly determine the relevance of POIs *for which there is enough information*, while assigning the label `0.1` to the rest.
 
-To distinguish POIs with a true relevance of `0/1` among the remaining ones, it's necessary to provide the agent with the missing information. For example, if a user searches for `dixy 24 hours`, and the POI info lacks working hours, we need to go to a search engine and find this specific detail. This can be easily done using [Tavily](https://www.tavily.com/).
+To distinguish POIs with a true relevance of `0/1` among the remaining ones, it's necessary to provide the agent with the missing information. For example, if a user searches for `dixy 24 hours`, and the POI info lacks working hours, we need to go to a search engine and find this specific detail. This can be easily done using Tavily[^tavily].
 
 Are there really that many POIs with missing info? It turned out they make up only about 30%.
 
@@ -212,7 +212,7 @@ Remember I [talked](#refining-the-prompt) about ways to inform the LLM about the
 
 I wrote these instructions by looking at the errors of two or three specific models. But other LLMs don't necessarily have the same problems when assessing relevance -- they need different instructions. Making one big list is not an option; you can't cover everything (and the context window isn't infinite). So what to do?
 
-Tailor instructions for each model. But not manually -- using another LLM instead. This can be implemented on your own or by using the [DSPy framework](https://dspy.ai/). This is its core philosophy -- don't write prompts manually (since they depend on the models), but generate them dynamically by analyzing the agent's errors with another LLM.
+Tailor instructions for each model. But not manually -- using another LLM instead. This can be implemented on your own or by using the DSPy framework[^dspy]. This is its core philosophy -- don't write prompts manually (since they depend on the models), but generate them dynamically by analyzing the agent's errors with another LLM.
 
 I didn't have time to test this feature during the project, but when a suitable task or free time comes up (haha), I'll definitely check out how this dynamic prompting works.
 
@@ -224,7 +224,7 @@ I'd be happy if my project trajectory serves as a good learning example for othe
 
 I'll also keep writing about my new projects at work and in my studies. To stay updated, subscribe to my [Twitter](https://x.com/petrovortex)!
 
-Finally, I want to express my gratitude to the guys at [DLS](https://t.me/deep_learning_school_news), who are building such an awesome free school in Russian!
+Finally, I want to express my gratitude to the guys at DLS[^dls], who are building such an awesome free school in Russian!
 
 ## Additions
 
@@ -272,3 +272,13 @@ You are a search relevance expert. Your goal is to assess if a map object satisf
    - RECONSTRUCT INTENT: If the literal query is nonsensical but a highly probable correction exists, evaluate the object based on the CORRECTED query.
 """
 ```
+
+[^dls]: [Deep Learning School](https://t.me/deep_learning_school_news).
+
+[^agentic-ai]: [Andrew Ng. Agentic AI](https://learn.deeplearning.ai/courses/agentic-ai).
+
+[^opik]: [Comet. Opik](https://www.comet.com/opik/).
+
+[^tavily]: [Tavily](https://www.tavily.com/).
+
+[^dspy]: [DSPy](https://dspy.ai/).

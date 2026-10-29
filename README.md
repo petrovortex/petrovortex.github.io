@@ -55,6 +55,7 @@ Choose a task:
 | Edit an existing article | [Choose the source file](docs/author-guide.md#edit-existing-content) |
 | Take an Obsidian draft through import, images, and publication | [Authoring workflow](docs/author-guide.md#from-draft-to-publication) |
 | Add a post, course, or lecture note | [Content authoring](docs/author-guide.md) |
+| Edit the links in Course materials | [Course material settings](docs/author-guide.md#course-materials) |
 | Look up a front matter field, date, or identifier | [Content reference](docs/content-reference.md) |
 | Configure Obsidian imports or understand PDF/Markdown exports | [Import and download reference](docs/content-workflow.md) |
 | Cite papers with numbered references | [Citation syntax and commands](docs/author-guide.md#add-numbered-references) |

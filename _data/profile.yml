@@ -52,3 +52,12 @@ timeline:
     detail:
       en: Graduated with a GPA of 4.7 / 5.
       ru: Средний балл — 4,7 из 5.
+  - date:
+      en: 2007 — 2018
+      ru: 2007 — 2018
+    title:
+      en: School No. 1
+      ru: Школа № 1
+    place:
+      en: Stroykeramika
+      ru: пгт Стройкерамика

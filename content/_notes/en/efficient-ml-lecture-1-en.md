@@ -14,7 +14,6 @@ preview_image_dark: /assets/images/banners/efficient-ml-01-preview-dark.svg
 image_alt: Accuracy versus resource cost, compressed model weights, and
   deployment on a chip.
 math: true
-references: false
 copyright_year: 2026
 obsidian_import: efficient-ml-lecture-1
 date: 2026-10-24T18:10:29.189Z

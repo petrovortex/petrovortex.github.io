@@ -14,7 +14,6 @@ layout: default
     <div class="card-meta">{% if course_updated %}<span>{{ t.updated }} <time datetime="{{ course_updated | date_to_xmlschema }}" title="{{ course_updated | date: '%d.%m.%Y %H:%M %Z' }}">{{ course_updated | date: '%d.%m.%Y' }}</time></span>{% endif %}<span>{% include library/note-count.html count=course_notes.size %}</span></div>
     <div class="course-title"><h2><a class="course-title-link" href="{{ course.url | relative_url }}">{{ course.title }} {% include components/icon.html name='arrow' %}</a></h2>{% include library/status.html course=course %}</div>
     <p class="card-description">{{ course.description }}</p>
-    <p class="card-source">{{ course.source_author }}</p>
     <div class="tags">{% for topic in course.topics %}<a class="tag" href="?topic={{ topic | url_encode }}" data-tag-link="{{ topic | escape }}">{{ topic }}</a>{% endfor %}</div>
   </div>
   {% if course.preview_image or course.image %}<a class="card-preview" href="{{ course.url | relative_url }}" tabindex="-1" aria-hidden="true">{% include components/preview-image.html item=course %}</a>{% endif %}

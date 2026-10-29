@@ -1,4 +1,5 @@
 import { initTheme } from './theme.js';
+import { initNavigation } from './navigation.js';
 import { initExternalLinks } from './external-links.js';
 import { initContact, initScrollTop } from './contact.js';
 import { initListings } from './listings.js';
@@ -32,22 +33,13 @@ async function copy(value, message = texts.copied, { failureMessage = texts.copy
     dialog.showModal(); input.select();
   }
 }
-const menu = document.querySelector('.menu-toggle');
-const nav = document.querySelector('.site-nav');
-if (menu && nav) {
-  menu.hidden = false;
-  menu.addEventListener('click', () => {
-    const open = menu.getAttribute('aria-expanded') !== 'true';
-    menu.setAttribute('aria-expanded', String(open)); nav.classList.toggle('is-open', open); menu.querySelector('span').textContent = open ? '−' : '+';
-  });
-}
+initNavigation();
 document.addEventListener('click', event => {
   document.querySelectorAll('.share-menu[open]').forEach(details => { if (!details.contains(event.target)) details.open = false; });
 });
 document.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
   document.querySelectorAll('.share-menu[open]').forEach(details => { details.open = false; details.querySelector('summary').focus(); });
-  if (menu?.getAttribute('aria-expanded') === 'true') { menu.click(); menu.focus(); }
 });
 document.querySelectorAll('[data-share]').forEach(button => button.addEventListener('click', async () => {
   const options = button.closest('[data-share-url]');
