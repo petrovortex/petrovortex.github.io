@@ -1,0 +1,2 @@
+{% assign course_updated = include.course.last_modified_at | default: include.course.date %}{% assign updated_stamp = course_updated | date: '%s' | plus: 0 %}
+{% for item in include.notes %}{% assign item_updated = item.last_modified_at | default: item.date %}{% assign item_stamp = item_updated | date: '%s' | plus: 0 %}{% if item_stamp > updated_stamp %}{% assign course_updated = item_updated %}{% assign updated_stamp = item_stamp %}{% endif %}{% endfor %}

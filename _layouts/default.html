@@ -1,67 +1,63 @@
+{% assign lang = page.lang | default: 'en' %}{% assign t = site.data.ui[lang] %}{% assign base = '' %}{% if lang == 'ru' %}{% assign base = '/ru' %}{% endif %}
+{% assign canonical_path = page.redirect_to | default: page.url %}
+{% assign all_documents = site.pages | concat: site.posts | concat: site.courses | concat: site.notes %}
+{% assign translations = all_documents | where: 'lang_ref', page.lang_ref %}
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: 'ru' }}">
+<html lang="{{ lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
-  
-  <!-- СТИЛИ -->
-  <link rel="stylesheet" href="/assets/css/style.css?v={{ site.time | date: '%s' }}">
-  <!-- ФАВИКОН -->
-  <link rel="icon" type="image/png" href="/assets/favicon.png"> 
-  
-  <!-- ШРИФТЫ -->
+  <meta name="theme-color" content="#faf9f6">
+  <title>{% unless page.section == 'home' %}{{ page.title | escape }} · {% endunless %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: page.excerpt | default: t.bio | strip_html | strip_newlines | escape }}">
+  <link rel="canonical" href="{{ canonical_path | absolute_url }}">
+  {% if page.redirect_to %}<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={{ page.redirect_to | relative_url }}">{% endif %}
+  {% if page.lang_ref %}{% for translation in translations %}{% unless translation.redirect_to %}<link rel="alternate" hreflang="{{ translation.lang }}" href="{{ translation.url | absolute_url }}">{% endunless %}{% endfor %}{% endif %}
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:title" content="{{ page.title | default: site.title | escape }}">
+  <meta property="og:description" content="{{ page.description | default: page.excerpt | default: t.bio | strip_html | strip_newlines | escape }}">
+  <meta property="og:url" content="{{ canonical_path | absolute_url }}">
+  <meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'note' %}article{% else %}website{% endif %}">
+  <meta property="og:image" content="{{ page.image | default: site.data.profile.portrait | absolute_url }}">
+  <meta name="twitter:card" content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
+  <link rel="icon" type="image/png" sizes="64x64" href="{{ '/assets/favicon-ap.png' | relative_url }}">
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
+  <script src="{{ '/assets/js/theme-init.js' | relative_url }}"></script>
+  <link rel="alternate" type="application/atom+xml" title="{{ t.rss }}" href="{{ base | append: '/feed.xml' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
-<body>
-
-  <!-- ШАПКА -->
+<body data-lang="{{ lang }}" data-base="{{ base }}" data-engagement-mode="{{ site.engagement_mode | default: 'auto' }}">
+  <a class="skip-link" href="#main">{{ t.skip }}</a>
   <header class="site-header">
-    <div class="header-wrapper">
-      <a class="site-title" href="{% if page.lang == 'en' %}/en/{% else %}/{% endif %}">
-        <!-- ЛОГИКА ПЕРЕВОДА НАЗВАНИЯ -->
-        {% if page.lang == 'en' %}
-          Open Notes by Sasha Petrov
-        {% else %}
-          Open Notes — блог Саши Петрова
-        {% endif %}
-      </a>
-
-      <!-- ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА -->
-      <div class="lang-toggle">
-        {% assign current_lang = page.lang | default: 'ru' %}
-        
-        {% if current_lang == 'ru' %}
-            {% assign translated_url = "/en/" %}
-            {% for post in site.posts %}
-              {% if post.lang_ref == page.lang_ref and post.lang == 'en' %}
-                {% assign translated_url = post.url %}
-              {% endif %}
-            {% endfor %}
-            <a href="{{ translated_url }}" class="toggle-btn">RU <span>EN</span></a>
-        
-        {% else %}
-            {% assign translated_url = "/" %}
-            {% for post in site.posts %}
-              {% if post.lang_ref == page.lang_ref and post.lang == 'ru' %}
-                {% assign translated_url = post.url %}
-              {% endif %}
-            {% endfor %}
-            <a href="{{ translated_url }}" class="toggle-btn"><span>RU</span> EN</a>
-        {% endif %}
-      </div>
+    <div class="header-inner">
+      <a class="site-name" href="{{ base | append: '/' | relative_url }}" {% if page.section == 'home' %}aria-current="page"{% endif %}>Alexander Petrov<span class="name-dot" aria-hidden="true">.</span></a>
+      <button class="menu-toggle" aria-label="{{ t.menu }}" aria-controls="site-navigation" aria-expanded="false" hidden>{{ t.menu }} <span aria-hidden="true">+</span></button>
+      <nav id="site-navigation" class="site-nav" aria-label="{{ t.navigation }}">
+        {% assign sections = 'blog,library,links' | split: ',' %}{% for section in sections %}
+        <a href="{{ base | append: '/' | append: section | append: '/' | relative_url }}" {% if page.section == section %}aria-current="page"{% endif %}>{{ t[section] }}</a>
+        {% endfor %}
+      </nav>
+      <nav class="language-nav" aria-label="Language">
+        {% assign languages = 'en,ru' | split: ',' %}{% for language in languages %}{% assign alternative = translations | where: 'lang', language | where_exp: 'item', 'item.redirect_to == nil' | first %}
+        {% if language == lang %}<span aria-current="true" lang="{{ language }}">{{ language | upcase }}</span>{% elsif alternative and page.lang_ref %}<a href="{{ alternative.url | relative_url }}" hreflang="{{ language }}" lang="{{ language }}">{{ language | upcase }}</a>{% else %}<span class="language-unavailable" aria-disabled="true" title="{{ t.unavailable }}">{{ language | upcase }}</span>{% endif %}
+        {% endfor %}
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="{{ t.dark_mode }}" aria-pressed="false" hidden><span class="theme-moon">{% include components/icon.html name='moon' %}</span><span class="theme-sun">{% include components/icon.html name='sun' %}</span></button>
     </div>
   </header>
-
-  <main class="page-content" aria-label="Content">
-    {{ content }}
-  </main>
-
-  <button id="back-to-top" title="Go to top">
-    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
-  </button>
-
-  <script type="module" src="/assets/js/main.js?v={{ site.time | date: '%s' }}"></script>
+  <main id="main" class="page-shell {% if page.layout == 'post' or page.layout == 'note' %}reading-shell{% endif %}" tabindex="-1">{{ content }}</main>
+  <footer class="site-footer">
+    <div class="footer-top"><a class="footer-name" href="{{ base | append: '/' | relative_url }}">Alexander Petrov<span class="name-dot">.</span></a><nav aria-label="Footer"><a href="{{ base | append: '/' | relative_url }}">{{ t.home }}</a>{% for section in sections %}<a href="{{ base | append: '/' | append: section | append: '/' | relative_url }}">{{ t[section] }}</a>{% endfor %}<a href="{{ site.data.profile.cv[lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }}</a></nav></div>
+    <div class="footer-social">{% for social in site.data.social %}<a href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{{ social.label }}</a>{% endfor %}<a href="mailto:{{ site.email }}" target="_blank" rel="noopener noreferrer">{{ t.email }}</a><a href="{{ base | append: '/feed.xml' | relative_url }}">RSS</a></div>
+    {% include site/credits.html %}
+    <p class="copyright">© {{ site.time | date: '%Y' }} Alexander Petrov</p>
+  </footer>
+  {% include site/contact.html %}
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script id="ui-strings" type="application/json">{{ t | jsonify }}</script>
+  <script type="module" src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 </html>

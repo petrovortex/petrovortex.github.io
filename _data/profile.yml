@@ -1,0 +1,54 @@
+name: Alexander Petrov
+portrait: /assets/images/alexander-petrov.png
+cv:
+  en: https://github.com/petrovortex/resume/blob/master/cv.pdf
+  ru: https://github.com/petrovortex/resume/blob/master/cv_ru.pdf
+timeline:
+  - date:
+      en: Mar — Jun 2026
+      ru: Март — июнь 2026
+    title:
+      en: Junior Research Fellow
+      ru: Младший научный сотрудник
+    place:
+      en: Institute of Control Sciences, RAS
+      ru: Институт проблем управления РАН
+    detail:
+      en: Agent tool routing and the robustness of AI text detectors.
+      ru: Маршрутизация инструментов в агентных системах и устойчивость детекторов ИИ-текстов.
+  - date:
+      en: "2025"
+      ru: "2025"
+    title:
+      en: MSc, Applied Mathematics & Physics
+      ru: Магистратура — прикладные математика и физика
+    place:
+      en: Moscow Institute of Physics and Technology
+      ru: Московский физико-технический институт
+    detail:
+      en: Graduated with a GPA of 4.9 / 5.
+      ru: Средний балл — 4,9 из 5.
+  - date:
+      en: 2021 — 2025
+      ru: 2021 — 2025
+    title:
+      en: Research Engineer
+      ru: Инженер-исследователь
+    place:
+      en: Central Aerohydrodynamic Institute (TsAGI)
+      ru: Центральный аэрогидродинамический институт (ЦАГИ)
+    detail:
+      en: Numerical and theoretical research on aerodynamic noise in hot flows.
+      ru: Численное и теоретическое исследование аэродинамического шума в горячих потоках.
+  - date:
+      en: "2023"
+      ru: "2023"
+    title:
+      en: BSc, Applied Mathematics & Physics
+      ru: Бакалавриат — прикладные математика и физика
+    place:
+      en: Moscow Institute of Physics and Technology
+      ru: Московский физико-технический институт
+    detail:
+      en: Graduated with a GPA of 4.7 / 5.
+      ru: Средний балл — 4,7 из 5.

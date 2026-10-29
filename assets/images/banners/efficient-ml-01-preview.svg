@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="240" viewBox="0 0 360 240">
+<defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".7" fill="#9ba58b" opacity=".23"/></pattern></defs>
+<rect width="360" height="240" rx="8" fill="#e9ece2"/><rect width="360" height="240" rx="8" fill="url(#dots)"/>
+
+    <path d="M48 190V48M48 190H304" fill="none" stroke="#65715d"  stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+    <path d="M42 57 48 48 54 57M295 184 304 190 295 196" fill="none" stroke="#65715d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M65 170C98 100 146 73 277 49" fill="none" stroke="#60754f"  stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <path d="M88 179C139 131 198 107 285 91" fill="none" stroke="#65715d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".4" stroke-dasharray="4 6"/>
+    <circle cx="95" cy="124" r="6" fill="#60754f"/><circle cx="151" cy="79" r="6" fill="#60754f"/><circle cx="250" cy="54" r="6" fill="#60754f"/><circle cx="180" cy="117" r="5" fill="#65715d"/>
+    <path d="M177 113 155 84M155 94V84H165" fill="none" stroke="#60754f"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <g transform="translate(244 132)"><rect x="0" y="0" width="13" height="13" rx="2" fill="#60754f" opacity=".8"/><rect x="18" y="0" width="13" height="13" rx="2" fill="#60754f" opacity=".8"/><rect x="0" y="18" width="13" height="13" rx="2" fill="#60754f" opacity=".8"/><rect x="18" y="18" width="13" height="13" rx="2" fill="#60754f" opacity=".8"/></g><g transform="translate(313 42)"><path d="M-11 0H11M0-11V11M-8-8 8 8M-8 8 8-8" fill="none" stroke="#60754f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></g>
+<circle cx="336" cy="216" r="3" fill="#60754f"/>
+</svg>

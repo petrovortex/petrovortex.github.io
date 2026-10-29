@@ -1,0 +1,28 @@
+{
+  "name": "alexander-petrov-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/browser/*.test.mjs tests/content/*.test.mjs",
+    "verify": "node scripts/checks/verify-site.mjs",
+    "content:sync": "node scripts/content.mjs",
+    "content:watch": "node scripts/content.mjs --watch",
+    "content:exports": "node scripts/content.mjs --exports-only",
+    "art:build": "node scripts/artwork/build-banners.mjs",
+    "verify:fixtures": "node scripts/checks/verify-site.mjs .preview/fixture-site",
+    "verify:docs": "node scripts/checks/verify-docs.mjs",
+    "art:favicon": "node scripts/artwork/build-favicon.mjs",
+    "pdf:check": "node scripts/checks/render-pdfs.mjs"
+  },
+  "devDependencies": {
+    "@resvg/resvg-wasm": "^2.6.2",
+    "jsdom": "^26.1.0",
+    "lucide-static": "^1.62.0",
+    "markdown-it": "^15.0.3",
+    "markdown-it-footnote": "^4.0.0",
+    "mathjax-full": "^3.2.1",
+    "mupdf": "^1.28.1",
+    "simple-icons": "^16.36.0",
+    "yaml": "^2.9.1"
+  }
+}

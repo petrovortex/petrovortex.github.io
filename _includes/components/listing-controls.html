@@ -1,0 +1,13 @@
+<div class="listing-controls blog-controls" hidden>
+  <label>{{ t.sort }} <select aria-label="{{ t.sort }}"><option value="date">{{ t.newest }}</option><option value="updated">{{ t.recently_updated }}</option><option value="views">{{ t.views_sort }}</option><option value="likes">{{ t.likes_sort }}</option><option value="title">{{ t.alphabetical }}</option></select></label>
+  <details class="topic-picker"><summary>{{ t.topics }}<span data-topic-count></span> {% include components/icon.html name='chevron-down' %}</summary>
+    <div class="topic-popover">
+      <label class="topic-search-label">{{ t.search_topics }}<input type="search" placeholder="{{ t.search_topics }}" autocomplete="off"></label>
+      <p class="topic-help">{{ t.match_any }}</p>
+      <div class="topic-options" role="group" aria-label="{{ t.topics }}"></div>
+      <p class="topic-help" data-no-topics hidden>{{ t.no_topics }}</p>
+      <button class="text-link" type="button" data-clear-topics hidden>{{ t.reset }}</button>
+    </div>
+  </details>
+</div>
+<p class="list-status muted" role="status" aria-live="polite"></p>

@@ -1,73 +1,20 @@
 ---
 layout: default
 ---
-
-<div class="wrapper">
-
-  <!-- 1. ИЩЕМ И ВЫВОДИМ ЗАКРЕПЛЕННУЮ СТАТЬЮ -->
-  {% assign pinned_post = site.posts | where: "pinned", true | where: "lang", page.lang | first %}
-  
-  {% if pinned_post %}
-  <article class="post-card pinned-highlight">
-      
-      <!-- Картинка выводится ТОЛЬКО если она есть -->
-      {% if pinned_post.image and pinned_post.image != "" %}
-      <div class="post-image" style="background-image: url('{{ pinned_post.image }}');">
-           <a href="{{ pinned_post.url }}" style="display:block; width:100%; height:100%;"></a>
-      </div>
-      {% endif %}
-      
-      <div class="post-content">
-          <h3><a href="{{ pinned_post.url }}">{{ pinned_post.title }}</a></h3>
-          
-          <div class="post-date-line">
-              {{ pinned_post.date | date: "%d.%m.%Y" }} 
-              <!-- Можно добавить значок скрепки, если захочешь: 📌 -->
-          </div>
-
-          <p class="post-excerpt">{{ pinned_post.excerpt }}</p>
-
-          <div class="post-meta">
-             <span class="meta-item">👁️ <span class="view-count" data-slug="{{ pinned_post.lang_ref }}">0</span></span>
-             <span class="meta-item">❤️ <span class="like-count" data-slug="{{ pinned_post.lang_ref }}">0</span></span>
-          </div>
-      </div>
-  </article>
-  {% endif %}
-
-  <!-- 2. ВЫВОДИМ ОСТАЛЬНЫЕ СТАТЬИ -->
-  <div class="post-list">
-    {% for post in site.posts %}
-      <!-- Условие: Язык совпадает И статья НЕ закрепленная (чтобы не дублировать) -->
-      {% if post.lang == page.lang and post.pinned != true %}
-      
-      <article class="post-card">
-        
-        <!-- ЖЕСТКАЯ ПРОВЕРКА: Если ссылки на картинку нет, блок div даже не создается -->
-        {% if post.image and post.image != "" %}
-        <div class="post-image" style="background-image: url('{{ post.image }}');">
-             <a href="{{ post.url }}" style="display:block; width:100%; height:100%;"></a>
-        </div>
-        {% endif %}
-        
-        <div class="post-content">
-            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-            
-            <div class="post-date-line">
-                {{ post.date | date: "%d.%m.%Y" }}
-            </div>
-
-            <p class="post-excerpt">{{ post.excerpt }}</p>
-
-            <div class="post-meta">
-               <span class="meta-item">👁️ <span class="view-count" data-slug="{{ post.lang_ref }}">0</span></span>
-               <span class="meta-item">❤️ <span class="like-count" data-slug="{{ post.lang_ref }}">0</span></span>
-            </div>
-        </div>
-      </article>
-
-      {% endif %}
-    {% endfor %}
+{% assign t = site.data.ui[page.lang] %}{% assign profile = site.data.profile %}
+<section class="hero" aria-labelledby="greeting">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="little-line" aria-hidden="true"></span>{{ t.intro_label }}</p>
+    <h1 id="greeting">{{ t.greeting }}</h1>
+    <p class="hero-bio">{{ t.bio }}</p>
+    <p class="hero-welcome">{{ t.welcome }}</p>
+    <a class="text-link cv-link" href="{{ profile.cv[page.lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {% include components/icon.html name='arrow' %}</a>
   </div>
-
-</div>
+  <figure class="portrait-frame"><img src="{{ profile.portrait | relative_url }}" width="240" height="300" alt="Alexander Petrov" fetchpriority="high"></figure>
+</section>
+<section class="timeline-section" aria-labelledby="timeline-heading">
+  <div class="section-intro"><h2 id="timeline-heading">{{ t.timeline }}</h2><p>{{ t.timeline_intro }}</p></div>
+  <ol class="timeline">{% for event in profile.timeline %}
+    <li><span class="timeline-date">{{ event.date[page.lang] }}</span><div class="timeline-body"><h3>{{ event.title[page.lang] }}</h3><p class="timeline-place">{{ event.place[page.lang] }}</p><p class="timeline-detail">{{ event.detail[page.lang] }}</p></div></li>
+  {% endfor %}</ol>
+</section>

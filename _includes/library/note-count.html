@@ -1,0 +1,3 @@
+{%- assign count_mod10 = include.count | modulo: 10 -%}{%- assign count_mod100 = include.count | modulo: 100 -%}{%- assign count_form = 'other' -%}
+{%- if page.lang == 'ru' -%}{%- assign count_form = 'many' -%}{%- if count_mod10 == 1 and count_mod100 != 11 -%}{%- assign count_form = 'one' -%}{%- elsif count_mod10 >= 2 and count_mod10 <= 4 -%}{%- unless count_mod100 >= 12 and count_mod100 <= 14 -%}{%- assign count_form = 'few' -%}{%- endunless -%}{%- endif -%}{%- elsif include.count == 1 -%}{%- assign count_form = 'one' -%}{%- endif -%}
+{{- include.count }} {{ t.note_counts[count_form] -}}

@@ -1,0 +1,34 @@
+{% assign t = site.data.ui[page.lang] %}{% assign base = '' %}{% if page.lang == 'ru' %}{% assign base = '/ru' %}{% endif %}
+{% assign stats_id = page.lang_ref %}{% if page.layout == 'note' %}{% assign stats_id = page.lang_ref | prepend: 'library--' %}{% endif %}
+<div class="reader" data-article-id="{{ stats_id | escape }}">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+  {% if page.layout == 'note' %}
+    {% assign course = site.courses | where: 'course_id', page.course | where: 'lang', page.lang | first %}
+    <a href="{{ base | append: '/library/' | relative_url }}">{{ t.library }}</a><span aria-hidden="true">/</span><a href="{{ course.url | relative_url }}">{{ course.title }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span>
+  {% else %}<a href="{{ base | append: '/blog/' | relative_url }}">{{ t.blog }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span>{% endif %}
+  </nav>
+  <header class="reader-header"><p class="eyebrow">{% if page.layout == 'note' %}{{ t.note }}{% else %}{{ t.blog }}{% endif %}</p><h1>{{ page.title }}</h1>
+    {% if page.date %}<span class="created-date">{{ t.created }} <time datetime="{{ page.date | date_to_xmlschema }}" title="{{ page.date | date: '%d.%m.%Y %H:%M %Z' }}">{{ page.date | date: '%d.%m.%Y' }}</time></span>{% endif %}
+    {% if page.layout == 'note' %}<p class="source-credit">{{ t.source }}: <a href="{{ course.source_url }}" target="_blank" rel="noopener noreferrer">{{ course.source_author }}</a></p>{% endif %}
+    {% include components/engagement.html id=stats_id url=page.url title=page.title %}
+    {% include article/downloads.html %}
+  </header>
+  {% if page.layout == 'note' %}{% assign sibling_notes = site.notes | where: 'course', page.course | where: 'lang', page.lang | sort: 'order' %}
+    <details class="course-contents"><summary>{{ t.course_contents }}<span aria-hidden="true">+</span></summary><ol>{% for note in sibling_notes %}<li><a href="{{ note.url | relative_url }}" {% if note.url == page.url %}aria-current="page"{% endif %}>{{ note.title }}</a></li>{% endfor %}</ol></details>
+  {% endif %}
+  <div class="reader-grid">
+    <article class="article-column">
+      <div class="article-body" data-references="{{ page.references }}">
+      {% include components/cover-image.html %}
+      {% if download.html %}{% include {{ download.html }} %}{% else %}{{ include.body }}{% endif %}
+      </div>
+      <div class="article-end">{% include components/engagement.html id=stats_id url=page.url title=page.title %}</div>
+      {% if page.layout == 'note' %}
+      <nav class="note-pagination" aria-label="{{ t.course_contents }}">{% assign previous_note = nil %}{% assign next_note = nil %}{% assign found_current = false %}{% for note in sibling_notes %}{% if found_current %}{% assign next_note = note %}{% break %}{% endif %}{% if note.url == page.url %}{% assign found_current = true %}{% else %}{% assign previous_note = note %}{% endif %}{% endfor %}
+        <div>{% if previous_note %}<a href="{{ previous_note.url | relative_url }}"><span>{{ t.previous }}</span>← {{ previous_note.title }}</a>{% endif %}</div><div>{% if next_note %}<a href="{{ next_note.url | relative_url }}"><span>{{ t.next }}</span>{{ next_note.title }} →</a>{% endif %}</div>
+      </nav>
+      {% endif %}
+    </article>
+    <aside class="toc-rail" hidden><details class="toc-panel" open><summary>{{ t.toc }}<span aria-hidden="true">+</span></summary><nav class="toc-links" aria-label="{{ t.toc }}"></nav></details></aside>
+  </div>
+</div>

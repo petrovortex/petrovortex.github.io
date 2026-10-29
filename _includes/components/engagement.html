@@ -1,0 +1,14 @@
+<div class="engagement{% if include.compact %} engagement-compact{% endif %}" data-stats-id="{{ include.id | escape }}">
+  {% unless include.compact %}<span class="view-label" title="{{ t.views }}">{% include components/icon.html name='eye' %}<span class="sr-only">{{ t.views }}: </span><span data-count="views">—</span></span>{% endunless %}
+  <button class="like-button" type="button" data-like aria-pressed="false" aria-label="{{ t.like }}" disabled>{% include components/icon.html name='heart' %}<span data-count="likes">—</span></button>
+  {% unless include.compact %}<details class="share-menu">
+    <summary aria-label="{{ t.share }}">{% include components/icon.html name='share' %}<span>{{ t.share }}</span></summary>
+    <div class="share-options" data-share-url="{{ include.url | absolute_url }}" data-share-title="{{ include.title | escape }}">
+      <button type="button" data-share="copy">{{ t.copy }}</button>
+      <a href="https://x.com/intent/tweet?url={{ include.url | absolute_url | url_encode }}&amp;text={{ include.title | url_encode }}" target="_blank" rel="noopener noreferrer">X / Twitter ↗</a>
+      <a href="https://t.me/share/url?url={{ include.url | absolute_url | url_encode }}&amp;text={{ include.title | url_encode }}" target="_blank" rel="noopener noreferrer">Telegram ↗</a>
+      <button type="button" data-share="discord">{{ t.discord }}</button>
+      <a href="mailto:?subject={{ include.title | url_encode | replace: '+', '%20' }}&amp;body={{ include.url | absolute_url | url_encode }}" target="_blank" rel="noopener noreferrer">{{ t.email }}</a>
+    </div>
+  </details>{% endunless %}
+</div>

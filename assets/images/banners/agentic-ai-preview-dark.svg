@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="240" viewBox="0 0 360 240">
+<defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".7" fill="#8e7361" opacity=".23"/></pattern></defs>
+<rect width="360" height="240" rx="8" fill="#302824"/><rect width="360" height="240" rx="8" fill="url(#dots)"/>
+
+    <rect x="32" y="54" width="247" height="157" rx="8" fill="#3b312b" stroke="#b69a86" stroke-width="1.5"/>
+    <path d="M84 55V210M166 55V210M237 55V210M33 109H278M33 164H278" fill="none" stroke="#b69a86"  stroke-linecap="round" stroke-linejoin="round" opacity=".2" stroke-width="5"/>
+    <path d="M58 184H166V109H209" fill="none" stroke="#e49574"  stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 5" stroke-width="2"/>
+    <rect x="47" y="26" width="173" height="44" rx="22" fill="#3b312b" stroke="#b69a86" stroke-width="1.6"/>
+    <circle cx="72" cy="47" r="7" fill="none" stroke="#b69a86" stroke-width="1.6"/><path d="M77 52 83 58M98 43H144M98 53H128" fill="none" stroke="#b69a86" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <g transform="translate(165 34)"><path d="M0 6H18V16Q18 23 9 23Q0 23 0 16ZM18 9H22Q28 15 18 18M-3 27H22" fill="none" stroke="#e49574"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></g>
+    <path d="M209 134C195 117 187 109 187 98A22 22 0 1 1 231 98C231 109 223 117 209 134Z" fill="#e49574"/><circle cx="209" cy="98" r="7" fill="#3b312b"/>
+    <circle cx="282" cy="161" r="35" fill="#3b312b" stroke="#b69a86" stroke-width="1.5"/>
+    <path d="M267 161 279 173 299 149" fill="none" stroke="#e49574"  stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/><g transform="translate(306 48)"><path d="M-11 0H11M0-11V11M-8-8 8 8M-8 8 8-8" fill="none" stroke="#e49574" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></g>
+<circle cx="336" cy="216" r="3" fill="#e49574"/>
+</svg>

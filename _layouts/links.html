@@ -1,0 +1,11 @@
+---
+layout: default
+---
+{% assign t = site.data.ui[page.lang] %}
+<header class="page-heading"><p class="eyebrow">{{ t.links_kicker }}</p><h1>{{ t.links }}</h1><p>{{ t.links_intro }}</p></header>
+{% assign groups = 'personal,channels,code' | split: ',' %}{% for group in groups %}{% assign group_key = group | prepend: 'links_' %}
+<section class="link-group" aria-labelledby="links-{{ group }}"><h2 id="links-{{ group }}" class="small-heading">{{ t[group_key] }}</h2>
+<div class="link-list">{% assign socials = site.data.social | where: 'group', group %}{% for social in socials %}
+<div class="social-entry{% if social.handle %} has-handle{% endif %}"><a class="link-row" href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{% include components/brand-icon.html name=social.icon %}<span><strong>{{ social.label }}</strong><span class="link-description">{{ social.description[page.lang] }}</span></span>{% include components/icon.html name='external' %}</a>{% if social.handle %}<button class="copy-handle" type="button" data-copy-handle="{{ social.handle }}" title="{{ t.copy_username }}" aria-label="{{ t.copy_username }}: {{ social.handle }}" hidden>{% include components/icon.html name='copy' %}</button>{% endif %}</div>
+{% endfor %}</div></section>{% endfor %}
+<div class="contact-strip"><div><span class="eyebrow">{{ t.contact }}</span><a href="mailto:{{ site.email }}" target="_blank" rel="noopener noreferrer">{{ site.email }}</a></div><a class="text-link" href="{{ site.data.profile.cv[page.lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {% include components/icon.html name='arrow' %}</a></div>

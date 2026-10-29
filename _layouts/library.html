@@ -1,0 +1,27 @@
+---
+layout: default
+---
+{% assign t = site.data.ui[page.lang] %}{% assign base = '' %}{% if page.lang == 'ru' %}{% assign base = '/ru' %}{% endif %}
+{% assign courses = site.courses | where: 'lang', page.lang | sort: 'title' %}
+<header class="page-heading"><p class="eyebrow">{{ t.library_kicker }}</p><h1>{{ t.library }}</h1><p>{{ t.library_intro }}</p></header>
+{% include components/banner.html name='library' %}
+{% if courses.size > 0 %}
+{% include components/listing-controls.html kind='library' %}
+<div class="course-list" data-listing="library" data-result-label="{{ t.courses }}" data-result-forms="{{ t.course_counts | jsonify | escape }}">
+{% for course in courses %}{% assign course_notes = site.notes | where: 'course', course.course_id | where: 'lang', course.lang %}{% include library/last-updated.html course=course notes=course_notes %}
+<article class="course-row listing-card" data-list-item data-post-id="course--{{ course.lang_ref | escape }}" data-title="{{ course.title | escape }}" data-date="{{ course.date | date: '%s' }}" data-updated="{{ updated_stamp }}" data-tags="{{ course.topics | jsonify | escape }}">
+  <div class="card-copy">
+    <div class="card-meta">{% if course_updated %}<span>{{ t.updated }} <time datetime="{{ course_updated | date_to_xmlschema }}" title="{{ course_updated | date: '%d.%m.%Y %H:%M %Z' }}">{{ course_updated | date: '%d.%m.%Y' }}</time></span>{% endif %}<span>{% include library/note-count.html count=course_notes.size %}</span></div>
+    <div class="course-title"><h2><a class="course-title-link" href="{{ course.url | relative_url }}">{{ course.title }} {% include components/icon.html name='arrow' %}</a></h2>{% include library/status.html course=course %}</div>
+    <p class="card-description">{{ course.description }}</p>
+    <p class="card-source">{{ course.source_author }}</p>
+    <div class="tags">{% for topic in course.topics %}<a class="tag" href="?topic={{ topic | url_encode }}" data-tag-link="{{ topic | escape }}">{{ topic }}</a>{% endfor %}</div>
+  </div>
+  {% if course.preview_image or course.image %}<a class="card-preview" href="{{ course.url | relative_url }}" tabindex="-1" aria-hidden="true">{% include components/preview-image.html item=course %}</a>{% endif %}
+  <div class="card-actions">{% assign stats_id = course.lang_ref | prepend: 'course--' %}{% include components/engagement.html id=stats_id url=course.url title=course.title %}</div>
+</article>
+{% endfor %}</div>
+<div class="filter-empty" hidden><p>{{ t.empty_courses }}</p><button class="text-link" type="button" data-clear-filter>{{ t.reset }} →</button></div>
+{% else %}
+<div class="library-empty"><h2>{{ t.library_empty_title }}</h2><p>{{ t.library_empty_text }}</p><a class="text-link" href="{{ base | append: '/blog/' | relative_url }}">{{ t.library_empty_link }} {% include components/icon.html name='arrow' %}</a></div>
+{% endif %}

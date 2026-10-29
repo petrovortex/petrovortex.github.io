@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="240" viewBox="0 0 360 240">
+<defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".7" fill="#78856b" opacity=".23"/></pattern></defs>
+<rect width="360" height="240" rx="8" fill="#272e26"/><rect width="360" height="240" rx="8" fill="url(#dots)"/>
+
+    <g transform="translate(35 78)"><rect x="0" y="0" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/><rect x="22" y="0" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="44" y="0" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="66" y="0" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/><rect x="0" y="22" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="22" y="22" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/><rect x="44" y="22" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/><rect x="66" y="22" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="0" y="44" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="22" y="44" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/><rect x="44" y="44" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/><rect x="66" y="44" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="0" y="66" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/><rect x="22" y="66" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="44" y="66" width="17" height="17" rx="2" fill="#53624a" opacity=".28"/><rect x="66" y="66" width="17" height="17" rx="2" fill="#b2c18e" opacity=".8"/></g>
+    <path d="M139 121H177M169 114 177 121 169 128" fill="none" stroke="#b2c18e"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <rect x="207" y="65" width="110" height="110" rx="8" fill="#323b2f" stroke="#a0ac92" stroke-width="1.8"/>
+    <rect x="227" y="85" width="70" height="70" rx="4" fill="#53624a" opacity=".65"/>
+    <path d="M225 55V65M249 55V65M273 55V65M297 55V65M225 175V185M249 175V185M273 175V185M297 175V185M197 83H207M197 107H207M197 131H207M197 155H207M317 83H327M317 107H327M317 131H327M317 155H327" fill="none" stroke="#a0ac92" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M267 95 245 125H261L254 146 279 115H263Z" fill="#b2c18e"/>
+    <g transform="translate(156 53)"><path d="M-11 0H11M0-11V11M-8-8 8 8M-8 8 8-8" fill="none" stroke="#b2c18e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></g><path d="M34 191H118" fill="none" stroke="#a0ac92" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/>
+<circle cx="336" cy="216" r="3" fill="#b2c18e"/>
+</svg>

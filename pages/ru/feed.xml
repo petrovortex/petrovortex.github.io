@@ -1,0 +1,7 @@
+---
+permalink: /ru/feed.xml
+layout: null
+lang: ru
+blog_url: /ru/blog/
+---
+{% include site/feed.xml %}

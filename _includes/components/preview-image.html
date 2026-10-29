@@ -1,0 +1,3 @@
+{%- assign preview_image = include.item.preview_image | default: include.item.image -%}
+{%- assign preview_dark = include.item.image_dark -%}{%- if include.item.preview_image -%}{%- assign preview_dark = include.item.preview_image_dark -%}{%- endif -%}
+{%- if preview_image and preview_image != '' -%}<span class="preview-art{% if preview_dark %} themed-art{% endif %}"><img {% if preview_dark %}class="art-light"{% endif %} src="{{ preview_image | relative_url }}" alt="" width="360" height="240" loading="lazy" decoding="async">{% if preview_dark %}<img class="art-dark" src="{{ preview_dark | relative_url }}" alt="" width="360" height="240" loading="lazy" decoding="async">{% endif %}</span>{%- endif -%}

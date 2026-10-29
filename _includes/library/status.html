@@ -1,0 +1,1 @@
+{% assign status = include.course.status | default: 'in_progress' %}<span class="course-status status-{{ status }}" title="{% if status == 'complete' %}{{ t.course_complete_hint }}{% else %}{{ t.course_progress_hint }}{% endif %}"><span aria-hidden="true"></span>{% if status == 'complete' %}{{ t.course_complete }}{% else %}{{ t.course_progress }}{% endif %}</span>

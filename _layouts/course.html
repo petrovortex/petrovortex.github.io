@@ -1,0 +1,18 @@
+---
+layout: default
+---
+{% assign t = site.data.ui[page.lang] %}{% assign base = '' %}{% if page.lang == 'ru' %}{% assign base = '/ru' %}{% endif %}
+{% assign stats_id = page.lang_ref | prepend: 'course--' %}
+{% assign notes = site.notes | where: 'course', page.course_id | where: 'lang', page.lang | sort: 'order' %}
+{% include library/last-updated.html course=page notes=notes %}
+<div class="course-page" data-article-id="{{ stats_id | escape }}">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ base | append: '/library/' | relative_url }}">{{ t.library }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span></nav>
+<header class="page-heading"><p class="eyebrow">{{ t.course }}</p><h1>{{ page.title }}</h1><p>{{ page.description }}</p>
+<div class="course-meta">{% include library/status.html course=page %}{% if page.date %}<span>{{ t.created }} <time datetime="{{ page.date | date_to_xmlschema }}" title="{{ page.date | date: '%d.%m.%Y %H:%M %Z' }}">{{ page.date | date: '%d.%m.%Y' }}</time></span>{% endif %}{% if course_updated %}<span>{{ t.updated }} <time datetime="{{ course_updated | date_to_xmlschema }}">{{ course_updated | date: '%d.%m.%Y' }}</time></span>{% endif %}</div>
+<p class="source-credit">{{ t.source }}: <a href="{{ page.source_url }}" target="_blank" rel="noopener noreferrer">{{ page.source_author }}</a></p>
+{% include components/engagement.html id=stats_id url=page.url title=page.title %}
+</header>
+{% if page.image and page.image != '' %}{% include components/cover-image.html %}{% elsif page.banner %}{% include components/banner.html name=page.banner %}{% endif %}
+<div class="article-body">{{ content }}</div>
+{% if notes.size > 0 %}<h2 class="small-heading">{{ t.course_contents }}</h2><ol class="chapter-list">{% assign previous_module = '' %}{% for note in notes %}<li>{% if note.module and note.module != previous_module %}<p class="module-label">{{ note.module }}</p>{% assign previous_module = note.module %}{% endif %}<a href="{{ note.url | relative_url }}"><span class="chapter-number">{{ forloop.index | prepend: '0' }}</span><span class="chapter-copy"><strong>{{ note.title }}</strong>{% if note.description %}<span class="link-description">{{ note.description }}</span>{% endif %}{% if note.date %}<span class="chapter-date">{{ t.created }} <time datetime="{{ note.date | date_to_xmlschema }}" title="{{ note.date | date: '%d.%m.%Y %H:%M %Z' }}">{{ note.date | date: '%d.%m.%Y' }}</time></span>{% endif %}</span>{% if note.preview_image or note.image %}<span class="chapter-preview" aria-hidden="true">{% include components/preview-image.html item=note %}</span>{% endif %}{% include components/icon.html name='arrow' %}</a></li>{% endfor %}</ol>{% else %}<p class="empty-state">{{ t.course_empty }}</p>{% endif %}
+</div>

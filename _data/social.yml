@@ -1,0 +1,51 @@
+- label: Telegram
+  icon: telegram
+  group: personal
+  url: https://t.me/petrovortex
+  description: {en: "The easiest way to say hello", ru: "Самый простой способ поздороваться"}
+- label: X / Twitter
+  icon: x
+  group: personal
+  url: https://x.com/petrovortex
+  description: {en: "Thoughts and conversations", ru: "Мысли и общение"}
+- label: Discord
+  icon: discord
+  group: personal
+  url: https://discord.com/channels/@me
+  handle: petrovortex
+  description: {en: "petrovortex · add me on Discord", ru: "petrovortex · добавьте меня в Discord"}
+- label: YouTube
+  icon: youtube
+  group: channels
+  url: https://www.youtube.com/@petrovortex
+  description: {en: "My corner of YouTube", ru: "Мой уголок на YouTube"}
+- label: Instagram
+  icon: instagram
+  group: channels
+  url: https://instagram.com/petrovortex
+  description: {en: "A little beyond work", ru: "Немного о жизни вне работы"}
+- label: Substack
+  icon: substack
+  group: channels
+  url: https://substack.com/@petrovortex
+  description: {en: "Essays and updates on Substack", ru: "Публикации на Substack"}
+- label: Open Notes
+  icon: telegram
+  group: channels
+  url: https://t.me/open_notes
+  description: {en: "My Telegram channel", ru: "Мой телеграм-канал"}
+- label: GitHub
+  icon: github
+  group: code
+  url: https://github.com/petrovortex
+  description: {en: "Code, projects, and experiments", ru: "Код, проекты и эксперименты"}
+- label: Kaggle
+  icon: kaggle
+  group: code
+  url: https://www.kaggle.com/petrovortex
+  description: {en: "Data science and machine learning", ru: "Анализ данных и машинное обучение"}
+- label: LeetCode
+  icon: leetcode
+  group: code
+  url: https://leetcode.com/u/petrovortex/
+  description: {en: "Algorithms and problem solving", ru: "Алгоритмы и задачи"}

@@ -1,0 +1,238 @@
+en:
+  light_mode: "Switch to light mode"
+  dark_mode: "Switch to dark mode"
+  topics: "Topics"
+  search_topics: "Search topics"
+  match_any: "Matches any selected topic."
+  no_topics: "No matching topics."
+  posts: "posts"
+  post_counts: {one: post, other: posts}
+  course_counts: {one: course, other: courses}
+  note_counts: {one: note, other: notes}
+  courses: "courses"
+  recently_updated: "Recently updated"
+  alphabetical: "Title: A–Z"
+  empty_courses: "No courses match these topics."
+  course_progress: "In progress"
+  course_complete: "Complete"
+  course_progress_hint: "I am still adding or editing these notes."
+  course_complete_hint: "This set of notes is finished."
+  updated: "Updated"
+  created: "Created"
+  open_course: "Open course"
+  links_personal: "Personal pages"
+  links_channels: "Channels & blogs"
+  links_code: "Code & practice"
+  copy_username: "Copy username"
+  username_copied: "Username copied"
+  credits: "Credits & colophon"
+  custom_layout: "Custom layout, built with"
+  icons: "Icons"
+  typeface: "Typeface"
+  typesetting: "Math typesetting"
+  license: "license"
+  write_author: "Write to the author"
+  close: "Close"
+  your_message: "Your message"
+  message_rules: "Letters, digits, punctuation, spaces and line breaks. Up to 2,000 characters."
+  message_invalid: "Please enter a message using letters, digits and punctuation only (up to 2,000 characters)."
+  send_via: "Choose a platform"
+  message_subject: "Message from a reader"
+  draft_message_hint: "Opens a draft in the chosen app. Review it and send it there."
+  copy_message_hint: "Copies your message and opens my profile. Paste it into a private message and send it there."
+  discord_message_hint: "Copies your message and opens Discord. Add petrovortex, then paste it into our chat."
+  copy_and_open: "Copy & open"
+  open_draft: "Open draft"
+  message_copied: "Message copied. Paste it into the conversation and send it there."
+  message_copy_failed: "Copy the prepared message below, then paste it into the conversation."
+  message_draft_opened: "Your draft is ready. If the app didn’t open, use the link below."
+  copy_message: "Prepared message"
+  open_platform: "Open platform"
+  download: Download
+  home: Home
+  blog: Blog
+  library: Library
+  links: Links
+  menu: Menu
+  navigation: Main navigation
+  skip: Skip to content
+  unavailable: Translation not available yet
+  intro_label: A little about me
+  greeting: Hi, I'm Alexander.
+  bio: My background spans applied mathematics, physics, and machine learning. Here I share projects, ideas, and notes from things I'm learning.
+  welcome: Welcome to my corner of the internet.
+  cv: Curriculum vitae
+  timeline: Along the way
+  timeline_intro: A few chapters in my work and education.
+  links_kicker: Find me
+  contact: Get in touch
+  blog_title: Open Notes
+  blog_intro: Projects, experiments, and things worth writing down.
+  sort: Sort by
+  newest: Newest
+  views_sort: Most viewed
+  likes_sort: Most liked
+  tag: Topic
+  all_tags: All topics
+  empty_posts: No posts match this topic.
+  reset: Clear filter
+  views: Views
+  like: Like
+  liked: Liked
+  likes: Likes
+  share: Share
+  copy: Copy link
+  discord: Copy for Discord
+  native_share: More options…
+  copied: Link copied
+  copy_formula: Copy formula as Markdown
+  formula_copied: Formula copied
+  formula_copy_failed: Couldn't copy automatically. Select and copy the formula below.
+  discord_copied: Copied — paste into your Discord chat.
+  copy_failed: Couldn't copy automatically. Select and copy this link.
+  like_failed: Couldn't save your like. Please try again.
+  stats_failed: Counts are unavailable right now.
+  toc: On this page
+  fold: Toggle section
+  section_link: Copy section link
+  back_to_top: Back to top
+  references: References
+  back: Back
+  library_intro: Notes on courses, books, and other people's work, grouped into courses.
+  library_empty_title: A little room for learning.
+  library_empty_text: I'm preparing my notes for this space. The first course will appear here when it's ready.
+  library_empty_link: In the meantime, read the blog
+  source: Original material
+  notes: notes
+  note: Note
+  library_kicker: Per aspera ad astra
+  course: Course
+  course_contents: Course contents
+  course_empty: Notes for this course are being prepared.
+  previous: Previous note
+  next: Next note
+  links_intro: Where to find me, follow my work, or say hello.
+  email: Email
+  rss: RSS feed
+  feed_intro: New posts from Alexander Petrov.
+  redirect: This page has moved.
+  continue: Continue
+ru:
+  light_mode: "Включить светлую тему"
+  dark_mode: "Включить тёмную тему"
+  topics: "Темы"
+  search_topics: "Поиск по темам"
+  match_any: "Совпадение с любой из выбранных тем."
+  no_topics: "Темы не найдены."
+  posts: "публикаций"
+  post_counts: {one: публикация, few: публикации, many: публикаций, other: публикации}
+  course_counts: {one: курс, few: курса, many: курсов, other: курса}
+  note_counts: {one: заметка, few: заметки, many: заметок, other: заметки}
+  courses: "курсов"
+  recently_updated: "Недавно обновлённые"
+  alphabetical: "По названию: А–Я"
+  empty_courses: "Курсов по выбранным темам нет."
+  course_progress: "В работе"
+  course_complete: "Завершён"
+  course_progress_hint: "Я ещё добавляю или редактирую эти конспекты."
+  course_complete_hint: "Этот набор конспектов завершён."
+  updated: "Обновлено"
+  created: "Создано"
+  open_course: "Открыть курс"
+  links_personal: "Личные страницы"
+  links_channels: "Каналы и блоги"
+  links_code: "Код и практика"
+  copy_username: "Скопировать имя"
+  username_copied: "Имя скопировано"
+  credits: "Благодарности и оформление"
+  custom_layout: "Индивидуальный дизайн, сайт на"
+  icons: "Иконки"
+  typeface: "Шрифт"
+  typesetting: "Набор формул"
+  license: "лицензия"
+  write_author: "Написать автору"
+  close: "Закрыть"
+  your_message: "Ваше сообщение"
+  message_rules: "Буквы, цифры, знаки препинания, пробелы и переносы строк. До 2000 символов."
+  message_invalid: "Введите сообщение из букв, цифр и знаков препинания (до 2000 символов)."
+  send_via: "Выберите платформу"
+  message_subject: "Сообщение от читателя"
+  draft_message_hint: "Откроется черновик в выбранном приложении. Проверьте и отправьте его там."
+  copy_message_hint: "Сообщение скопируется, затем откроется мой профиль. Вставьте его в личное сообщение и отправьте."
+  discord_message_hint: "Сообщение скопируется, затем откроется Discord. Добавьте petrovortex и вставьте текст в наш чат."
+  copy_and_open: "Скопировать и открыть"
+  open_draft: "Открыть черновик"
+  message_copied: "Сообщение скопировано. Вставьте его в переписку и отправьте."
+  message_copy_failed: "Скопируйте готовое сообщение ниже и вставьте его в переписку."
+  message_draft_opened: "Черновик готов. Если приложение не открылось, нажмите на ссылку ниже."
+  copy_message: "Готовое сообщение"
+  open_platform: "Открыть платформу"
+  download: Скачать
+  home: Главная
+  blog: Блог
+  library: Библиотека
+  links: Ссылки
+  menu: Меню
+  navigation: Основная навигация
+  skip: Перейти к содержимому
+  unavailable: Перевод пока не готов
+  intro_label: Немного обо мне
+  greeting: Привет, я Александр.
+  bio: Мой опыт объединяет прикладную математику, физику и машинное обучение. Здесь я делюсь проектами, идеями и заметками о том, что изучаю.
+  welcome: Добро пожаловать в мой уголок интернета.
+  cv: Резюме
+  timeline: Мой путь
+  timeline_intro: Несколько глав из моей работы и учёбы.
+  links_kicker: Где меня найти
+  contact: На связи
+  blog_title: Open Notes
+  blog_intro: Проекты, эксперименты и мысли, которые хочется записать.
+  sort: Сортировка
+  newest: Сначала новые
+  views_sort: По просмотрам
+  likes_sort: По лайкам
+  tag: Тема
+  all_tags: Все темы
+  empty_posts: По этой теме пока нет публикаций.
+  reset: Сбросить фильтр
+  views: Просмотры
+  like: Нравится
+  liked: Вам нравится
+  likes: Лайки
+  share: Поделиться
+  copy: Скопировать ссылку
+  discord: Скопировать для Discord
+  native_share: Другие варианты…
+  copied: Ссылка скопирована
+  copy_formula: Скопировать формулу в Markdown
+  formula_copied: Формула скопирована
+  formula_copy_failed: Не удалось скопировать автоматически. Выделите и скопируйте формулу ниже.
+  discord_copied: Скопировано — вставьте ссылку в чат Discord.
+  copy_failed: Не удалось скопировать автоматически. Выделите и скопируйте ссылку.
+  like_failed: Не удалось сохранить лайк. Попробуйте ещё раз.
+  stats_failed: Счётчики сейчас недоступны.
+  toc: В этой статье
+  fold: Свернуть или развернуть раздел
+  section_link: Скопировать ссылку на раздел
+  back_to_top: Наверх
+  references: Ссылки на материалы
+  back: Назад
+  library_intro: Заметки по курсам, книгам и чужим материалам, объединённые в курсы.
+  library_empty_title: Немного места для знаний.
+  library_empty_text: Я готовлю свои конспекты к публикации. Первый курс появится здесь, когда всё будет готово.
+  library_empty_link: А пока можно почитать блог
+  source: Исходный материал
+  notes: заметок
+  note: Заметка
+  library_kicker: Per aspera ad astra
+  course: Курс
+  course_contents: Заметки курса
+  course_empty: Заметки для этого курса готовятся к публикации.
+  previous: Предыдущая заметка
+  next: Следующая заметка
+  links_intro: Где найти меня, следить за моей работой или просто поздороваться.
+  email: Почта
+  rss: RSS-лента
+  feed_intro: Новые публикации Александра Петрова.
+  redirect: Эта страница переехала.
+  continue: Перейти

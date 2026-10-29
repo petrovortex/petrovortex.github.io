@@ -1,0 +1,24 @@
+# Only files listed under items are imported.
+# source paths start in the vault; vault and destination paths start in the site folder.
+# Add one entry per note/post you want to publish. The vault is never edited.
+vault: ../obsidian-vault
+items:
+  - id: efficient-ml-lecture-1
+    source: 001 Present notes/Effective ML/Conspectus/Lecture 1. Introduction.md
+    destination: content/_notes/en/efficient-ml-lecture-1-en.md
+    metadata:
+      title: "Lecture 1. Introduction"
+      lang: en
+      lang_ref: efficient-ml-lecture-1
+      course: efficient-ml
+      order: 1
+      description: "Why efficient machine learning matters: the constraints, trade-offs, and three levers behind the course."
+      permalink: /library/efficient-ml/lecture-1-introduction/
+      image: /assets/images/banners/efficient-ml-01.svg
+      image_dark: /assets/images/banners/efficient-ml-01-dark.svg
+      preview_image: /assets/images/banners/efficient-ml-01-preview.svg
+      preview_image_dark: /assets/images/banners/efficient-ml-01-preview-dark.svg
+      image_alt: "Accuracy versus resource cost, compressed model weights, and deployment on a chip."
+      math: true
+      references: false
+      copyright_year: 2026

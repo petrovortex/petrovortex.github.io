@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260" viewBox="0 0 960 260">
+<defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".7" fill="#78856b" opacity=".23"/></pattern></defs>
+<rect width="960" height="260" rx="8" fill="#272e26"/><rect width="960" height="260" rx="8" fill="url(#dots)"/>
+
+    <path d="M108 207V54M108 207H341" fill="none" stroke="#a0ac92" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M102 63 108 54 114 63M331 201 341 207 331 213" fill="none" stroke="#a0ac92" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M125 179C158 110 211 82 320 66" fill="none" stroke="#b2c18e"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+    <path d="M148 195C196 142 243 119 325 106" fill="none" stroke="#a0ac92" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".35" stroke-dasharray="4 6"/>
+    <circle cx="157" cy="134" r="5" fill="#b2c18e"/><circle cx="205" cy="93" r="5" fill="#b2c18e"/><circle cx="291" cy="71" r="5" fill="#b2c18e"/>
+    <circle cx="185" cy="170" r="4" fill="#a0ac92"/><circle cx="246" cy="131" r="4" fill="#a0ac92"/><circle cx="295" cy="114" r="4" fill="#a0ac92"/>
+    <path d="M245 128 212 98M213 109 212 98 223 100" fill="none" stroke="#b2c18e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <g transform="translate(396 76)"><rect x="0" y="0" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/><rect x="24" y="0" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="48" y="0" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/><rect x="72" y="0" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="0" y="24" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="24" y="24" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/><rect x="48" y="24" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="72" y="24" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/><rect x="0" y="48" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/><rect x="24" y="48" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="48" y="48" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/><rect x="72" y="48" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="0" y="72" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="24" y="72" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/><rect x="48" y="72" width="19" height="19" rx="2" fill="#53624a" opacity=".28"/><rect x="72" y="72" width="19" height="19" rx="2" fill="#b2c18e" opacity=".8"/></g>
+    <path d="M516 124H572M563 117 572 124 563 131" fill="none" stroke="#b2c18e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <g transform="translate(596 99)"><rect x="0" y="0" width="23" height="23" rx="2" fill="#b2c18e" opacity=".8"/><rect x="28" y="0" width="23" height="23" rx="2" fill="#b2c18e" opacity=".8"/><rect x="0" y="28" width="23" height="23" rx="2" fill="#b2c18e" opacity=".8"/><rect x="28" y="28" width="23" height="23" rx="2" fill="#b2c18e" opacity=".8"/></g>
+    <path d="M673 124H722M713 117 722 124 713 131" fill="none" stroke="#b2c18e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="758" y="79" width="92" height="92" rx="6" fill="#323b2f" stroke="#a0ac92" stroke-width="1.6"/>
+    <rect x="778" y="99" width="52" height="52" rx="3" fill="#53624a" opacity=".65"/>
+    <path d="M777 69V79M795 69V79M813 69V79M831 69V79M777 171V181M795 171V181M813 171V181M831 171V181M748 98H758M748 116H758M748 134H758M748 152H758M850 98H860M850 116H860M850 134H860M850 152H860" fill="none" stroke="#a0ac92" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M790 127 800 138 819 115" fill="none" stroke="#b2c18e"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path d="M394 207H490M396 201V213M486 201V213M592 207H652M596 201V213M647 201V213" fill="none" stroke="#a0ac92" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".4"/>
+    <g transform="translate(713 57)"><path d="M-11 0H11M0-11V11M-8-8 8 8M-8 8 8-8" fill="none" stroke="#b2c18e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></g>
+<circle cx="936" cy="236" r="3" fill="#b2c18e"/>
+</svg>

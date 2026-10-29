@@ -1,0 +1,20 @@
+<div class="floating-actions">
+  <button class="author-button" type="button" hidden aria-label="{{ t.write_author }}" title="{{ t.write_author }}">{% include components/icon.html name='message' %}</button>
+  <button class="back-to-top" type="button" hidden aria-label="{{ t.back_to_top }}" title="{{ t.back_to_top }}">↑</button>
+</div>
+<dialog class="contact-dialog" aria-labelledby="contact-title" data-email="{{ site.email }}">
+  <div class="dialog-heading"><h2 id="contact-title">{{ t.write_author }}</h2><button type="button" data-close-contact aria-label="{{ t.close }}">{% include components/icon.html name='close' %}</button></div>
+  <form class="author-form">
+    <label for="reader-message">{{ t.your_message }}</label>
+    <textarea id="reader-message" rows="6" maxlength="2000" required aria-describedby="message-rules message-error"></textarea>
+    <div class="message-caption"><p id="message-rules">{{ t.message_rules }}</p><span data-message-count>0 / 2000</span></div>
+    <p id="message-error" class="form-error" role="alert" hidden></p>
+    <label for="message-platform">{{ t.send_via }}</label>
+    <select id="message-platform"><option value="telegram">Telegram</option><option value="email">{{ t.email }}</option><option value="x">X / Twitter</option><option value="discord">Discord</option></select>
+    <p class="platform-hint"></p>
+    <button class="contact-submit" type="submit">{{ t.continue }}</button>
+    <p class="contact-result" role="status"></p>
+    <div class="message-fallback" hidden><label for="prepared-message">{{ t.copy_message }}</label><textarea id="prepared-message" rows="5" readonly></textarea><a class="text-link" data-open-platform target="_blank" rel="noopener noreferrer">{{ t.open_platform }} ↗</a></div>
+  </form>
+</dialog>
+<script id="contact-settings" type="application/json">{{ site.data.contact | jsonify }}</script>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ page.lang }}">
+<title>Open Notes · Alexander Petrov</title>
+<link href="{{ page.url | absolute_url }}" rel="self"/>
+<link href="{{ page.blog_url | absolute_url }}"/>
+<id>{{ page.blog_url | absolute_url }}</id>
+<updated>{{ site.time | date_to_xmlschema }}</updated>
+<author><name>Alexander Petrov</name></author>
+{% assign feed_posts = site.posts | where: 'lang', page.lang | where_exp: 'post', 'post.redirect_to == nil' %}{% for post in feed_posts limit:50 %}
+<entry>
+<title>{{ post.title | xml_escape }}</title>
+<link href="{{ post.url | absolute_url }}"/>
+<id>{{ post.url | absolute_url }}</id>
+<published>{{ post.date | date_to_xmlschema }}</published>
+<updated>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</updated>
+<summary type="html">{{ post.excerpt | xml_escape }}</summary>
+{% capture href_prefix %}href="{{ '/' | absolute_url }}{% endcapture %}{% capture src_prefix %}src="{{ '/' | absolute_url }}{% endcapture %}
+<content type="html" xml:base="{{ post.url | absolute_url }}">{{ post.content | replace: 'href="/', href_prefix | replace: 'src="/', src_prefix | xml_escape }}</content>
+</entry>{% endfor %}
+</feed>

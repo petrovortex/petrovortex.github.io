@@ -1,11 +1,53 @@
-title: Open Notes
+title: Alexander Petrov
+author: Alexander Petrov
 email: alex.petrovortex@gmail.com
-description: >
-  Блог Саши Петрова.
+description: Notes on machine learning, research, and things I'm learning.
 url: "https://petrovortex.github.io"
+baseurl: ""
 permalink: /:title/
 timezone: Europe/Moscow
-
-plugins:
-  - jekyll-seo-tag
-  - jekyll-feed
+lang: en
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+# Native Jekyll collection container; underscores remain required.
+collections_dir: content
+collections:
+  courses:
+    output: true
+  notes:
+    output: true
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      section: blog
+  - scope:
+      path: ""
+      type: courses
+    values:
+      layout: course
+      section: library
+  - scope:
+      path: ""
+      type: notes
+    values:
+      layout: note
+      section: library
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - docs
+  - scripts
+  - config
+  - tests
+  - package.json
+  - package-lock.json
+  - node_modules
+  - vendor
+  - .bundle
+  - .preview
