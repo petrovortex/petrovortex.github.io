@@ -12,6 +12,12 @@ Internal links stay in the current tab. External links, including CV links, open
 
 The theme follows the device preference initially. The header toggle stores a light/dark preference in the current browser. A small startup script applies it before the page paints; theme controls still work when persistent storage is unavailable.
 
+At widths up to 700 CSS pixels, Blog and Library stay in the header. Links, language, and theme controls move into a compact dropdown, with a divider before the controls. Opening it does not move the page. Below 360 pixels, Blog and Library also move into the menu; the name and menu button remain visible. Escape, clicking outside, or tabbing out closes the menu.
+
+The homepage portrait switches between two photos when clicked or activated with Enter/Space. Opening the page starts with the default photo. Without JavaScript, that photo remains visible.
+
+The static, text-sized rainbow emoji beside the footer copyright toggles optional accent colours, independently of light/dark mode. This choice persists across pages in browser storage; clicking again restores the usual accents. There are no rainbow animations or pointer effects. Body text and page surfaces keep the main theme's colours. Reduced-motion preferences disable the photo-flip transition.
+
 ## Sorting and topics
 
 Blog and Library share these options:

@@ -1,5 +1,6 @@
 name: Alexander Petrov
-portrait: /assets/images/alexander-petrov.png
+portrait: /assets/images/main_page.jpg
+portrait_alternate: /assets/images/main_page_back.jpg
 cv:
   en: https://github.com/petrovortex/resume/blob/master/cv.pdf
   ru: https://github.com/petrovortex/resume/blob/master/cv_ru.pdf

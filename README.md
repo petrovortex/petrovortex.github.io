@@ -62,6 +62,7 @@ Choose a task:
 | Add banners and separate list thumbnails | [Artwork](docs/banner-design.md) |
 | Generate consistent artwork with an image model | [Reusable prompts](docs/artwork-prompts.md) |
 | Change profile data, links, language text, or integrations | [Configuration](docs/configuration.md) |
+| Replace the homepage photos | [Portrait settings](docs/configuration.md#homepage-photos) |
 | Understand sorting, likes, sharing, RSS, or caching | [Site behavior](docs/site-features.md) |
 | Find code or decide where a new file belongs | [Repository architecture](docs/architecture.md) |
 | Run checks or prepare a publication | [Development and publishing](docs/development.md) |

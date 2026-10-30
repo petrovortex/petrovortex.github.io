@@ -42,7 +42,17 @@ if (directory.endsWith('_site')) {
   const ru = await read('ru/index.html');
   assert.equal(home.documentElement.lang, 'en');
   assert.equal(ru.documentElement.lang, 'ru');
-  assert.equal(home.querySelectorAll('.timeline li').length, 4);
+  assert.equal(home.querySelectorAll('.timeline li').length, 5);
+  for (const [page, prefix] of [[home, ''], [ru, '/ru']]) {
+    assert(page.querySelector('.timeline').textContent.includes('2007'));
+    assert.deepEqual([...page.querySelectorAll('.hero-navigation a')].map(a => new URL(a.getAttribute('href'), origin + prefix + '/').pathname), [prefix + '/blog/', prefix + '/library/', prefix + '/links/']);
+    assert(page.querySelector('.portrait-front[src$="main_page.jpg"]'));
+    assert(page.querySelector('.portrait-back[src$="main_page_back.jpg"]'));
+    assert.equal(page.querySelector('.portrait-toggle').getAttribute('aria-pressed'), 'false');
+    assert.equal(page.querySelectorAll('.header-settings .theme-toggle').length, 1);
+    assert.equal(page.querySelector('.menu-toggle').getAttribute('aria-controls'), 'header-menu');
+    assert(page.querySelector('.rainbow-toggle'));
+  }
   assert.equal(home.querySelectorAll('.post-row').length, 0);
   const library = await read('library/index.html');
   const course = await read('library/efficient-ml/index.html');
@@ -61,6 +71,7 @@ if (directory.endsWith('_site')) {
     assert.equal(blogPage.querySelector('.page-heading .eyebrow').textContent, prefix ? 'Блог' : 'Blog');
     assert.equal(libraryPage.querySelector('.page-heading .eyebrow').textContent, 'Per aspera ad astra');
     assert.equal(linksPage.querySelector('.page-heading .eyebrow').textContent, prefix ? 'Где меня найти' : 'Find me');
+    assert(!linksPage.querySelector('.link-row .link-description'));
   }
   const sortOptions = doc => [...doc.querySelectorAll('.listing-controls option')].map(option => [option.value, option.textContent]);
   assert.deepEqual(sortOptions(library), sortOptions(blog));

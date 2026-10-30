@@ -1,5 +1,7 @@
 import { initTheme } from './theme.js';
 import { initNavigation } from './navigation.js';
+import { initPortrait } from './portrait.js';
+import { initAccentTheme } from './accent-theme.js';
 import { initExternalLinks } from './external-links.js';
 import { initContact, initScrollTop } from './contact.js';
 import { initListings } from './listings.js';
@@ -49,6 +51,8 @@ document.querySelectorAll('[data-share]').forEach(button => button.addEventListe
   await copy(url, button.dataset.share === 'discord' ? texts.discord_copied : texts.copied);
 }));
 initTheme(document, texts);
+initAccentTheme(document, texts);
+initPortrait(document, texts);
 initContact({ texts });
 initScrollTop();
 initExternalLinks();

@@ -13,8 +13,8 @@ On this page: [Site data](#site-data) · [Presentation](#presentation) · [Integ
 | Title, author for exports, email, public origin, timezone | [_config.yml](../_config.yml) | Restart Jekyll after editing; rebuild exports after changing origin or author |
 | Greeting, bio, page introductions, interface translations | [_data/ui.yml](../_data/ui.yml) | Keep corresponding `en` and `ru` keys together |
 | Portrait, CV URLs, career timeline | [_data/profile.yml](../_data/profile.yml) | Timeline labels have language-specific values |
-| Social profiles, descriptions, groups, and icons | [_data/social.yml](../_data/social.yml) | Used by Links and the footer; group IDs are `personal`, `channels`, and `code` |
-| Reader-message handles | [_data/contact.yml](../_data/contact.yml) | Separate from public link descriptions; email comes from `_config.yml` |
+| Social profiles, platform names, groups, and icons | [_data/social.yml](../_data/social.yml) | Used by Links and the footer; group IDs are `personal`, `channels`, and `code`. Links show platform names without descriptions |
+| Reader-message handles | [_data/contact.yml](../_data/contact.yml) | Separate from public profile links; email comes from `_config.yml` |
 | Selected vault files | [config/obsidian-imports.yml](../config/obsidian-imports.yml) | Selects vault notes and sets their publication properties |
 | Course description, topics, status, attribution | Its file in [_courses](../content/_courses/) | See [course fields](content-reference.md#course-fields) |
 
@@ -23,6 +23,17 @@ Save the edited file and refresh the browser after the local preview rebuilds. I
 The displayed author name is also present in `_layouts/default.html`, `_layouts/home.html`, and `_includes/site/feed.xml`; changing `_config.yml` alone does not replace those strings. Profile content and the AP favicon are authored assets, not generated from the config's name field.
 
 In `_data/contact.yml`, a numeric `discord_id` enables a Discord profile link for reader messages. With only the handle, the form explains how to find the author. Changing a social URL does not automatically change the contact form's destination.
+
+### Homepage photos
+
+Put the two image files under `assets/images/`. In `_data/profile.yml`, set `portrait` to the default image's site path and `portrait_alternate` to the second image's path. For example:
+
+```yaml
+portrait: /assets/images/portrait.jpg
+portrait_alternate: /assets/images/portrait-alternate.jpg
+```
+
+The first image also supplies the default social preview image. The alternate appears only after a visitor activates the portrait. Removing `portrait_alternate` leaves a static photo. The square crop is controlled by `.portrait-frame img` in `assets/css/style.css`; the source images are unchanged.
 
 ## Presentation
 
@@ -58,7 +69,8 @@ There is no automatic Substack publisher or messaging backend. See [Site behavio
 
 ## Credits and licenses
 
-The compact footer colophon is defined in [_includes/site/credits.html](../_includes/site/credits.html). It credits Lucide/Feather UI icons, Simple Icons brand icons, Inter, Jekyll, and MathJax. Vendored icon license files are in [assets/licenses](../assets/licenses/).
+The compact footer colophon is defined in [_includes/site/credits.html](../_includes/site/credits.html). It credits Lucide/Feather UI icons, Simple Icons brand icons, Inter, Jekyll, and MathJax. Third-party license files are in [assets/licenses](../assets/licenses/).
+
 
 The custom illustrations and AP favicon are site artwork. Course-specific attribution belongs in course metadata and appears on note pages and downloads, separate from the footer credits. This repository currently has no repository-wide `LICENSE` file.
 

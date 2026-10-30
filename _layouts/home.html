@@ -11,7 +11,14 @@ layout: default
     <p class="hero-welcome">{{ t.welcome }}</p>
     <a class="text-link cv-link" href="{{ profile.cv[page.lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {% include components/icon.html name='arrow' %}</a>
   </div>
-  <figure class="portrait-frame"><img src="{{ profile.portrait | relative_url }}" width="240" height="300" alt="Alexander Petrov" fetchpriority="high"></figure>
+  {% if profile.portrait_alternate %}
+  <button class="portrait-frame portrait-toggle" type="button" aria-pressed="false" aria-label="{{ t.portrait_flip }}" title="{{ t.portrait_flip }}" disabled>
+    <span class="portrait-images" aria-hidden="true">
+      <img class="portrait-front" src="{{ profile.portrait | relative_url }}" width="1368" height="1824" alt="" fetchpriority="high">
+      <img class="portrait-back" src="{{ profile.portrait_alternate | relative_url }}" width="1368" height="1824" alt="" decoding="async">
+    </span>
+  </button>
+  {% else %}<figure class="portrait-frame"><img src="{{ profile.portrait | relative_url }}" width="1368" height="1824" alt="Alexander Petrov" fetchpriority="high"></figure>{% endif %}
 </section>
 <section class="timeline-section" aria-labelledby="timeline-heading">
   <div class="section-intro"><h2 id="timeline-heading">{{ t.timeline }}</h2><p>{{ t.timeline_intro }}</p></div>

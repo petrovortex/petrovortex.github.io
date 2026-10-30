@@ -58,7 +58,7 @@
     <div class="footer-top"><a class="footer-name" href="{{ base | append: '/' | relative_url }}">Alexander Petrov<span class="name-dot">.</span></a><nav aria-label="Footer"><a href="{{ base | append: '/' | relative_url }}">{{ t.home }}</a>{% for section in sections %}<a href="{{ base | append: '/' | append: section | append: '/' | relative_url }}">{{ t[section] }}</a>{% endfor %}<a href="{{ site.data.profile.cv[lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }}</a></nav></div>
     <div class="footer-social">{% for social in site.data.social %}<a href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{{ social.label }}</a>{% endfor %}<a href="mailto:{{ site.email }}" target="_blank" rel="noopener noreferrer">{{ t.email }}</a><a href="{{ base | append: '/feed.xml' | relative_url }}">RSS</a></div>
     {% include site/credits.html %}
-    <p class="copyright">© {{ site.time | date: '%Y' }} Alexander Petrov</p>
+    <p class="copyright"><span>© {{ site.time | date: '%Y' }} Alexander Petrov</span><button class="rainbow-toggle" type="button" aria-label="{{ t.rainbow_on }}" title="{{ t.rainbow_on }}" aria-pressed="false" hidden>{% include components/rainbow.html %}</button></p>
   </footer>
   {% include site/contact.html %}
   <div class="toast" role="status" aria-live="polite"></div>

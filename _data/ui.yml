@@ -1,4 +1,8 @@
 en:
+  portrait_flip: "Tap to see another side of Alexander"
+  portrait_reset: "Return to the first photo"
+  rainbow_on: "A little rainbow?"
+  rainbow_off: "Return to the usual accents"
   light_mode: "Switch to light mode"
   dark_mode: "Switch to dark mode"
   topics: "Topics"
@@ -122,6 +126,10 @@ en:
   redirect: This page has moved.
   continue: Continue
 ru:
+  portrait_flip: "Нажмите, чтобы увидеть другую сторону Александра"
+  portrait_reset: "Вернуться к первому фото"
+  rainbow_on: "Добавим радугу?"
+  rainbow_off: "Вернуть привычные цвета"
   light_mode: "Включить светлую тему"
   dark_mode: "Включить тёмную тему"
   topics: "Темы"

@@ -103,7 +103,10 @@ Browser modules are served directly from `assets/js/`; there is no bundler or cl
 
 | File | Responsibility |
 | --- | --- |
-| `main.js` | Initialization, mobile menu, sharing, toast/copy UI, and engagement DOM wiring |
+| `main.js` | Initialization, sharing, toast/copy UI, and engagement DOM wiring |
+| `navigation.js` | Mobile menu, keyboard dismissal, and focus handling |
+| `portrait.js` | Homepage photo toggle |
+| `accent-theme.js` | Optional rainbow accents and saved preference |
 | `listings.js` | Shared Blog/Library sorting, topic selection, and filter URL state |
 | `math-copy.js` | Click/keyboard copying of the original formula Markdown |
 | `reader.js` | Contents tracking, section folding, and reference links |
