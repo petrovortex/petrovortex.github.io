@@ -45,6 +45,7 @@ On this page: [Preview](#preview-and-setup) · [Imports](#obsidian-imports) · [
 | Blog post is missing | Check `published`, `lang`, and whether `date` is in the future; verify the dated filename and front matter |
 | A separate thumbnail is missing or wrong in dark mode | Check `preview_image` and its own `preview_image_dark`; the full cover's dark image is not used for a separate preview |
 | A course banner is missing | Check `image` and its file path. If using the older `banner` setting instead, both `<banner>.svg` and `<banner>-dark.svg` must exist in `assets/images/banners/` |
+| Shared link has an old photo, banner, or description | Follow [Link previews](banner-design.md#link-previews), publish the generated images and index, then check the public page's `og:image` and `og:description` tags. If those are current, the receiving app may still be using a cached card |
 | Broken heading link | Check the rendered heading ID, especially duplicate titles or punctuation; use `npm run verify` after building |
 | An empty filtered list persists | Clear selected topics, or remove `topic`/legacy `tag` parameters from the URL |
 

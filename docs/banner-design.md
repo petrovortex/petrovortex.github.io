@@ -6,7 +6,7 @@ A banner appears below the page heading. A thumbnail appears in the Blog, Librar
 
 Paths below start in the **site folder**: the folder containing `package.json` and `_config.yml`. Edit files in a text editor. Run commands in a [terminal opened in that folder](setup.md#where-to-run-commands).
 
-On this page: [Create](#create-artwork) · [Formats](#formats-and-style) · [Save](#save-the-files) · [Assign](#assign-artwork) · [Review](#review-and-publish) · [SVG script](#regenerate-vector-artwork)
+On this page: [Create](#create-artwork) · [Formats](#formats-and-style) · [Save](#save-the-files) · [Assign](#assign-artwork) · [Link previews](#link-previews) · [Review](#review-and-publish) · [SVG script](#regenerate-vector-artwork)
 
 ## Create artwork
 
@@ -107,6 +107,29 @@ preview_image_dark: /assets/images/example-topic/thumbnail-dark.png
 For vault images, use attachment paths such as `Attachments/example-topic/banner-dark.png` and remove competing values from the import entry's `metadata` block.
 
 Without `preview_image`, the banner is also used as the thumbnail. An older course `banner` setting selects a named SVG pair; `image` takes precedence. See [Image fields](content-reference.md#image-fields) for the complete rules.
+
+## Link previews
+
+Sharing a page URL uses its title, description, and light banner automatically. These Open Graph and X card tags are written into the HTML; the receiving app does not need to run JavaScript.
+
+| Item | Preview text | Preview image |
+| --- | --- | --- |
+| Homepage | `bio` for that language in `_data/ui.yml` | `portrait` in `_data/profile.yml` |
+| Post | `description`, or `excerpt` if no description is set | `image` |
+| Note or course | `description` | `image`, or a course's named `banner` |
+| Blog or Library index | Its introduction in `_data/ui.yml` | Its section banner |
+
+Edit article fields in the same front matter or import metadata block described under [Assign artwork](#assign-artwork). No additional preview fields are required. Without a banner, the preview uses `preview_image`, then the profile portrait. The separate list thumbnail remains unchanged.
+
+`content:sync`, `content:exports`, `content:watch`, and the preview/build wrapper generate public preview images automatically. To refresh only link images, run this command in a [terminal opened in the site folder](setup.md#where-to-run-commands):
+
+```sh
+npm run previews:build
+```
+
+Local SVGs become PNGs; raster images are copied without changing their pixels. Generated files go in `assets/images/social/`, with a source-to-output index at `_data/social_images.json`. Their filenames change when image contents change. Commit both the images and index when publishing; GitHub Pages does not run this generation command. Do not edit these outputs directly.
+
+Link previews become available to other apps after publication. An app may keep an older card in its cache, even when the public page is current. Updating an image URL helps with image caching but does not force apps to fetch the page again. Previously sent messages may retain their original preview.
 
 ## Review and publish
 

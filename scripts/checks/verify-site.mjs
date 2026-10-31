@@ -24,6 +24,16 @@ for (const file of htmlFiles) {
   if (doc.body.textContent.includes('[[')) failures.push(file + ': unresolved wiki links');
 }
 for (const [file, doc] of docs) {
+  const meta = name => doc.querySelector('meta[property="' + name + '"], meta[name="' + name + '"]')?.content;
+  for (const name of ['og:title', 'og:description', 'og:image', 'twitter:card', 'twitter:title', 'twitter:description', 'twitter:image']) {
+    assert(meta(name)?.trim(), file + ': missing ' + name);
+  }
+  assert.equal(meta('twitter:title'), meta('og:title'));
+  assert.equal(meta('twitter:description'), meta('og:description'));
+  assert.equal(meta('twitter:image'), meta('og:image'));
+  const preview = new URL(meta('og:image'));
+  assert(/\.(png|jpe?g|webp|gif)$/i.test(preview.pathname), file + ': preview must be a raster image');
+  if (preview.origin === origin) await fs.access(path.join(directory, decodeURIComponent(preview.pathname)));
   for (const el of doc.querySelectorAll('a[href], img[src], script[src], link[rel="stylesheet"]')) {
     const url = new URL(el.getAttribute('href') || el.getAttribute('src'), doc.URL);
     if (url.origin !== origin) continue;
@@ -52,6 +62,8 @@ if (directory.endsWith('_site')) {
     assert.equal(page.querySelectorAll('.header-settings .theme-toggle').length, 1);
     assert.equal(page.querySelector('.menu-toggle').getAttribute('aria-controls'), 'header-menu');
     assert(page.querySelector('.rainbow-toggle'));
+    assert(page.querySelector('meta[property="og:image"]').content.includes('/social/main_page-'));
+    assert.equal(page.querySelector('meta[property="og:description"]').content, page.querySelector('.hero-bio').textContent.trim());
   }
   assert.equal(home.querySelectorAll('.post-row').length, 0);
   const library = await read('library/index.html');
@@ -140,6 +152,7 @@ if (directory.endsWith('fixture-site')) {
   assert(course.querySelector('.article-cover .art-dark[src$="favicon-ap.png"]'));
   assert.equal(course.querySelector('.article-cover figcaption').textContent, 'A caption for the uploaded cover.');
   assert(!course.querySelector('.page-banner'), 'An uploaded cover must replace the named SVG banner');
+  assert(course.querySelector('meta[property="og:image"]').content.includes('/social/favicon-ap-'), 'Preview must also prefer the uploaded cover');
   assert(library.querySelector('.course-row .card-preview img[src$="base_scheme.svg"]'), 'The list must use its separate thumbnail');
 
 }

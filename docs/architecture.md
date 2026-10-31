@@ -21,7 +21,7 @@ This table groups folders by purpose. [README lists every source entry at the ro
 | Verification | `tests/` | Browser/content behavior tests and synthetic site content |
 | Documentation | `docs/` | Task guides, references, and authoring templates |
 
-Generated public files live beside the sources that consume them: downloads in `assets/downloads/`, their index in `_data/downloads.json`, and rendered articles with formulas or footnotes in `_includes/compiled/`. See [generated-file ownership](development.md#generated-files) before editing them.
+Generated public files include downloads in `assets/downloads/`, their index in `_data/downloads.json`, link images in `assets/images/social/` with `_data/social_images.json`, and rendered articles with formulas or footnotes in `_includes/compiled/`. See [generated-file ownership](development.md#generated-files) before editing them.
 
 ## Root files
 
@@ -86,7 +86,7 @@ A route or content document selects a layout through front matter or `_config.ym
 ```text
 _layouts/                 Page layouts, named for their content or section
 _includes/
-  site/                   Contact dialog, footer credits, and Atom feed
+  site/                   Contact dialog, footer credits, Atom feed, link metadata
   components/             Icons, banners, preview images, list controls, engagement
   article/                Shared reader and download links
   library/                Course status, last-update calculation, note counts
@@ -141,6 +141,7 @@ scripts/
   artwork/
     build-banners.mjs     Banner and thumbnail source drawings
     build-favicon.mjs     SVG-to-PNG favicon conversion
+    build-social-previews.mjs  Raster link images and their source index
   checks/
     verify-site.mjs       Generated routes, assets, controls, feeds, and downloads
     verify-docs.mjs       Documentation links, headings, examples, and template fields

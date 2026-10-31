@@ -1,0 +1,50 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { buildSocialPreviews, previewSource } from '../../scripts/artwork/build-social-previews.mjs';
+
+test('previews prefer the full cover, support named course banners, and fall back to a thumbnail or portrait', () => {
+  assert.equal(previewSource({ image: '/cover.png', banner: 'course', preview_image: '/thumb.png' }, '/face.jpg'), '/cover.png');
+  assert.equal(previewSource({ banner: 'course' }, '/face.jpg'), '/assets/images/banners/course.svg');
+  assert.equal(previewSource({ preview_image: '/thumb.png' }, '/face.jpg'), '/thumb.png');
+  assert.equal(previewSource({ layout: 'library' }, '/face.jpg'), '/assets/images/banners/library.svg');
+  assert.equal(previewSource({}, '/face.jpg'), '/face.jpg');
+});
+
+test('preview generation rasterizes SVGs, copies photos, changes URLs with image bytes, and is repeatable', async t => {
+  const parent = path.resolve('.preview');
+  await fs.mkdir(parent, { recursive: true });
+  const root = await fs.mkdtemp(path.join(parent, 'social-test-'));
+  t.after(async () => { assert.equal(path.dirname(root), parent); await fs.rm(root, { recursive: true, force: true }); });
+  const write = async (file, bytes) => { await fs.mkdir(path.dirname(path.join(root, file)), { recursive: true }); await fs.writeFile(path.join(root, file), bytes); };
+  const photo = await fs.readFile('assets/favicon-ap.png');
+  await write('_config.yml', 'collections_dir: content\n');
+  await write('_data/profile.yml', 'portrait: /assets/photo.png\n');
+  await write('assets/photo.png', photo);
+  await write('assets/images/banners/example.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260"><rect width="960" height="260" fill="#60754f"/></svg>');
+  await write('content/_courses/en/example.md', '---\nbanner: example\n---\n');
+  await write('content/_posts/en/2026-01-01-example.md', '---\nimage: /assets/images/banners/example.svg\n---\n');
+  await write('content/_notes/en/one.md', '---\nimage: /assets/photo.png\n---\n');
+  await write('content/_notes/en/draft.md', '---\npublished: false\nimage: /assets/missing.png\n---\n');
+  await write('pages/en/home.html', '---\nlayout: home\n---\n');
+  await write('pages/en/remote.html', '---\nimage: https://example.com/banner.jpg\n---\n');
+  const index = await buildSocialPreviews(root);
+  assert.equal(Object.keys(index).length, 2);
+  const svg = index['/assets/images/banners/example.svg'];
+  assert.equal(svg.type, 'image/png');
+  assert.deepEqual([svg.width, svg.height], [1200, 325]);
+  const png = await fs.readFile(path.join(root, svg.path));
+  assert.equal(png.subarray(1, 4).toString(), 'PNG');
+  assert.equal(png.readUInt32BE(16), 1200);
+  assert((await fs.readFile(path.join(root, index['/assets/photo.png'].path))).equals(photo));
+  const before = (await fs.stat(path.join(root, svg.path))).mtimeMs;
+  assert.deepEqual(await buildSocialPreviews(root), index);
+  assert.equal((await fs.stat(path.join(root, svg.path))).mtimeMs, before);
+  await write('assets/images/banners/example.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260"><rect width="960" height="260" fill="red"/></svg>');
+  const changed = await buildSocialPreviews(root);
+  assert.notEqual(changed['/assets/images/banners/example.svg'].path, svg.path);
+  assert.deepEqual(changed['/assets/photo.png'], index['/assets/photo.png']);
+  await write('content/_notes/en/one.md', '---\nimage: /assets/../../private.png\n---\n');
+  await assert.rejects(buildSocialPreviews(root), /escapes its root/);
+});

@@ -48,6 +48,7 @@ when "fixtures"
       FileUtils.cp(file, target)
     end
   end
+  abort "Fixture link previews failed." unless system("node", File.join(ROOT, "scripts/artwork/build-social-previews.mjs"), fixture_source)
   config = Jekyll.configuration({
     "config" => File.join(ROOT, "_config.yml"),
     "source" => fixture_source,

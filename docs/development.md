@@ -56,6 +56,7 @@ After visual changes, inspect the affected pages in the local preview, in both t
 | Imported documents carrying `obsidian_import` | Vault note + manifest metadata | Yes |
 | `assets/imported/` | Referenced vault attachments | Yes |
 | `assets/downloads/`, `_data/downloads.json`, `_includes/compiled/` | Posts, notes, course attribution, export scripts | Yes |
+| `assets/images/social/`, `_data/social_images.json` | Cover images, named banners, profile portrait; refreshed by content commands and preview/build | Yes |
 | Named SVG outputs of [the artwork script](banner-design.md#regenerate-vector-artwork) | `scripts/artwork/build-banners.mjs` | Yes |
 | `assets/favicon-ap.png` | `assets/favicon.svg` | Yes |
 | `_site/` | Jekyll source | No |

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { parse } from 'yaml';
 import { importObsidian, DEFAULT_MANIFEST } from './content/import-obsidian.mjs';
 import { exportContent } from './content/export-content.mjs';
@@ -12,6 +13,8 @@ const arg = process.argv.indexOf('--vault');
 const vault = arg >= 0 ? process.argv[arg + 1] : process.env.OBSIDIAN_VAULT;
 async function sync() {
   if (!exportsOnly) await importObsidian(root, DEFAULT_MANIFEST, vault);
+  // Isolate the SVG renderer from the PDF exporter's WASM instance.
+  execFileSync(process.execPath, [path.join(root, 'scripts/artwork/build-social-previews.mjs')], { stdio: 'inherit' });
   await exportContent(root);
 }
 async function fingerprint() {
@@ -26,6 +29,7 @@ async function fingerprint() {
   const directories = ['_posts', '_notes', '_courses'].map(dir => path.join(contentRoot, dir));
   directories.push(path.join(root, 'assets/images'), path.join(root, 'assets/imported'));
   const site = (await Promise.all(directories.map(walk))).flat();
+  site.push(...await walk(path.join(root, 'pages')), ...await walk(path.join(root, '_data')));
   const hash = createHash('sha256');
   for (const file of [...new Set([manifestPath, path.join(root,'_config.yml'), ...sources, ...attachments, ...site])].sort()) {
     const stat = await fs.stat(file);

@@ -20,7 +20,7 @@ Source files and folders at the site root:
 
 ```text
 _config.yml          Site settings and Jekyll collections
-_data/               Profile, links, translations, and download index
+_data/               Profile, links, translations, and generated asset indexes
 _includes/           Shared page fragments and generated article HTML
 _layouts/            Page layouts
 assets/              Images, styles, browser scripts, and downloads
@@ -57,6 +57,7 @@ Choose a task:
 | Add a post, course, or lecture note | [Content authoring](docs/author-guide.md) |
 | Edit the links in Course materials | [Course material settings](docs/author-guide.md#course-materials) |
 | Look up a front matter field, date, or identifier | [Content reference](docs/content-reference.md) |
+| Update the card shown when a link is shared | [Link previews](docs/banner-design.md#link-previews) |
 | Configure Obsidian imports or understand PDF/Markdown exports | [Import and download reference](docs/content-workflow.md) |
 | Cite papers with numbered references | [Citation syntax and commands](docs/author-guide.md#add-numbered-references) |
 | Add banners and separate list thumbnails | [Artwork](docs/banner-design.md) |

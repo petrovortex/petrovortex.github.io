@@ -23,7 +23,7 @@ content/_posts/ and content/_notes/ + referenced assets
 
 The importer reads the vault without editing it. Only manifest entries become site documents. Directly authored posts and notes are read from `content/_posts/` and `content/_notes/`; they need no vault. Courses are authored in the repository.
 
-Jekyll's preview/build wrapper refreshes exports, but **does not import the vault**. Sync selected notes before a one-time build, or keep the content watcher running during editing.
+Content commands also refresh [link preview images](banner-design.md#link-previews) from covers and the profile portrait. Jekyll's preview/build wrapper refreshes these images and exports, but **does not import the vault**. Sync selected notes before a one-time build, or keep the content watcher running during editing.
 
 ## Import manifest
 

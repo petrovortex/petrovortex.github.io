@@ -1,0 +1,36 @@
+{
+  "/assets/images/banners/agentic-ai.svg": {
+    "path": "/assets/images/social/agentic-ai-53448ed843c37cad.png",
+    "type": "image/png",
+    "width": 1200,
+    "height": 325
+  },
+  "/assets/images/banners/blog.svg": {
+    "path": "/assets/images/social/blog-d8d22edebc3d2d4c.png",
+    "type": "image/png",
+    "width": 1200,
+    "height": 325
+  },
+  "/assets/images/banners/efficient-ml-01.svg": {
+    "path": "/assets/images/social/efficient-ml-01-c478873411c97c0f.png",
+    "type": "image/png",
+    "width": 1200,
+    "height": 325
+  },
+  "/assets/images/banners/efficient-ml.svg": {
+    "path": "/assets/images/social/efficient-ml-56e2ce0ee8e39595.png",
+    "type": "image/png",
+    "width": 1200,
+    "height": 325
+  },
+  "/assets/images/banners/library.svg": {
+    "path": "/assets/images/social/library-2820fbc2adeb41f2.png",
+    "type": "image/png",
+    "width": 1200,
+    "height": 325
+  },
+  "/assets/images/main_page.jpg": {
+    "path": "/assets/images/social/main_page-8fcc08ef59f1870f.jpg",
+    "type": "image/jpeg"
+  }
+}

@@ -9,6 +9,7 @@
     "content:watch": "node scripts/content.mjs --watch",
     "content:exports": "node scripts/content.mjs --exports-only",
     "art:build": "node scripts/artwork/build-banners.mjs",
+    "previews:build": "node scripts/artwork/build-social-previews.mjs",
     "verify:fixtures": "node scripts/checks/verify-site.mjs .preview/fixture-site",
     "verify:docs": "node scripts/checks/verify-docs.mjs",
     "art:favicon": "node scripts/artwork/build-favicon.mjs",
