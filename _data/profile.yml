@@ -1,11 +1,14 @@
-name: Alexander Petrov
+name: Aleksandr Petrov
 portrait: /assets/images/main_page.jpg
 portrait_alternate: /assets/images/main_page_back.jpg
 cv:
   en: https://github.com/petrovortex/resume/blob/master/cv.pdf
-  ru: https://github.com/petrovortex/resume/blob/master/cv_ru.pdf
+  ru: https://github.com/petrovortex/resume/blob/master/cv.pdf
 timeline:
   - date:
+      en: Mar 2026
+      ru: Март 2026
+    period:
       en: Mar — Jun 2026
       ru: Март — июнь 2026
     title:
@@ -15,50 +18,188 @@ timeline:
       en: Institute of Control Sciences, RAS
       ru: Институт проблем управления РАН
     detail:
-      en: Agent tool routing and the robustness of AI text detectors.
-      ru: Маршрутизация инструментов в агентных системах и устойчивость детекторов ИИ-текстов.
+      en: Robustness of AI-generated text detectors under cross-lingual translation.
+      ru: Устойчивость детекторов ИИ-текстов при межъязыковом переводе.
   - date:
-      en: "2025"
-      ru: "2025"
+      en: Jun 2025
+      ru: Июнь 2025
     title:
-      en: MSc, Applied Mathematics & Physics
-      ru: Магистратура — прикладные математика и физика
+      en: MSc graduation with honors
+      ru: Магистратура с отличием
     place:
       en: Moscow Institute of Physics and Technology
       ru: Московский физико-технический институт
     detail:
-      en: Graduated with a GPA of 4.9 / 5.
-      ru: Средний балл — 4,9 из 5.
+      en: "Applied Mathematics & Physics. GPA: 4.9 / 5."
+      ru: "Прикладные математика и физика. Средний балл: 4,9 / 5."
   - date:
-      en: 2021 — 2025
-      ru: 2021 — 2025
+      en: Spring 2025
+      ru: Весна 2025
+    title:
+      en: Rector's Commendation for Academic Excellence
+      ru: Благодарность ректора за успехи в учёбе
+    place:
+      en: MIPT
+      ru: МФТИ
+  - date:
+      en: Spring 2025
+      ru: Весна 2025
+    title:
+      en: Research paper and presentation awards
+      ru: Награды за научную работу и доклад
+    place:
+      en: 67th All-Russian Scientific Conference of MIPT
+      ru: 67-я Всероссийская научная конференция МФТИ
+    detail:
+      en: Research Paper Competition prize winner at the School of Aerospace Technology; Best Presentation Award in Theoretical and Applied Aerohydrodynamics.
+      ru: Призёр конкурса научных работ Физтех-школы аэрокосмических технологий; лучший доклад на секции теоретической и прикладной аэрогидродинамики.
+  - date:
+      en: Spring 2025
+      ru: Весна 2025
+    title:
+      en: Winner, “I am a Professional” Olympiad
+      ru: Победитель олимпиады «Я — профессионал»
+    place:
+      en: Mathematical Modeling
+      ru: Математическое моделирование
+  - date:
+      en: Sep 2023
+      ru: Сентябрь 2023
+    title:
+      en: MSc admission and merit scholarship
+      ru: Поступление в магистратуру и стипендия
+    place:
+      en: MIPT, Applied Mathematics & Physics
+      ru: МФТИ, прикладные математика и физика
+    detail:
+      en: "Government Graduate Merit Scholarship: full tuition and state academic stipend."
+      ru: Полная оплата обучения и государственная академическая стипендия.
+  - date:
+      en: Jun 2023
+      ru: Июнь 2023
+    title:
+      en: BSc graduation
+      ru: Окончание бакалавриата
+    place:
+      en: MIPT, Applied Mathematics & Physics
+      ru: МФТИ, прикладные математика и физика
+    detail:
+      en: "GPA: 4.7 / 5."
+      ru: "Средний балл: 4,7 / 5."
+  - date:
+      en: May 2023
+      ru: Май 2023
+    period:
+      en: May 2023 — Nov 2025
+      ru: Май 2023 — ноябрь 2025
     title:
       en: Research Engineer
       ru: Инженер-исследователь
     place:
-      en: Central Aerohydrodynamic Institute (TsAGI)
-      ru: Центральный аэрогидродинамический институт (ЦАГИ)
+      en: Central Aerohydrodynamic Institute (TsAGI), Aeroacoustics
+      ru: Центральный аэрогидродинамический институт (ЦАГИ), отделение аэроакустики
     detail:
-      en: Numerical and theoretical research on aerodynamic noise in hot flows.
-      ru: Численное и теоретическое исследование аэродинамического шума в горячих потоках.
+      en: Aerodynamic sound generation and radiation in hot flows.
+      ru: Генерация и излучение аэродинамического звука в горячих потоках.
   - date:
-      en: "2023"
-      ru: "2023"
+      en: Sep 2021
+      ru: Сентябрь 2021
+    period:
+      en: Sep — Dec 2021
+      ru: Сентябрь — декабрь 2021
     title:
-      en: BSc, Applied Mathematics & Physics
-      ru: Бакалавриат — прикладные математика и физика
+      en: Fluid Dynamics Instructor
+      ru: Преподаватель гидродинамики
     place:
-      en: Moscow Institute of Physics and Technology
-      ru: Московский физико-технический институт
+      en: MIPT
+      ru: МФТИ
     detail:
-      en: Graduated with a GPA of 4.7 / 5.
-      ru: Средний балл — 4,7 из 5.
+      en: Undergraduate elective course.
+      ru: Факультатив для студентов бакалавриата.
   - date:
-      en: 2007 — 2018
-      ru: 2007 — 2018
+      en: Aug 2021
+      ru: Август 2021
+    period:
+      en: Aug 2021 — Feb 2022
+      ru: Август 2021 — февраль 2022
     title:
-      en: School No. 1
-      ru: Школа № 1
+      en: Research Intern
+      ru: Стажёр-исследователь
     place:
-      en: Stroykeramika
-      ru: пгт Стройкерамика
+      en: TsAGI, Aeroacoustics
+      ru: ЦАГИ, отделение аэроакустики
+    detail:
+      en: Spectral characteristics of sound generated by turbulent jets.
+      ru: Спектральные характеристики звука турбулентных струй.
+  - date:
+      en: Jun 2020
+      ru: Июнь 2020
+    period:
+      en: Jun 2020 — Jun 2021
+      ru: Июнь 2020 — июнь 2021
+    title:
+      en: Research Intern
+      ru: Стажёр-исследователь
+    place:
+      en: TsAGI, Computational Fluid Dynamics
+      ru: ЦАГИ, вычислительная гидродинамика
+    detail:
+      en: Homogeneous turbulence.
+      ru: Теория однородной турбулентности.
+  - date:
+      en: Apr 2020
+      ru: Апрель 2020
+    period:
+      en: Apr 2020 — Oct 2021
+      ru: Апрель 2020 — октябрь 2021
+    title:
+      en: BOTAY FALT Project Lead
+      ru: Руководитель BOTAY FALT
+    place:
+      en: MIPT student initiative
+      ru: Студенческая инициатива МФТИ
+  - date:
+      en: Apr 2019
+      ru: Апрель 2019
+    period:
+      en: Apr 2019 — Nov 2024
+      ru: Апрель 2019 — ноябрь 2024
+    title:
+      en: Basketball Club Manager
+      ru: Руководитель баскетбольного клуба
+    place:
+      en: DAFE, MIPT
+      ru: ФАЛТ МФТИ
+    detail:
+      en: Built the team, recruited a coach and sponsors, and established an annual streetball tournament.
+      ru: Собрал команду, привлёк тренера и спонсоров, организовал ежегодный турнир по стритболу.
+  - date:
+      en: Sep 2018
+      ru: Сентябрь 2018
+    title:
+      en: BSc admission and merit scholarship
+      ru: Поступление в бакалавриат и стипендия
+    place:
+      en: MIPT, Applied Mathematics & Physics
+      ru: МФТИ, прикладные математика и физика
+    detail:
+      en: "Government Undergraduate Merit Scholarship: full tuition and state academic stipend."
+      ru: Полная оплата обучения и государственная академическая стипендия.
+  - date:
+      en: "2018"
+      ru: "2018"
+    title:
+      en: School graduation
+      ru: Окончание школы
+    place:
+      en: School No. 1, Stroykeramika
+      ru: Школа № 1, пгт Стройкерамика
+  - date:
+      en: "2007"
+      ru: "2007"
+    title:
+      en: Started school
+      ru: Начало учёбы в школе
+    place:
+      en: School No. 1, Stroykeramika
+      ru: Школа № 1, пгт Стройкерамика

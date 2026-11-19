@@ -1,1 +1,3 @@
-{% assign status = include.course.status | default: 'in_progress' %}<span class="course-status status-{{ status }}" title="{% if status == 'complete' %}{{ t.course_complete_hint }}{% else %}{{ t.course_progress_hint }}{% endif %}"><span aria-hidden="true"></span>{% if status == 'complete' %}{{ t.course_complete }}{% else %}{{ t.course_progress }}{% endif %}</span>
+{% macro courseStatus(course, t) %}
+{% set status = course.status or 'in_progress' %}<span class="course-status status-{{ status }}" title="{{ t.course_complete_hint if status == 'complete' else t.course_progress_hint }}"><span aria-hidden="true"></span>{{ t.course_complete if status == 'complete' else t.course_progress }}</span>
+{% endmacro %}

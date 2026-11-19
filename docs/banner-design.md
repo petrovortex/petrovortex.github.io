@@ -19,7 +19,7 @@ Use the [artwork prompts](artwork-prompts.md#how-to-use) in an image-generation 
 | Banner | 48:13, about 3.69:1 | 960 × 260, or 1920 × 520 for sharper raster images |
 | Thumbnail | 3:2 | 360 × 240, or 720 × 480 for sharper raster images |
 
-Thumbnails are cropped to 3:2. Keep their composition simple enough to recognize at small sizes. Blog artwork uses terracotta; Library artwork uses sage. Use the [prompt colors](artwork-prompts.md#colors), depict the content's subject, and leave titles outside the image.
+Thumbnails are cropped to 3:2. Keep their composition simple enough to recognize at small sizes. Blog artwork uses terracotta, Library uses sage, and Publications uses muted blue. Use the [prompt colors](artwork-prompts.md#colors), depict the content's subject, and leave titles outside the image.
 
 Dark versions are optional. Without them, the same images appear in both themes.
 
@@ -117,7 +117,7 @@ Sharing a page URL uses its title, description, and light banner automatically. 
 | Homepage | `bio` for that language in `_data/ui.yml` | `portrait` in `_data/profile.yml` |
 | Post | `description`, or `excerpt` if no description is set | `image` |
 | Note or course | `description` | `image`, or a course's named `banner` |
-| Blog or Library index | Its introduction in `_data/ui.yml` | Its section banner |
+| Blog, Library, or Publications index | Its introduction in `_data/ui.yml` | Its section banner |
 
 Edit article fields in the same front matter or import metadata block described under [Assign artwork](#assign-artwork). No additional preview fields are required. Without a banner, the preview uses `preview_image`, then the profile portrait. The separate list thumbnail remains unchanged.
 
@@ -127,7 +127,7 @@ Edit article fields in the same front matter or import metadata block described 
 npm run previews:build
 ```
 
-Local SVGs become PNGs; raster images are copied without changing their pixels. Generated files go in `assets/images/social/`, with a source-to-output index at `_data/social_images.json`. Their filenames change when image contents change. Commit both the images and index when publishing; GitHub Pages does not run this generation command. Do not edit these outputs directly.
+Local SVGs become PNGs; raster images are copied without changing their pixels. Generated files go in `assets/images/social/`, with a source-to-output index at `_data/social_images.json`. Their filenames change when image contents change. Commit both the images and index with their sources; the GitHub Actions build also regenerates them before deployment. Do not edit these outputs directly.
 
 Link previews become available to other apps after publication. An app may keep an older card in its cache, even when the public page is current. Updating an image URL helps with image caching but does not force apps to fetch the page again. Previously sent messages may retain their original preview.
 
@@ -138,11 +138,11 @@ Save the edited files. In a [terminal opened in the site folder](setup.md#where-
 | Content | Command to type in the terminal |
 | --- | --- |
 | Imported post or note | `npm run content:sync` |
-| Directly authored post, note, or course | `npm run content:exports` |
+| Directly authored post, note, or course | No extra command while the preview is running; it rebuilds after saving |
 
 If `npm run content:watch` is already running in another terminal, wait for it to finish processing your save instead.
 
-With the [local preview running](setup.md#daily-preview), open <http://127.0.0.1:4000/> in a browser. Refresh the list and the item's page. Check both images in light/dark mode and at a narrow window width. For posts and notes, open the PDF and Markdown downloads too; they use the light banner.
+With the [local preview running](setup.md#daily-preview), open <http://127.0.0.1:4000/> in a browser. Check the list and the item's page in light/dark mode and at a narrow window width. For posts and notes, run `npm run content:exports` before checking updated PDF downloads. PDF and Markdown downloads use the light banner.
 
 Follow [Publishing](development.md#publishing) when ready to update the public site.
 

@@ -1,6 +1,15 @@
-# Alexander Petrov — personal site
+# Aleksandr Petrov — personal site
 
-Source for [petrovortex.github.io](https://petrovortex.github.io): a bilingual Jekyll site with a personal homepage, a blog, and a library of course notes. It builds to static HTML; browser modules add filtering, reading navigation, themes, and engagement controls.
+Source for [petrovortex.github.io](https://petrovortex.github.io): a bilingual Eleventy site with a personal homepage, a blog, a library of course notes, and a publication list. It builds to static HTML; browser modules add filtering, reading navigation, themes, and engagement controls.
+
+For local preview, install Node.js and run these commands in the site folder. On Windows, use PowerShell:
+
+```powershell
+npm.cmd ci
+npm.cmd run dev
+```
+
+Run `npm.cmd ci` once after checkout or dependency updates. Open <http://127.0.0.1:4000/> after the server reports its address. Leave the terminal open; Ctrl+C stops it. macOS/Linux use `npm` instead of `npm.cmd`. Preview requires no Ruby or Python. [Setup](docs/setup.md) covers imports, optional PDF generation, and production builds.
 
 ## Content model
 
@@ -19,9 +28,10 @@ Articles can be written directly in this repository or imported from selected Ob
 Source files and folders at the site root:
 
 ```text
-_config.yml          Site settings and Jekyll collections
-_data/               Profile, links, translations, and generated asset indexes
-_includes/           Shared page fragments and generated article HTML
+_config.yml          Site settings and content location
+eleventy.config.js   Static-site build and preview configuration
+_data/               Profile, links, publications, translations, and asset indexes
+_includes/           Shared page fragments and component macros
 _layouts/            Page layouts
 assets/              Images, styles, browser scripts, and downloads
 config/              Obsidian import settings
@@ -30,15 +40,15 @@ docs/                Documentation and content templates
 pages/               English/Russian sections, redirects, and 404 page
 scripts/             Import, export, preview, artwork, and check commands
 tests/               Automated tests and sample test content
-Gemfile              Ruby dependency list
-Gemfile.lock         Resolved Ruby dependency versions
 package.json         npm commands and Node dependency list
 package-lock.json    Resolved Node dependency versions
 README.md            Project overview and documentation index
 .gitignore           Files and folders excluded from normal Git staging
+.gitattributes       Binary-file handling for PDFs
+.github/             GitHub Pages build and deployment workflow
 ```
 
-A local checkout also contains `.git/`. Installing dependencies or running tools can create `.bundle/`, `node_modules/`, `vendor/`, `.preview/`, and `_site/`. These are explained under [Local folders](docs/architecture.md#local-folders). Subfolder contents and code responsibilities are in [Repository architecture](docs/architecture.md).
+A local checkout also contains `.git/`. Installing dependencies or running tools can create `node_modules/`, `.preview/`, and `_site/`. These are explained under [Local folders](docs/architecture.md#local-folders). Subfolder contents and code responsibilities are in [Repository architecture](docs/architecture.md).
 
 ## Documentation
 
@@ -63,6 +73,7 @@ Choose a task:
 | Add banners and separate list thumbnails | [Artwork](docs/banner-design.md) |
 | Generate consistent artwork with an image model | [Reusable prompts](docs/artwork-prompts.md) |
 | Change profile data, links, language text, or integrations | [Configuration](docs/configuration.md) |
+| Add or edit a publication | [Publication list](docs/configuration.md#publications) |
 | Replace the homepage photos | [Portrait settings](docs/configuration.md#homepage-photos) |
 | Understand sorting, likes, sharing, RSS, or caching | [Site behavior](docs/site-features.md) |
 | Find code or decide where a new file belongs | [Repository architecture](docs/architecture.md) |
@@ -73,4 +84,4 @@ Choose a task:
 
 Start with [setup](docs/setup.md), then use the [daily preview workflow](docs/setup.md#daily-preview). Saving a file, importing a note, or building the site does not commit, push, or publish it. Publication is a [separate step](docs/development.md#publishing).
 
-This repository includes Alexander's writing, profile data, artwork, and existing service configuration. The [configuration reference](docs/configuration.md#scope-and-existing-integrations) identifies those boundaries for anyone inspecting or adapting the code. Third-party asset sources and licenses are documented under [credits](docs/configuration.md#credits-and-licenses).
+This repository includes Aleksandr's writing, profile data, artwork, and existing service configuration. The [configuration reference](docs/configuration.md#scope-and-existing-integrations) identifies those boundaries for anyone inspecting or adapting the code. Third-party asset sources and licenses are documented under [credits](docs/configuration.md#credits-and-licenses).

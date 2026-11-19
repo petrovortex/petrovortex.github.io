@@ -1,13 +1,18 @@
 {
-  "name": "alexander-petrov-site",
+  "name": "aleksandr-petrov-site",
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "node scripts/site.mjs serve",
+    "build": "node scripts/site.mjs build",
+    "validate": "node scripts/site.mjs validate",
+    "fixtures": "node scripts/site.mjs fixtures",
     "test": "node --test tests/browser/*.test.mjs tests/content/*.test.mjs",
     "verify": "node scripts/checks/verify-site.mjs",
-    "content:sync": "node scripts/content.mjs",
-    "content:watch": "node scripts/content.mjs --watch",
+    "content:sync": "node scripts/content.mjs --web-only",
+    "content:watch": "node scripts/content.mjs --watch --web-only",
     "content:exports": "node scripts/content.mjs --exports-only",
+    "content:prepare": "node scripts/content.mjs --exports-only --web-only",
     "art:build": "node scripts/artwork/build-banners.mjs",
     "previews:build": "node scripts/artwork/build-social-previews.mjs",
     "verify:fixtures": "node scripts/checks/verify-site.mjs .preview/fixture-site",
@@ -16,14 +21,14 @@
     "pdf:check": "node scripts/checks/render-pdfs.mjs"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^3.1.8",
     "@resvg/resvg-wasm": "^2.6.2",
+    "browser-sync": "^3.0.4",
     "jsdom": "^26.1.0",
-    "lucide-static": "^1.62.0",
     "markdown-it": "^15.0.3",
     "markdown-it-footnote": "^4.0.0",
     "mathjax-full": "^3.2.1",
     "mupdf": "^1.28.1",
-    "simple-icons": "^16.36.0",
     "yaml": "^2.9.1"
   }
 }

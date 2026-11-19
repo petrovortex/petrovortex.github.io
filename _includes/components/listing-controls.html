@@ -1,6 +1,7 @@
+{% from "components/icon.html" import icon %}
 <div class="listing-controls blog-controls" hidden>
   <label>{{ t.sort }} <select aria-label="{{ t.sort }}"><option value="date">{{ t.newest }}</option><option value="updated">{{ t.recently_updated }}</option><option value="views">{{ t.views_sort }}</option><option value="likes">{{ t.likes_sort }}</option><option value="title">{{ t.alphabetical }}</option></select></label>
-  <details class="topic-picker"><summary>{{ t.topics }}<span data-topic-count></span> {% include components/icon.html name='chevron-down' %}</summary>
+  <details class="topic-picker"><summary>{{ t.topics }}<span data-topic-count></span> {{ icon('chevron-down') }}</summary>
     <div class="topic-popover">
       <label class="topic-search-label">{{ t.search_topics }}<input type="search" placeholder="{{ t.search_topics }}" autocomplete="off"></label>
       <p class="topic-help">{{ t.match_any }}</p>

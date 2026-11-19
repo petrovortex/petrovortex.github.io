@@ -20,26 +20,27 @@ Run commands one at a time and wait for each to finish. Preview and watch comman
 
 | Tool | Validated local version | Used for |
 | --- | --- | --- |
-| Ruby and Bundler | Ruby 3.3.13 | Jekyll 3.10 and the site wrapper |
-| Node.js and npm | Node.js 24.22.1 | Imports, artwork, exports, and tests |
-| Python | Python 3.12.15 | PDF exports |
-| Arial or DejaVu Sans TTF files | Regular, bold, italic, bold italic | Embedded PDF fonts, including Cyrillic |
+| Node.js and npm | Node.js 24.22.1 | Preview, site builds, imports, artwork, and tests |
+| Python (optional for preview) | Python 3.12.15 | PDF exports and the full production build |
+| Arial or DejaVu Sans TTF files (PDF only) | Regular, bold, italic, bold italic | Embedded PDF fonts, including Cyrillic |
 
-Dependency versions are recorded in [Gemfile.lock](../Gemfile.lock), [package-lock.json](../package-lock.json), and [requirements.txt](../scripts/content/pdf/requirements.txt).
+Dependency versions are recorded in [package-lock.json](../package-lock.json) and [requirements.txt](../scripts/content/pdf/requirements.txt).
 
-Preview and build commands refresh downloads at startup, so they need Ruby, Node.js, and Python. The Obsidian vault is needed only for import commands.
+Preview and Obsidian imports require only Node.js. Imports prepare source Markdown, Markdown downloads, and link-preview images; Eleventy builds the pages, formulas, and references. Existing PDFs remain available; generating or updating PDFs requires Python. The Obsidian vault is needed only for import commands.
 
 ## Install
 
-Install the tools listed above first; their commands must be available in your terminal. Then run these commands in the site folder, one at a time:
+Install Node.js, then run this once in the site folder on Windows:
 
-```sh
-bundle config set --local path vendor/bundle
-bundle install
-npm ci
+```powershell
+npm.cmd ci
 ```
 
-In the same terminal, create the Python environment for PDF exports. On Windows:
+On macOS/Linux, use `npm ci`. Repeat after a checkout or a dependency-lockfile update. You can now start the [preview](#daily-preview).
+
+### Optional PDF environment
+
+For PDF exports and the full production build, install Python. In the same site terminal, create its environment. On Windows:
 
 ```powershell
 python -m venv ../.site-tools/pdf-env
@@ -55,23 +56,33 @@ python3 -m venv ../.site-tools/pdf-env
 
 The exporter detects this environment automatically. It searches standard Windows Arial, Linux DejaVu, and macOS font directories; set [`SITE_FONT_DIR`](#environment-variables) if the four matching fonts are elsewhere.
 
-Existing workspace installations can skip this section. On Windows, [preview.ps1](../scripts/preview.ps1) uses the Ruby executable available in the terminal, or `../.site-tools/ruby/bin/ruby.exe` if present. Here `../` means the parent of the site folder; `.site-tools` is outside the repository.
+Here `../` means the parent of the site folder; `.site-tools` is outside the repository. If Python is already installed but `python` is not recognized, use its actual executable path in place of `python`. For an installation managed by `uv`, `uv python find 3.12` prints that path; in PowerShell, invoke a quoted path with `&`, as shown in the [repair instructions](troubleshooting.md#repair-the-pdf-python-environment).
 
 ## Daily preview
 
-In a [terminal opened in the site folder](#where-to-run-commands), start the site:
-
-```sh
-bundle exec ruby scripts/site.rb serve
-```
-
-Windows users can instead run:
+In a [terminal opened in the site folder](#where-to-run-commands), start the site. On Windows, type:
 
 ```powershell
-.\scripts\preview.ps1
+npm.cmd run dev
 ```
 
-Open <http://127.0.0.1:4000/>. Leave the terminal running and refresh the browser after a successful rebuild. Ctrl+C stops the process. Do not start a second server on the same port.
+Leave this terminal running. The launcher starts Eleventy to build and watch the site, and BrowserSync to serve it on `127.0.0.1` and reload the browser when you add or edit files. Both stop with the launcher. You do not need a second watcher when editing files in the site repository.
+
+After hiding, deleting, or moving a page, or changing its `permalink`, press Ctrl+C and run the start command again. Eleventy's watcher does not rebuild on deletion or remove old output URLs. Starting a new preview or production build clears the generated `_site/` folder first.
+
+On macOS/Linux:
+
+```sh
+npm run dev
+```
+
+Wait for the terminal to report the server address, then open <http://127.0.0.1:4000/>. Ctrl+C stops the process. If port 4000 is occupied, use the running preview or stop its terminal first. To run a separate preview on port 4001:
+
+```powershell
+npm.cmd run dev -- --port 4001
+```
+
+Then open <http://127.0.0.1:4001/>. Preview does not invoke Python or regenerate PDFs. Existing PDF links use the last generated edition; a new article gains its PDF link after successful export.
 
 To import Obsidian changes automatically, first set the [vault path](content-workflow.md#import-manifest). Open a second terminal in the site folder and run:
 
@@ -79,13 +90,13 @@ To import Obsidian changes automatically, first set the [vault path](content-wor
 npm run content:watch
 ```
 
-This is the **content watcher**: it imports selected notes and refreshes downloads after saves. The first terminal runs Jekyll, which rebuilds the web pages. If you write only in site files, use this command in the second terminal instead:
+This second terminal imports selected Obsidian notes and prepares web content after saves. The preview then rebuilds the pages. To refresh PDF editions, run this separately after saving or importing:
 
 ```sh
-npm run content:exports -- --watch
+npm run content:exports
 ```
 
-Restart the Jekyll preview after changing `_config.yml`. Restart the content watcher after changing the Node scripts it runs. Watching does not publish anything.
+Restart the preview after changing build configuration or its scripts. Restart the Obsidian watcher after changing its implementation scripts. To prepare a publication, stop the preview with Ctrl+C and run `npm run build`; it updates PDF/Markdown editions, validates content, and builds a clean `_site/`. Preview and production builds use this same output folder. Watching and building do not publish anything.
 
 ## Command reference
 
@@ -93,23 +104,24 @@ Type these in a [site terminal](#where-to-run-commands), not in Obsidian, a Mark
 
 | Command | Effect |
 | --- | --- |
-| `npm run content:sync` | Import selected vault files, then refresh downloads and compiled math |
-| `npm run content:watch` | Import selected notes and refresh downloads after each saved change |
-| `npm run content:exports` | Refresh exports from existing site files; no vault import |
-| `npm run content:exports -- --watch` | Watch site content and refresh exports without reading vault files |
-| `bundle exec ruby scripts/site.rb serve` | Refresh exports, validate metadata, build, and serve with Jekyll watching |
-| `bundle exec ruby scripts/site.rb build` | Refresh exports, validate metadata, and build `_site/` once |
-| `bundle exec ruby scripts/site.rb validate` | Validate site metadata without importing, exporting, or building |
+| `npm run dev` | Prepare web content, build, serve, and watch the site; no Python or PDF generation |
+| `npm run build` | Refresh all editions including PDFs, validate content, and build `_site/` once |
+| `npm run validate` | Validate content metadata and course/note relationships |
+| `npm run content:sync` | Import selected vault files, then prepare Markdown downloads and link images; no PDF generation |
+| `npm run content:watch` | Repeat the import and web preparation after saved changes in selected vault files |
+| `npm run content:prepare` | Prepare Markdown downloads and link images from site files; no vault import or PDF generation |
+| `npm run content:exports` | Refresh PDF/Markdown editions from existing site files; no vault import |
+| `npm run content:exports -- --watch` | Watch site content and refresh all editions, including PDFs |
 | `npm test` | Run the Node test suite |
 | `npm run verify` | Check an already-built `_site/`; does not build it |
 | `npm run verify:docs` | Check documentation links/headings, YAML examples, and template fields |
 | `npm run pdf:check` | Render existing PDF downloads and check text bounds and attribution |
-| `bundle exec ruby scripts/site.rb fixtures` | Build synthetic content under `.preview/fixture-site/` |
+| `npm run fixtures` | Build synthetic content under `.preview/fixture-site/` |
 | `npm run verify:fixtures` | Verify that fixture build |
 | `npm run art:build` | Rebuild the fixed SVG illustrations defined in the artwork script; not needed for uploaded images |
 | `npm run art:favicon` | Regenerate the PNG favicon from `assets/favicon.svg` |
 
-On Windows, the equivalents are `.\scripts\preview.ps1 -Action build`, `.\scripts\preview.ps1 -Action validate`, and `.\scripts\preview.ps1 -Action fixtures`, typed in the site terminal.
+On Windows, use `npm.cmd` in place of `npm` in this table. The older `.\scripts\preview.ps1 -Action serve` command remains a thin wrapper around the same Node launcher.
 
 ## Environment variables
 
@@ -119,7 +131,7 @@ These are optional settings for commands run from your terminal. The usual vault
 | --- | --- |
 | `--vault "path/to/vault"` | Vault override passed after `--` to an npm content command |
 | `OBSIDIAN_VAULT` | Vault path when no `--vault` is provided |
-| `SITE_PYTHON` | Path to the Python executable used for PDF generation |
+| `SITE_PYTHON` | Explicit path to the Python executable used for PDF generation; an invalid override fails instead of silently selecting another interpreter |
 | `SITE_FONT_DIR` | Folder containing a complete Arial or DejaVu Sans TTF family |
 
 The vault path is taken from `--vault` first, then `OBSIDIAN_VAULT`, then `vault` in `config/obsidian-imports.yml`. Relative paths start in the site folder.

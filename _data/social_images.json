@@ -29,6 +29,12 @@
     "width": 1200,
     "height": 325
   },
+  "/assets/images/banners/publications.svg": {
+    "path": "/assets/images/social/publications-cc5d8952e6ca33df.png",
+    "type": "image/png",
+    "width": 1200,
+    "height": 325
+  },
   "/assets/images/main_page.jpg": {
     "path": "/assets/images/social/main_page-8fcc08ef59f1870f.jpg",
     "type": "image/jpeg"

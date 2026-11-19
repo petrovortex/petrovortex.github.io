@@ -3,7 +3,7 @@ export function initNavigation(doc = document) {
   const button = header?.querySelector('.menu-toggle');
   const panel = header?.querySelector('#header-menu');
   if (!button || !panel) return;
-  const mobile = doc.defaultView.matchMedia('(max-width: 700px)');
+  const mobile = doc.defaultView.matchMedia('(max-width: 860px)');
   function setOpen(open) {
     button.setAttribute('aria-expanded', String(open));
     panel.classList.toggle('is-open', open);

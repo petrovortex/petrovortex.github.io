@@ -1,31 +1,35 @@
-{% assign t = site.data.ui[page.lang] %}{% assign base = '' %}{% if page.lang == 'ru' %}{% assign base = '/ru' %}{% endif %}
-{% assign stats_id = page.lang_ref %}{% if page.layout == 'note' %}{% assign stats_id = page.lang_ref | prepend: 'library--' %}{% endif %}
-<div class="reader" data-article-id="{{ stats_id | escape }}">
+{% from "components/cover-image.html" import coverImage %}
+{% from "components/engagement.html" import engagement %}
+{% set t = ui[lang] %}{% set base = '/ru' if lang == 'ru' else '' %}
+{% set isNote = layout == 'note' %}
+{% set statsId = ('library--' + lang_ref) if isNote else lang_ref %}
+{% set download = downloads[page.url] %}
+<div class="reader" data-article-id="{{ statsId }}">
   <nav class="breadcrumbs" aria-label="Breadcrumb">
-  {% if page.layout == 'note' %}
-    {% assign course = site.courses | where: 'course_id', page.course | where: 'lang', page.lang | first %}
-    <a href="{{ base | append: '/library/' | relative_url }}">{{ t.library }}</a><span aria-hidden="true">/</span><a href="{{ course.url | relative_url }}">{{ course.title }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span>
-  {% else %}<a href="{{ base | append: '/blog/' | relative_url }}">{{ t.blog }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span>{% endif %}
+  {% if isNote %}
+    {% set courseDocument = collections.courses | filterBy('data.lang', lang) | findBy('data.course_id', course) %}
+    <a href="{{ (base + '/library/') | relativeUrl }}">{{ t.library }}</a><span aria-hidden="true">/</span><a href="{{ courseDocument.url | relativeUrl }}">{{ courseDocument.data.title }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ title }}</span>
+  {% else %}<a href="{{ (base + '/blog/') | relativeUrl }}">{{ t.blog }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ title }}</span>{% endif %}
   </nav>
-  <header class="reader-header"><p class="eyebrow">{% if page.layout == 'note' %}{{ t.note }}{% else %}{{ t.post }}{% endif %}</p><h1>{{ page.title }}</h1>
-    {% if page.date %}<span class="created-date">{{ t.created }} <time datetime="{{ page.date | date_to_xmlschema }}" title="{{ page.date | date: '%d.%m.%Y %H:%M %Z' }}">{{ page.date | date: '%d.%m.%Y' }}</time></span>{% endif %}
-    {% include components/engagement.html id=stats_id url=page.url title=page.title %}
-    {% include article/downloads.html %}
+  <header class="reader-header"><p class="eyebrow">{{ t.note if isNote else t.post }}</p><h1>{{ title }}</h1>
+    {% if date %}<span class="created-date">{{ t.created }} <time datetime="{{ date | isoDate }}" title="{{ date | timestampTitle }}">{{ date | displayDate }}</time></span>{% endif %}
+    {{ engagement(statsId, page.url, title, t) }}
+    {% include "article/downloads.html" %}
   </header>
-  {% if page.layout == 'note' %}{% assign sibling_notes = site.notes | where: 'course', page.course | where: 'lang', page.lang | sort: 'order' %}
-    <details class="course-contents"><summary>{{ t.course_contents }}<span aria-hidden="true">+</span></summary><ol>{% for note in sibling_notes %}<li><a href="{{ note.url | relative_url }}" {% if note.url == page.url %}aria-current="page"{% endif %}>{{ note.title }}</a></li>{% endfor %}</ol></details>
+  {% if isNote %}{% set siblingNotes = collections.notes | filterBy('data.course', course) | filterBy('data.lang', lang) | sort(false, false, 'data.order') %}
+    <details class="course-contents"><summary>{{ t.course_contents }}<span aria-hidden="true">+</span></summary><ol>{% for note in siblingNotes %}<li><a href="{{ note.url | relativeUrl }}" {% if note.url == page.url %}aria-current="page"{% endif %}>{{ note.data.title }}</a></li>{% endfor %}</ol></details>
   {% endif %}
   <div class="reader-grid">
     <article class="article-column">
       <div class="article-body">
-      {% include components/cover-image.html %}
-      {% if download.html %}{% include {{ download.html }} %}{% else %}{{ include.body }}{% endif %}
+      {{ coverImage(image, image_dark, image_alt or title, image_caption) }}
+      {{ content | safe }}
       </div>
-      <div class="article-end">{% include components/engagement.html id=stats_id url=page.url title=page.title %}</div>
-      {% if page.layout == 'note' %}
-      <nav class="note-pagination" aria-label="{{ t.course_contents }}">{% assign previous_note = nil %}{% assign next_note = nil %}{% assign found_current = false %}{% for note in sibling_notes %}{% if found_current %}{% assign next_note = note %}{% break %}{% endif %}{% if note.url == page.url %}{% assign found_current = true %}{% else %}{% assign previous_note = note %}{% endif %}{% endfor %}
-        <div>{% if previous_note %}<a href="{{ previous_note.url | relative_url }}"><span>{{ t.previous }}</span>← {{ previous_note.title }}</a>{% endif %}</div><div>{% if next_note %}<a href="{{ next_note.url | relative_url }}"><span>{{ t.next }}</span>{{ next_note.title }} →</a>{% endif %}</div>
-      </nav>
+      <div class="article-end">{{ engagement(statsId, page.url, title, t) }}</div>
+      {% if isNote %}
+      <nav class="note-pagination" aria-label="{{ t.course_contents }}">{% for note in siblingNotes %}{% if note.url == page.url %}
+        <div>{% if not loop.first %}{% set previousNote = siblingNotes[loop.index0 - 1] %}<a href="{{ previousNote.url | relativeUrl }}"><span>{{ t.previous }}</span>← {{ previousNote.data.title }}</a>{% endif %}</div><div>{% if not loop.last %}{% set nextNote = siblingNotes[loop.index0 + 1] %}<a href="{{ nextNote.url | relativeUrl }}"><span>{{ t.next }}</span>{{ nextNote.data.title }} →</a>{% endif %}</div>
+      {% endif %}{% endfor %}</nav>
       {% endif %}
     </article>
     <aside class="toc-rail" hidden><details class="toc-panel" open><summary>{{ t.toc }}<span aria-hidden="true">+</span></summary><nav class="toc-links" aria-label="{{ t.toc }}"></nav></details></aside>

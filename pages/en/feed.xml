@@ -4,4 +4,4 @@ layout: null
 lang: en
 blog_url: /blog/
 ---
-{% include site/feed.xml %}
+{% include "site/feed.xml" %}

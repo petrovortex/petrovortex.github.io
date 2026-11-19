@@ -7,8 +7,9 @@ image: /assets/images/dls_agents_project/general_scheme.svg
 image_alt: Inputs and output of the project
 image_caption: Example image caption.
 preview_image: /assets/images/dls_agents_project/base_scheme.svg
-excerpt: Synthetic media fixture.
 ---
+
+Automatically generated summary with *emphasis*.
 
 ## Example
 

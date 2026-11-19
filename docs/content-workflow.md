@@ -15,15 +15,14 @@ Selected vault notes + import manifest
 content/_posts/ and content/_notes/ + referenced assets
                   │ download generation (also used by content:exports)
                   ├── assets/downloads/ + _data/downloads.json
-                  └── _includes/compiled/ for articles with formulas or footnotes
-                  │ Jekyll + layouts + site data
+                  │ Eleventy + layouts + site data
                   ▼
                 _site/
 ```
 
 The importer reads the vault without editing it. Only manifest entries become site documents. Directly authored posts and notes are read from `content/_posts/` and `content/_notes/`; they need no vault. Courses are authored in the repository.
 
-Content commands also refresh [link preview images](banner-design.md#link-previews) from covers and the profile portrait. Jekyll's preview/build wrapper refreshes these images and exports, but **does not import the vault**. Sync selected notes before a one-time build, or keep the content watcher running during editing.
+Content commands also refresh [link preview images](banner-design.md#link-previews) from covers and the profile portrait. Preview and import commands refresh these images and Markdown downloads without Python. Eleventy renders the article HTML, including formulas and footnotes, directly from Markdown. `npm run content:exports` and `npm run build` also generate PDFs. The site preview/build **does not import the vault**. Sync selected notes before a one-time build, or keep the content watcher running during editing.
 
 ## Import manifest
 
@@ -44,7 +43,7 @@ The file's `items:` section lists the selected notes. An **entry** is the block 
 | `destination` | Repository-relative `content/_notes/<lang>/<slug>.md` or dated `content/_posts/<lang>/YYYY-MM-DD-<slug>.md` |
 | `metadata` | Publication properties such as language, stable reference, public URL, course, and order |
 
-Use a distinct entry for each language. The destination folder must match metadata `lang` (`en` or `ru`); additional folders may group documents inside that language folder. The tools read Jekyll’s `collections_dir` from `_config.yml` to locate the collections. Source/destination paths must stay inside their respective roots. Destinations and IDs must be unique. To use a different vault without editing this file, pass `--vault` or set `OBSIDIAN_VAULT` as described in [Setup](setup.md#environment-variables).
+Use a distinct entry for each language. The destination folder must match metadata `lang` (`en` or `ru`); additional folders may group documents inside that language folder. The tools read the project's `collections_dir` setting from `_config.yml` to locate the collections. Source/destination paths must stay inside their respective roots. Destinations and IDs must be unique. To use a different vault without editing this file, pass `--vault` or set `OBSIDIAN_VAULT` as described in [Setup](setup.md#environment-variables).
 
 Imported documents receive `obsidian_import: <id>`. An existing destination may be replaced only if it already has that matching marker. Do not add the marker to bypass an overwrite error; migrate directly authored content deliberately while preserving its URL, date, and engagement reference.
 
@@ -78,7 +77,7 @@ An existing imported creation date survives ordinary saves when no explicit date
 | `![[picture.png\|Description]]` or local inline Markdown image | Copied asset and image link |
 | PNG, JPEG, WebP, GIF, SVG; linked PDF attachments | Copied under `assets/imported/<id>/` using names based on file contents |
 | `%% comments %%` outside code | Omitted from public prose |
-| `$...$` / `$$...$$` with `math: true` | Formulas rendered during export |
+| `$...$` / `$$...$$` with `math: true` | Formulas rendered in web pages and PDF editions; Markdown downloads keep TeX |
 
 The shallowest Markdown heading becomes a `##` heading; deeper headings keep their relative levels, up to `######`. Fenced and inline code are left unchanged, including example wiki syntax. Numeric wiki-image size aliases are ignored in favor of responsive layout.
 
@@ -104,21 +103,20 @@ The importer preserves the attachment's bytes and writes it under `assets/import
 
 ## Downloadable editions
 
-Each published, non-redirect blog post and note gets PDF and Markdown editions. Future-dated articles are skipped. Courses do not get combined course downloads.
+Each published, non-redirect blog post and note gets a Markdown edition during web preparation and a PDF edition during full export. Preview preserves the last generated PDF; a new article has no PDF link until its PDF has been generated. Future-dated articles are skipped. Courses do not get combined course downloads.
 
 | Output | Role |
 | --- | --- |
 | `assets/downloads/post-<lang_ref>-<lang>.md` / `.pdf` | Blog editions |
 | `assets/downloads/note-<lang_ref>-<lang>.md` / `.pdf` | Note editions |
-| `_data/downloads.json` | Maps public article URLs to editions and optional compiled HTML |
-| `_includes/compiled/` | Static article HTML for formulas and footnotes used by the reader layout |
+| `_data/downloads.json` | Maps public article URLs to available Markdown and PDF editions |
 | `.preview/exports/` | Local intermediate images, jobs, and PDF cache; not committed |
 
-After editing an imported note, run `npm run content:sync` in the site terminal. For directly authored content, run `npm run content:exports`. Do not edit these generated outputs manually. Commit public outputs with the source because GitHub Pages does not run these Node/Python export tools.
+After editing an imported note, run `npm run content:sync` in the site terminal. To refresh PDF editions after saving or importing, run `npm run content:exports`; `npm run build` also includes that step. Do not edit generated outputs manually. Commit public outputs with the source for local downloads and review. The GitHub Actions workflow regenerates them before deployment.
 
 Editions include the configured author, copyright year, and canonical public URL, even in local preview. Notes also credit the course's original author and source URL. Markdown keeps editable TeX and absolute asset links. Its images load from the published site; the `.md` download is not a standalone offline image bundle. New image URLs work publicly after publication. PDF embeds local images and formulas, uses Unicode fonts and page numbers, and preserves links. Remote images remain links in the PDF; store an illustration locally to embed it. Convert complex HTML widgets to ordinary Markdown for reliable exports.
 
-Changing publication status or removing an article causes exports recorded in the previous index to be removed. Imported attachment directories are retained so shared references can be reviewed separately. PDFs are cached using article/generator/asset hashes; an asset change can rebuild multiple PDFs.
+Changing publication status or removing an article causes exports recorded in the previous index to be removed. Imported attachment directories are retained so shared references can be reviewed separately. PDFs are cached using their content, attribution, generator and referenced local images. Changing site CSS, a thumbnail, or an unrelated image does not rebuild them.
 
 ## Watching and failures
 
@@ -126,7 +124,7 @@ Start the content watcher by typing `npm run content:watch` in a site terminal a
 
 The watcher checks for saved changes about every 1.5 seconds and processes updates sequentially. It watches selected source files, vault attachments, the manifest, site content/images, and configuration. It does not import every note in the vault or auto-publish changes.
 
-Import and export are separate stages: a successful import can be followed by a failed PDF export. Check the terminal's final result before publishing. An error is reported without terminating watch mode; correct the affected input and save again, or rerun the command. Restart the watcher after editing its implementation scripts.
+Import and PDF export are separate commands. A failed PDF export does not prevent local web preview; a full publication build fails until the export error is fixed. Check the terminal's final result before publishing. An error is reported without terminating watch mode; correct the affected input and save again, or rerun the command. Restart the watcher after editing its implementation scripts.
 
 Removing a manifest entry stops syncing; it does not unpublish the existing copy. Follow [Hide or remove content](author-guide.md#hide-or-remove-content) for that operation.
 

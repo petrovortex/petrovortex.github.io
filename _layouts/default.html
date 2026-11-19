@@ -1,61 +1,62 @@
-{% assign lang = page.lang | default: 'en' %}{% assign t = site.data.ui[lang] %}{% assign base = '' %}{% if lang == 'ru' %}{% assign base = '/ru' %}{% endif %}
-{% assign canonical_path = page.redirect_to | default: page.url %}
-{% assign all_documents = site.pages | concat: site.posts | concat: site.courses | concat: site.notes %}
-{% assign translations = all_documents | where: 'lang_ref', page.lang_ref %}
+{% from "components/icon.html" import icon %}
+{% set lang = lang or 'en' %}{% set t = ui[lang] %}{% set base = '/ru' if lang == 'ru' else '' %}
+{% set canonicalPath = redirect_to or page.url %}
+{% set translations = collections.all | filterBy('data.lang_ref', lang_ref) %}
+{% set sections = ['blog', 'library', 'publications', 'links'] %}
 <!DOCTYPE html>
 <html lang="{{ lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#faf9f6">
-  <title>{% unless page.section == 'home' %}{{ page.title | escape }} · {% endunless %}{{ site.title }}</title>
-  <link rel="canonical" href="{{ canonical_path | absolute_url }}">
-  {% if page.redirect_to %}<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={{ page.redirect_to | relative_url }}">{% endif %}
-  {% if page.lang_ref %}{% for translation in translations %}{% unless translation.redirect_to %}<link rel="alternate" hreflang="{{ translation.lang }}" href="{{ translation.url | absolute_url }}">{% endunless %}{% endfor %}{% endif %}
-  {% include site/social-meta.html %}
-  <link rel="icon" type="image/png" sizes="64x64" href="{{ '/assets/favicon-ap.png' | relative_url }}">
-  <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
-  <script src="{{ '/assets/js/theme-init.js' | relative_url }}"></script>
-  <link rel="alternate" type="application/atom+xml" title="{{ t.rss }}" href="{{ base | append: '/feed.xml' | relative_url }}">
+  <title>{% if section != 'home' %}{{ title }} · {% endif %}{{ site.title }}</title>
+  <link rel="canonical" href="{{ canonicalPath | absoluteUrl }}">
+  {% if redirect_to %}<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={{ redirect_to | relativeUrl }}">{% endif %}
+  {% if lang_ref %}{% for translation in translations %}{% if not translation.data.redirect_to %}<link rel="alternate" hreflang="{{ translation.data.lang }}" href="{{ translation.url | absoluteUrl }}">{% endif %}{% endfor %}{% endif %}
+  {% include "site/social-meta.html" %}
+  <link rel="icon" type="image/png" sizes="64x64" href="{{ '/assets/favicon-ap.png' | relativeUrl }}">
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relativeUrl }}">
+  <script src="{{ '/assets/js/theme-init.js' | relativeUrl }}"></script>
+  <link rel="alternate" type="application/atom+xml" title="{{ t.rss }}" href="{{ (base + '/feed.xml') | relativeUrl }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relativeUrl }}">
 </head>
-<body data-lang="{{ lang }}" data-base="{{ base }}" data-engagement-mode="{{ site.engagement_mode | default: 'auto' }}">
+<body data-lang="{{ lang }}" data-base="{{ base }}" data-engagement-mode="{{ site.engagement_mode or 'auto' }}">
   <a class="skip-link" href="#main">{{ t.skip }}</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="site-name" href="{{ base | append: '/' | relative_url }}" {% if page.section == 'home' %}aria-current="page"{% endif %}>Alexander Petrov<span class="name-dot" aria-hidden="true">.</span></a>
+      <a class="site-name" href="{{ (base + '/') | relativeUrl }}" {% if section == 'home' %}aria-current="page"{% endif %}>Aleksandr Petrov<span class="name-dot" aria-hidden="true">.</span></a>
       <nav id="site-navigation" class="site-nav" aria-label="{{ t.navigation }}">
-        {% assign sections = 'blog,library,links' | split: ',' %}{% for section in sections %}
-        <a data-section="{{ section }}" href="{{ base | append: '/' | append: section | append: '/' | relative_url }}" {% if page.section == section %}aria-current="page"{% endif %}>{{ t[section] }}</a>
+        {% for navSection in sections %}
+        <a data-section="{{ navSection }}" href="{{ (base + '/' + navSection + '/') | relativeUrl }}" {% if section == navSection %}aria-current="page"{% endif %}>{{ t[navSection] }}</a>
         {% endfor %}
       </nav>
       <button class="menu-toggle" type="button" aria-controls="header-menu" aria-expanded="false" hidden><span class="menu-icon" aria-hidden="true"></span><span class="sr-only">{{ t.menu }}</span></button>
       <div id="header-menu" class="header-menu">
-      <nav class="menu-pages" aria-label="{{ t.navigation }}">{% for section in sections %}<a data-section="{{ section }}" href="{{ base | append: '/' | append: section | append: '/' | relative_url }}" {% if page.section == section %}aria-current="page"{% endif %}>{{ t[section] }}</a>{% endfor %}</nav>
+      <nav class="menu-pages" aria-label="{{ t.navigation }}">{% for navSection in sections %}<a data-section="{{ navSection }}" href="{{ (base + '/' + navSection + '/') | relativeUrl }}" {% if section == navSection %}aria-current="page"{% endif %}>{{ t[navSection] }}</a>{% endfor %}</nav>
       <div class="header-settings">
       <nav class="language-nav" aria-label="Language">
-        {% assign languages = 'en,ru' | split: ',' %}{% for language in languages %}{% assign alternative = translations | where: 'lang', language | where_exp: 'item', 'item.redirect_to == nil' | first %}
-        {% if language == lang %}<span aria-current="true" lang="{{ language }}">{{ language | upcase }}</span>{% elsif alternative and page.lang_ref %}<a href="{{ alternative.url | relative_url }}" hreflang="{{ language }}" lang="{{ language }}">{{ language | upcase }}</a>{% else %}<span class="language-unavailable" aria-disabled="true" title="{{ t.unavailable }}">{{ language | upcase }}</span>{% endif %}
+        {% for language in ['en', 'ru'] %}{% set alternative = translations | filterBy('data.lang', language) | without('data.redirect_to') | first %}
+        {% if language == lang %}<span aria-current="true" lang="{{ language }}">{{ language | upper }}</span>{% elif alternative and lang_ref %}<a href="{{ alternative.url | relativeUrl }}" hreflang="{{ language }}" lang="{{ language }}">{{ language | upper }}</a>{% else %}<span class="language-unavailable" aria-disabled="true" title="{{ t.unavailable }}">{{ language | upper }}</span>{% endif %}
         {% endfor %}
       </nav>
-      <button class="theme-toggle" type="button" aria-label="{{ t.dark_mode }}" aria-pressed="false" hidden><span class="theme-moon">{% include components/icon.html name='moon' %}</span><span class="theme-sun">{% include components/icon.html name='sun' %}</span></button>
+      <button class="theme-toggle" type="button" aria-label="{{ t.dark_mode }}" aria-pressed="false" hidden><span class="theme-moon">{{ icon('moon') }}</span><span class="theme-sun">{{ icon('sun') }}</span></button>
       </div>
       </div>
     </div>
   </header>
-  <main id="main" class="page-shell {% if page.layout == 'post' or page.layout == 'note' %}reading-shell{% endif %}" tabindex="-1">{{ content }}</main>
+  <main id="main" class="page-shell {% if layout == 'post' or layout == 'note' %}reading-shell{% endif %}" tabindex="-1">{{ content | safe }}</main>
   <footer class="site-footer">
-    <div class="footer-top"><a class="footer-name" href="{{ base | append: '/' | relative_url }}">Alexander Petrov<span class="name-dot">.</span></a><nav aria-label="Footer"><a href="{{ base | append: '/' | relative_url }}">{{ t.home }}</a>{% for section in sections %}<a href="{{ base | append: '/' | append: section | append: '/' | relative_url }}">{{ t[section] }}</a>{% endfor %}<a href="{{ site.data.profile.cv[lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }}</a></nav></div>
-    <div class="footer-social">{% for social in site.data.social %}<a href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{{ social.label }}</a>{% endfor %}<a href="mailto:{{ site.email }}" target="_blank" rel="noopener noreferrer">{{ t.email }}</a><a href="{{ base | append: '/feed.xml' | relative_url }}">RSS</a></div>
-    {% include site/credits.html %}
-    <p class="copyright"><span>© {{ site.time | date: '%Y' }} Alexander Petrov</span><button class="rainbow-toggle" type="button" aria-label="{{ t.rainbow_on }}" title="{{ t.rainbow_on }}" aria-pressed="false" hidden>{% include components/rainbow.html %}</button></p>
+    <div class="footer-top"><a class="footer-name" href="{{ (base + '/') | relativeUrl }}">Aleksandr Petrov<span class="name-dot">.</span></a><nav aria-label="Footer"><a href="{{ (base + '/') | relativeUrl }}">{{ t.home }}</a>{% for navSection in sections %}<a href="{{ (base + '/' + navSection + '/') | relativeUrl }}">{{ t[navSection] }}</a>{% endfor %}<a href="{{ profile.cv[lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }}</a></nav></div>
+    <div class="footer-social">{% for profileLink in social %}<a href="{{ profileLink.url }}" target="_blank" rel="noopener noreferrer">{{ profileLink.label }}</a>{% endfor %}<a href="mailto:{{ site.email }}" target="_blank" rel="noopener noreferrer">{{ t.email }}</a><a href="{{ (base + '/feed.xml') | relativeUrl }}">RSS</a></div>
+    {% include "site/credits.html" %}
+    <p class="copyright"><span>© {{ site.time | year }} Aleksandr Petrov</span><button class="rainbow-toggle" type="button" aria-label="{{ t.rainbow_on }}" title="{{ t.rainbow_on }}" aria-pressed="false" hidden>{% include "components/rainbow.html" %}</button></p>
   </footer>
-  {% include site/contact.html %}
+  {% include "site/contact.html" %}
   <div class="toast" role="status" aria-live="polite"></div>
-  <script id="ui-strings" type="application/json">{{ t | jsonify }}</script>
-  <script type="module" src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  <script id="ui-strings" type="application/json">{{ t | jsonify | safe }}</script>
+  <script type="module" src="{{ '/assets/js/main.js' | relativeUrl }}"></script>
 </body>
 </html>

@@ -12,7 +12,7 @@ Internal links stay in the current tab. External links, including CV links, open
 
 The theme follows the device preference initially. The header toggle stores a light/dark preference in the current browser. A small startup script applies it before the page paints; theme controls still work when persistent storage is unavailable.
 
-At widths up to 700 CSS pixels, Blog and Library stay in the header. Links, language, and theme controls move into a compact dropdown, with a divider before the controls. Opening it does not move the page. Below 360 pixels, Blog and Library also move into the menu; the name and menu button remain visible. Escape, clicking outside, or tabbing out closes the menu.
+At widths up to 860 CSS pixels, Blog and Library stay in the header. Publications, Links, language, and theme controls move into a compact dropdown, with a divider before the controls. Opening it does not move the page. Below 360 pixels, Blog and Library also move into the menu; the name and menu button remain visible. Escape, clicking outside, or tabbing out closes the menu.
 
 The homepage portrait switches between two photos when clicked or activated with Enter/Space. Opening the page starts with the default photo. Without JavaScript, that photo remains visible.
 
@@ -89,7 +89,7 @@ The footer's RSS link points to a full-content **Atom feed**, a format accepted 
 | `/feed.xml` | English blog posts |
 | `/ru/feed.xml` | Russian blog posts |
 
-Feeds rebuild with Jekyll. They exclude redirect pages and notes. Subscribers can read updates in a feed reader; the site does not send newsletter emails.
+Feeds rebuild with Eleventy. They exclude redirect pages and notes. Subscribers can read updates in a feed reader; the site does not send newsletter emails.
 
 Substack synchronization is not implemented. A manual workflow is to publish here, copy the rendered article into Substack, add an original-publication link, and review formatting and delivery settings there. The two sites keep separate engagement statistics.
 

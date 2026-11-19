@@ -1,4 +1,4 @@
-// Original vector artwork for Alexander Petrov's site. No external artwork or fonts.
+// Original vector artwork for Aleksandr Petrov's site. No external artwork or fonts.
 // This file draws a fixed set of SVG illustrations; it does not read article content.
 // New content can use uploaded images without extending this script.
 // Authoring workflow and reusable prompts: docs/banner-design.md and docs/artwork-prompts.md.
@@ -15,6 +15,10 @@ const palettes = {
   library: {
     light: { bg:'#e9ece2', ink:'#65715d', accent:'#60754f', fill:'#b4bfa2', page:'#f7f7ee', grid:'#9ba58b' },
     dark: { bg:'#272e26', ink:'#a0ac92', accent:'#b2c18e', fill:'#53624a', page:'#323b2f', grid:'#78856b' },
+  },
+  publications: {
+    light: { bg:'#e6edf2', ink:'#526a7d', accent:'#3b6d91', fill:'#a8c2d5', page:'#f5f8fb', grid:'#92a9ba' },
+    dark: { bg:'#222d35', ink:'#9cb1c1', accent:'#8bb2d2', fill:'#455e72', page:'#2d3b46', grid:'#718b9e' },
   },
 };
 const line = (d, color='ink', extra='') => `<path d="${d}" fill="none" stroke="${color}" ${extra.includes('stroke-width=') ? '' : 'stroke-width="1.6"'} stroke-linecap="round" stroke-linejoin="round" ${extra}/>`;
@@ -61,6 +65,26 @@ const art = {
     ${line('M333 96H385M333 109H369','ink','opacity=".4"')}${dot(407,153,3)}
     ${openBook(571,127)}${star(715,58)}
     ${page(779,91,71,97,9)}${line('M733 194Q778 225 860 201','ink','opacity=".45" stroke-dasharray="3 7"')}` },
+  // A research manuscript, a measured wave, and an ascending constellation.
+  publications: { family:'publications', body:()=>`
+    <g transform="translate(126 53) rotate(-8 70 80)"><rect width="131" height="164" rx="2" fill="fill" stroke="ink" stroke-width="1.4" opacity=".55"/></g>
+    <g transform="translate(150 42) rotate(4 68 84)">
+      <path d="M0 0H109L136 27V174H0Z" fill="page" stroke="ink" stroke-width="1.4"/>
+      ${line('M109 0V27H136')}
+      ${line('M19 33H88','accent','stroke-width="3"')}
+      ${line('M19 46H76M19 64H116M19 74H107','ink','opacity=".4"')}
+      ${line('M19 94H58M19 104H58M19 114H52M78 94H116M78 104H116M78 114H109','ink','opacity=".4"')}
+      ${line('M19 140H116M19 150H94','ink','opacity=".4"')}
+    </g>
+    ${line('M365 65V197H662','ink','opacity=".55"')}
+    ${line('M365 132H650M418 65V197M484 65V197M550 65V197M616 65V197','ink','opacity=".12"')}
+    ${line('M380 132C391 132 397 85 414 85S434 179 451 179S472 93 489 93S509 165 526 165S546 112 563 112S582 146 599 146S620 128 642 132','accent','stroke-width="2.6"')}
+    ${dot(414,85,4)}${dot(489,93,4)}${dot(563,112,4)}
+    ${line('M355 85H365M355 132H365M355 179H365M418 197V204M484 197V204M550 197V204M616 197V204','ink','opacity=".4"')}
+    ${line('M712 179 745 134 800 151 825 73 878 94','ink','opacity=".45"')}
+    ${dot(712,179,3,'ink')}${dot(745,134,4)}${dot(800,151,3,'ink')}${dot(878,94,3,'ink')}
+    ${star(825,73)}
+    ${line('M696 205Q765 203 819 189','ink','opacity=".3" stroke-dasharray="3 7"')}` },
   // A night-time coffee search, map locations, and an agent checking relevance.
   'agentic-ai': { family:'blog', body:()=>`
     <defs><clipPath id="map"><rect x="156" y="68" width="363" height="151" rx="7"/></clipPath></defs>
@@ -161,4 +185,4 @@ ${body}
     await fs.writeFile(path.join(directory,name+(theme==='dark'?'-dark':'')+'.svg'),svg);
   }
 }
-console.log('Generated 5 banners and 3 dedicated previews, each in light and dark editions.');
+console.log('Generated 6 banners and 3 dedicated previews, each in light and dark editions.');

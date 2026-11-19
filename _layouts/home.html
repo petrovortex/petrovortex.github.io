@@ -1,28 +1,38 @@
 ---
 layout: default
 ---
-{% assign t = site.data.ui[page.lang] %}{% assign profile = site.data.profile %}
+{% from "components/icon.html" import icon %}
+{% set t = ui[lang] %}
 <section class="hero" aria-labelledby="greeting">
-  <div class="hero-copy">
+  <div class="hero-heading">
     <p class="eyebrow"><span class="little-line" aria-hidden="true"></span>{{ t.intro_label }}</p>
     <h1 id="greeting">{{ t.greeting }}</h1>
-    <p class="hero-bio">{{ t.bio }}</p>
-    <div class="hero-navigation">{{ t.bio_navigation | markdownify }}</div>
-    <p class="hero-welcome">{{ t.welcome }}</p>
-    <a class="text-link cv-link" href="{{ profile.cv[page.lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {% include components/icon.html name='arrow' %}</a>
   </div>
   {% if profile.portrait_alternate %}
   <button class="portrait-frame portrait-toggle" type="button" aria-pressed="false" aria-label="{{ t.portrait_flip }}" title="{{ t.portrait_flip }}" disabled>
     <span class="portrait-images" aria-hidden="true">
-      <img class="portrait-front" src="{{ profile.portrait | relative_url }}" width="1368" height="1824" alt="" fetchpriority="high">
-      <img class="portrait-back" src="{{ profile.portrait_alternate | relative_url }}" width="1368" height="1824" alt="" decoding="async">
+      <img class="portrait-front" src="{{ profile.portrait | relativeUrl }}" width="1368" height="1824" alt="" fetchpriority="high">
+      <img class="portrait-back" src="{{ profile.portrait_alternate | relativeUrl }}" width="1368" height="1824" alt="" decoding="async">
     </span>
   </button>
-  {% else %}<figure class="portrait-frame"><img src="{{ profile.portrait | relative_url }}" width="1368" height="1824" alt="Alexander Petrov" fetchpriority="high"></figure>{% endif %}
+  {% else %}<figure class="portrait-frame"><img src="{{ profile.portrait | relativeUrl }}" width="1368" height="1824" alt="Aleksandr Petrov" fetchpriority="high"></figure>{% endif %}
+  <div class="hero-copy">
+    <p class="hero-bio">{{ t.bio }}</p>
+    <div class="hero-navigation">{{ t.bio_navigation | markdown | safe }}</div>
+    <a class="text-link cv-link" href="{{ profile.cv[lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {{ icon('arrow') }}</a>
+  </div>
 </section>
 <section class="timeline-section" aria-labelledby="timeline-heading">
   <div class="section-intro"><h2 id="timeline-heading">{{ t.timeline }}</h2><p>{{ t.timeline_intro }}</p></div>
   <ol class="timeline">{% for event in profile.timeline %}
-    <li><span class="timeline-date">{{ event.date[page.lang] }}</span><div class="timeline-body"><h3>{{ event.title[page.lang] }}</h3><p class="timeline-place">{{ event.place[page.lang] }}</p>{% if event.detail[page.lang] %}<p class="timeline-detail">{{ event.detail[page.lang] }}</p>{% endif %}</div></li>
+    <li>
+      <span class="timeline-date">{{ event.date[lang] }}</span>
+      <div class="timeline-body">
+        <h3>{{ event.title[lang] }}</h3>
+        <p class="timeline-place">{{ event.place[lang] }}</p>
+        {% if event.period[lang] %}<p class="timeline-period">{{ event.period[lang] }}</p>{% endif %}
+        {% if event.detail[lang] %}<p class="timeline-detail">{{ event.detail[lang] }}</p>{% endif %}
+      </div>
+    </li>
   {% endfor %}</ol>
 </section>

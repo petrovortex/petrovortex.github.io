@@ -52,10 +52,10 @@ if (directory.endsWith('_site')) {
   const ru = await read('ru/index.html');
   assert.equal(home.documentElement.lang, 'en');
   assert.equal(ru.documentElement.lang, 'ru');
-  assert.equal(home.querySelectorAll('.timeline li').length, 5);
+  assert.equal(home.querySelectorAll('.timeline li').length, 16);
   for (const [page, prefix] of [[home, ''], [ru, '/ru']]) {
     assert(page.querySelector('.timeline').textContent.includes('2007'));
-    assert.deepEqual([...page.querySelectorAll('.hero-navigation a')].map(a => new URL(a.getAttribute('href'), origin + prefix + '/').pathname), [prefix + '/blog/', prefix + '/library/', prefix + '/links/']);
+    assert.deepEqual([...page.querySelectorAll('.hero-navigation a')].map(a => new URL(a.getAttribute('href'), origin + prefix + '/').pathname), [prefix + '/blog/', prefix + '/library/', prefix + '/publications/', prefix + '/links/']);
     assert(page.querySelector('.portrait-front[src$="main_page.jpg"]'));
     assert(page.querySelector('.portrait-back[src$="main_page_back.jpg"]'));
     assert.equal(page.querySelector('.portrait-toggle').getAttribute('aria-pressed'), 'false');
@@ -75,15 +75,36 @@ if (directory.endsWith('_site')) {
   assert.equal(materials.querySelector('summary').textContent.trim(), 'Course materials');
   assert.deepEqual([...materials.querySelectorAll('a')].map(a => a.getAttribute('href')), ['https://efficientml.ai/']);
   const blog = await read('blog/index.html');
+  const publications = await read('publications/index.html');
+  const publicationsRu = await read('ru/publications/index.html');
+  assert(publications.querySelector('.publication p'));
+  assert.equal(publications.querySelector('.publication-list').innerHTML, publicationsRu.querySelector('.publication-list').innerHTML, 'Both languages must share the same bibliography');
+  for (const page of [publications, publicationsRu]) {
+    assert.equal(page.querySelector('.page-heading .eyebrow').textContent, 'per aspera ad astra');
+    assert(page.querySelector('.page-banner .art-light[src$="/publications.svg"]'));
+    assert(page.querySelector('.page-banner .art-dark[src$="/publications-dark.svg"]'));
+    assert.equal(page.querySelector('.publication-list').lang, 'en');
+    assert.deepEqual([...page.querySelectorAll('.site-nav a')].map(a => a.dataset.section), ['blog', 'library', 'publications', 'links']);
+    assert.equal(page.querySelector('.site-nav [aria-current]').dataset.section, 'publications');
+    assert(page.querySelector('.language-nav a[href$="/publications/"]'));
+  }
   for (const prefix of ['', 'ru/']) {
     const blogPage = await read(prefix + 'blog/index.html');
     const libraryPage = await read(prefix + 'library/index.html');
     const linksPage = await read(prefix + 'links/index.html');
     assert.equal(blogPage.querySelector('.page-heading h1').textContent, 'Open Notes');
     assert.equal(blogPage.querySelector('.page-heading .eyebrow').textContent, prefix ? 'Блог' : 'Blog');
-    assert.equal(libraryPage.querySelector('.page-heading .eyebrow').textContent, 'Per aspera ad astra');
+    assert.equal(libraryPage.querySelector('.page-heading .eyebrow').textContent, 'sapere aude');
     assert.equal(linksPage.querySelector('.page-heading .eyebrow').textContent, prefix ? 'Где меня найти' : 'Find me');
     assert(!linksPage.querySelector('.link-row .link-description'));
+    const research = linksPage.querySelector('#links-research').closest('section');
+    const competitions = linksPage.querySelector('#links-competitions').closest('section');
+    assert.deepEqual([...research.querySelectorAll('.link-row strong')].map(el => el.textContent), ['Google Scholar', 'ORCID', 'GitHub']);
+    assert.deepEqual([...competitions.querySelectorAll('.link-row strong')].map(el => el.textContent), ['Kaggle', 'LeetCode']);
+    for (const link of research.querySelectorAll('.link-row')) {
+      assert.equal(link.target, '_blank');
+      assert(link.querySelector('svg path[d]'));
+    }
   }
   const sortOptions = doc => [...doc.querySelectorAll('.listing-controls option')].map(option => [option.value, option.textContent]);
   assert.deepEqual(sortOptions(library), sortOptions(blog));
@@ -137,7 +158,25 @@ if (directory.endsWith('_site')) {
 }
 if (directory.endsWith('fixture-site')) {
   const list = new JSDOM(await fs.readFile(path.join(directory, 'blog/index.html'), 'utf8')).window.document;
+  for (const slug of ['hidden-draft-en', 'future-post-en']) {
+    await assert.rejects(fs.access(path.join(directory, slug, 'index.html')), { code: 'ENOENT' });
+    assert(!list.querySelector('a[href="/' + slug + '/"]'));
+    assert(!(await fs.readFile(path.join(directory, 'feed.xml'), 'utf8')).includes('/' + slug + '/'));
+  }
+  const fixtureDownloads = JSON.parse(await fs.readFile(path.join(directory, '../fixture-source/_data/downloads.json'), 'utf8'));
+  assert(!fixtureDownloads['/hidden-draft-en/'] && !fixtureDownloads['/future-post-en/']);
+  const firstNote = new JSDOM(await fs.readFile(path.join(directory, 'library/example/first/index.html'), 'utf8')).window.document;
+  assert(firstNote.querySelector('.article-body').textContent.includes('{{ user.name }}'));
+  assert(firstNote.querySelector('.article-body').textContent.includes('{% if example %}'));
+  assert.equal(firstNote.querySelector('.math-inline').dataset.mathSource, '$a_1^2 + b_1^2$');
+  assert(firstNote.querySelector('.math-display svg'));
+  assert.equal(firstNote.querySelector('#references').parentElement, firstNote.querySelector('.article-body'));
+  assert(firstNote.querySelector('.footnotes-list a[href="https://example.org/reference"]'));
+  assert(firstNote.querySelector('.article-downloads a[href$=".md"]'));
+  assert(!firstNote.querySelector('.article-downloads a[href$=".pdf"]'), 'A new note must not link to an ungenerated PDF');
   const article = new JSDOM(await fs.readFile(path.join(directory, 'image-demo-en/index.html'), 'utf8')).window.document;
+  assert.equal(list.querySelector('[data-post-id="image-example"] .card-description').textContent.trim(), 'Automatically generated summary with emphasis.');
+  assert.equal(article.querySelector('meta[property="og:description"]').content, 'Automatically generated summary with emphasis.');
   assert(list.querySelector('.post-preview img[src$="base_scheme.svg"]'));
   assert(article.querySelector('.article-cover img[alt="Inputs and output of the project"]'));
   assert(article.querySelector('.article-cover figcaption'));
@@ -160,7 +199,7 @@ if (directory.endsWith('_site')) {
   const exports = JSON.parse(await fs.readFile('_data/downloads.json', 'utf8'));
   for (const [url, entry] of Object.entries(exports)) {
     const md = await fs.readFile(path.join(directory, entry.md), 'utf8');
-    assert(md.includes('Alexander Petrov'));
+    assert(md.includes('Aleksandr Petrov'));
     assert(md.includes(origin + url));
     const pdf = await fs.readFile(path.join(directory, entry.pdf));
     assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');

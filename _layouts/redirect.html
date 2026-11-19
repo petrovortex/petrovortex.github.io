@@ -1,6 +1,6 @@
 ---
 layout: default
 ---
-{% assign t = site.data.ui[page.lang] %}
-<h1>{{ t.redirect }}</h1><p><a class="text-link" href="{{ page.redirect_to | relative_url }}">{{ t.continue }} →</a></p>
-<script>location.replace({{ page.redirect_to | relative_url | jsonify }} + location.search + location.hash);</script>
+{% set t = ui[lang] %}
+<h1>{{ t.redirect }}</h1><p><a class="text-link" href="{{ redirect_to | relativeUrl }}">{{ t.continue }} →</a></p>
+<script>location.replace({{ redirect_to | relativeUrl | jsonify | safe }} + location.search + location.hash);</script>

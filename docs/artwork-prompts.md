@@ -36,14 +36,16 @@ REFERENCE IMAGE: [optional attached illustration]
 
 ## Colors
 
-Use the Blog row for original articles. Use the Library row for courses and notes. Keep these same colors when making related images.
+Use the Blog row for original articles, Library for courses and notes, and Publications for research artwork. Keep these same colors when making related images.
 
 | Section and theme | Background | Line | Accent | Fill | Surface |
 | --- | --- | --- | --- | --- | --- |
 | Blog, light | `#f2e9df` | `#856457` | `#bb513a` | `#dfb395` | `#faf5ec` |
 | Library, light | `#e9ece2` | `#65715d` | `#60754f` | `#b4bfa2` | `#f7f7ee` |
+| Publications, light | `#e6edf2` | `#526a7d` | `#3b6d91` | `#a8c2d5` | `#f5f8fb` |
 | Blog, dark | `#302824` | `#b69a86` | `#e49574` | `#755443` | `#3b312b` |
 | Library, dark | `#272e26` | `#a0ac92` | `#b2c18e` | `#53624a` | `#323b2f` |
+| Publications, dark | `#222d35` | `#9cb1c1` | `#8bb2d2` | `#455e72` | `#2d3b46` |
 
 These match the existing SVG illustrations. A very faint background dot pattern may use the line color at low opacity. Its purpose is texture, not a visible grid.
 

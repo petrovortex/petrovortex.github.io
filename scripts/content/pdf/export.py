@@ -222,7 +222,7 @@ class Renderer:
         canvas.line(52,43,PAGE_W-52,43)
         canvas.setFont('Body',7)
         canvas.setFillColor(MUTED)
-        canvas.drawString(52,30,'Alexander Petrov')
+        canvas.drawString(52,30,self.job['author'])
         label = self.job['canonical'].removeprefix('https://')
         canvas.drawCentredString(PAGE_W/2,30,label)
         canvas.linkURL(self.job['canonical'], (150,25,PAGE_W-90,39), relative=0)

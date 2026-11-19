@@ -1,43 +1,36 @@
-{%- assign preview_title = page.title | default: site.title -%}
-{%- assign preview_description = page.description | default: page.excerpt -%}
-{%- if preview_description == nil or preview_description == '' -%}
-  {%- case page.layout -%}
-    {%- when 'blog' -%}{%- assign preview_description = t.blog_intro -%}
-    {%- when 'library' -%}{%- assign preview_description = t.library_intro -%}
-    {%- when 'links' -%}{%- assign preview_description = t.links_intro -%}
-    {%- else -%}{%- assign preview_description = t.bio -%}
-  {%- endcase -%}
-{%- endif -%}
-{%- assign preview_description = preview_description | markdownify | strip_html | normalize_whitespace | escape -%}
-{%- assign preview_source = page.image -%}
-{%- unless preview_source and preview_source != '' -%}
-  {%- if page.banner -%}
-    {%- assign preview_source = '/assets/images/banners/' | append: page.banner | append: '.svg' -%}
-  {%- elsif page.layout == 'blog' or page.layout == 'library' -%}
-    {%- assign preview_source = '/assets/images/banners/' | append: page.layout | append: '.svg' -%}
-  {%- else -%}
-    {%- assign preview_source = page.preview_image | default: site.data.profile.portrait -%}
-  {%- endif -%}
-{%- endunless -%}
-{%- assign preview_asset = site.data.social_images[preview_source] -%}
-{%- assign preview_image = preview_asset.path | default: preview_source | absolute_url -%}
-{%- assign preview_alt = page.image_alt | default: preview_title -%}
-{%- if preview_source == site.data.profile.portrait -%}{%- assign preview_alt = site.data.profile.name -%}{%- endif -%}
-{%- assign preview_card = 'summary_large_image' -%}
-{%- if preview_source == site.data.profile.portrait -%}{%- assign preview_card = 'summary' -%}{%- endif -%}
-<meta name="description" content="{{ preview_description }}">
-<meta property="og:site_name" content="{{ site.title | escape }}">
-<meta property="og:title" content="{{ preview_title | escape }}">
-<meta property="og:description" content="{{ preview_description }}">
-<meta property="og:url" content="{{ canonical_path | absolute_url }}">
-<meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'note' %}article{% else %}website{% endif %}">
-<meta property="og:locale" content="{% if lang == 'ru' %}ru_RU{% else %}en_US{% endif %}">
-<meta property="og:image" content="{{ preview_image | escape }}">
-<meta property="og:image:alt" content="{{ preview_alt | escape }}">
-{% if preview_asset.type %}<meta property="og:image:type" content="{{ preview_asset.type }}">{% endif %}
-{% if preview_asset.width %}<meta property="og:image:width" content="{{ preview_asset.width }}"><meta property="og:image:height" content="{{ preview_asset.height }}">{% endif %}
-<meta name="twitter:card" content="{{ preview_card }}">
-<meta name="twitter:title" content="{{ preview_title | escape }}">
-<meta name="twitter:description" content="{{ preview_description }}">
-<meta name="twitter:image" content="{{ preview_image | escape }}">
-<meta name="twitter:image:alt" content="{{ preview_alt | escape }}">
+{% set previewTitle = title or site.title %}
+{% set previewDescription = description or excerpt %}
+{% if not previewDescription %}
+  {% if layout == 'blog' %}{% set previewDescription = t.blog_intro %}
+  {% elif layout == 'library' %}{% set previewDescription = t.library_intro %}
+  {% elif layout == 'links' %}{% set previewDescription = t.links_intro %}
+  {% else %}{% set previewDescription = t.bio %}{% endif %}
+{% endif %}
+{% set previewDescription = previewDescription | markdown | striptags | normalizeWhitespace %}
+{% set previewSource = image %}
+{% if not previewSource %}
+  {% if banner %}{% set previewSource = '/assets/images/banners/' + banner + '.svg' %}
+  {% elif layout == 'blog' or layout == 'library' %}{% set previewSource = '/assets/images/banners/' + layout + '.svg' %}
+  {% else %}{% set previewSource = preview_image or profile.portrait %}{% endif %}
+{% endif %}
+{% set previewAsset = social_images[previewSource] %}
+{% set previewImage = (previewAsset.path or previewSource) | absoluteUrl %}
+{% set previewAlt = image_alt or previewTitle %}
+{% set previewCard = 'summary_large_image' %}
+{% if previewSource == profile.portrait %}{% set previewAlt = profile.name %}{% set previewCard = 'summary' %}{% endif %}
+<meta name="description" content="{{ previewDescription }}">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:title" content="{{ previewTitle }}">
+<meta property="og:description" content="{{ previewDescription }}">
+<meta property="og:url" content="{{ canonicalPath | absoluteUrl }}">
+<meta property="og:type" content="{{ 'article' if layout == 'post' or layout == 'note' else 'website' }}">
+<meta property="og:locale" content="{{ 'ru_RU' if lang == 'ru' else 'en_US' }}">
+<meta property="og:image" content="{{ previewImage }}">
+<meta property="og:image:alt" content="{{ previewAlt }}">
+{% if previewAsset.type %}<meta property="og:image:type" content="{{ previewAsset.type }}">{% endif %}
+{% if previewAsset.width %}<meta property="og:image:width" content="{{ previewAsset.width }}"><meta property="og:image:height" content="{{ previewAsset.height }}">{% endif %}
+<meta name="twitter:card" content="{{ previewCard }}">
+<meta name="twitter:title" content="{{ previewTitle }}">
+<meta name="twitter:description" content="{{ previewDescription }}">
+<meta name="twitter:image" content="{{ previewImage }}">
+<meta name="twitter:image:alt" content="{{ previewAlt }}">

@@ -1,17 +1,14 @@
 {
   "/library/efficient-ml/lecture-1-introduction/": {
     "md": "/assets/downloads/note-efficient-ml-lecture-1-en.md",
-    "pdf": "/assets/downloads/note-efficient-ml-lecture-1-en.pdf",
-    "html": "compiled/note-efficient-ml-lecture-1-en.html"
+    "pdf": "/assets/downloads/note-efficient-ml-lecture-1-en.pdf"
   },
   "/dls-agent-en/": {
     "md": "/assets/downloads/post-dls_agent-en.md",
-    "pdf": "/assets/downloads/post-dls_agent-en.pdf",
-    "html": "compiled/post-dls_agent-en.html"
+    "pdf": "/assets/downloads/post-dls_agent-en.pdf"
   },
   "/dls-agent-ru/": {
     "md": "/assets/downloads/post-dls_agent-ru.md",
-    "pdf": "/assets/downloads/post-dls_agent-ru.pdf",
-    "html": "compiled/post-dls_agent-ru.html"
+    "pdf": "/assets/downloads/post-dls_agent-ru.pdf"
   }
 }

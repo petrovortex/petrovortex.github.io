@@ -36,7 +36,7 @@ Required fields below describe ordinary published content; legacy redirect files
 | `last_modified_at` | All | Optional update timestamp; defaults to `date` for sorting and course update calculations |
 | `published` | All | Optional boolean; `false` excludes the document from normal site output |
 | `permalink` | All | Required for library content; optional explicit URL for a post |
-| `math` | Posts, notes | Optional boolean; `true` enables compiled TeX formulas |
+| `math` | Posts, notes | Optional boolean; `true` renders TeX formulas on the page and in PDF editions |
 | `copyright_year` | Posts, notes | Optional export notice override; otherwise the year of `date` is used |
 
 Defaults in [_config.yml](../_config.yml) assign `layout` and `section` by collection. Ordinary content does not need to repeat them.
@@ -47,11 +47,11 @@ Location: `content/_posts/en/YYYY-MM-DD-slug-en.md` or `content/_posts/ru/YYYY-M
 
 | Field | Meaning |
 | --- | --- |
-| `excerpt` | Recommended short summary for the Blog list; plain text is easiest to scan |
+| `excerpt` | Recommended short summary for the Blog list; plain text is easiest to scan. If omitted, the opening text up to the first blank line is used |
 | `tags` | List of blog topics, e.g. `[Machine learning, Projects]` |
 | `permalink` | Stable explicit route, e.g. `/example-project-en/`; otherwise the dated filename determines the route under the current `/:title/` setting |
 
-The download generator uses the `permalink` value when present; otherwise it derives the URL from the dated filename. If changing Jekyll's global URL scheme, update the export route handling too.
+The download generator uses the `permalink` value when present; otherwise it derives the URL from the dated filename. The site and downloads use the same route helper in `scripts/content/documents.mjs`. Preserve existing public URLs when changing filenames.
 
 ## Course fields
 
@@ -118,12 +118,12 @@ Artwork sizes, composition, and assignment examples: [Artwork](banner-design.md)
 
 Translations use separate files in the corresponding `en/` or `ru/` collection folder and share `lang_ref`. Translated courses also share `course_id`; each language has its own notes and order values. Import IDs are distinct per file and allow lowercase letters, digits, and hyphens only.
 
-The main English sections are at `/`, `/blog/`, `/library/`, and `/links/`; Russian sections start at `/ru/`. Existing blog articles retain their published URLs. Library URL prefixes and course/note relationships are validated by [site.rb](../scripts/site.rb).
+The main English sections are at `/`, `/blog/`, `/library/`, `/publications/`, and `/links/`; Russian sections start at `/ru/`. Existing blog articles retain their published URLs. Library URL prefixes and course/note relationships are validated by [the content validator](../scripts/site/validate-content.mjs).
 
 ## Dates and visibility
 
 Keep creation and update timestamps separate. Editing content changes `last_modified_at`, not `date`. Imported timestamp defaults and overrides are defined in [the import reference](content-workflow.md#metadata-and-timestamps).
 
-Future-dated blog posts are excluded by normal Jekyll builds. The exporter skips future-dated posts and notes. Use `published: false` or keep drafts outside selected content rather than relying on dates alone to hide a library collection.
+Future-dated documents and documents with `published: false` are excluded from the site and its collections. The exporter also skips unpublished and future-dated posts and notes. Keep private drafts outside selected content or set `published: false`.
 
-`published: false` controls site output, not repository access. Removing a manifest entry stops updates without deleting an existing site file. See [hiding and removing content](author-guide.md#hide-or-remove-content).
+`published: false` controls site output, not repository access. Removing a manifest entry stops updates without deleting an existing site file. Restart the preview after hiding, deleting, or moving a page to clear its old URL. See [hiding and removing content](author-guide.md#hide-or-remove-content).

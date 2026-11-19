@@ -1,6 +1,6 @@
 # Агентная система для Яндекс.Карт
 
-© 2026 Alexander Petrov. Written by Alexander Petrov.
+© 2026 Aleksandr Petrov. Written by Aleksandr Petrov.
 
 Original publication: [https://petrovortex.github.io/dls-agent-ru/](https://petrovortex.github.io/dls-agent-ru/)
 

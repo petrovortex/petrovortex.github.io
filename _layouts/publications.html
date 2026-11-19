@@ -1,0 +1,18 @@
+---
+layout: default
+---
+{% from "components/banner.html" import banner as pageBanner %}
+{% set t = ui[lang] %}
+<section class="publications-page" aria-labelledby="publications-title">
+  <header class="page-heading">
+    <p class="eyebrow">{{ t.publications_kicker }}</p>
+    <h1 id="publications-title">{{ title }}</h1>
+    <p>{{ t.publications_intro }}</p>
+  </header>
+  {{ pageBanner(banner) }}
+  <div class="publication-list" lang="en">
+    {% for publication in publications %}
+    <div class="publication" id="{{ publication.id | escape }}">{{ publication.citation | markdown | safe }}</div>
+    {% endfor %}
+  </div>
+</section>

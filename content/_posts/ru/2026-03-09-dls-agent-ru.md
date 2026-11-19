@@ -1,6 +1,6 @@
 ---
 title: "Агентная система для Яндекс.Карт"
-date: 2026-03-09 19:56:00 +0300
+date: 2026-03-09T19:56:00+03:00
 lang: ru
 lang_ref: dls_agent
 image: /assets/images/banners/agentic-ai.svg

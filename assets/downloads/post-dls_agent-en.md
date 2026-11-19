@@ -1,6 +1,6 @@
 # My first experience with Agentic AI
 
-© 2026 Alexander Petrov. Written by Alexander Petrov.
+© 2026 Aleksandr Petrov. Written by Aleksandr Petrov.
 
 Original publication: [https://petrovortex.github.io/dls-agent-en/](https://petrovortex.github.io/dls-agent-en/)
 

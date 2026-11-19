@@ -21,7 +21,7 @@ for (const name of files) {
     }
     pixmap.destroy(); structured.destroy(); page.destroy();
   }
-  if (!text.includes('Alexander Petrov') || !text.includes('https://petrovortex.github.io/')) throw new Error(name+': missing attribution');
+  if (!text.includes('Aleksandr Petrov') || !text.includes('https://petrovortex.github.io/')) throw new Error(name+': missing attribution');
   await fs.writeFile(path.join(directory,'text.txt'),text);
   console.log(name+': '+doc.countPages()+' pages rendered and checked');
   doc.destroy();

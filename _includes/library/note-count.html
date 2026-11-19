@@ -1,3 +1,5 @@
-{%- assign count_mod10 = include.count | modulo: 10 -%}{%- assign count_mod100 = include.count | modulo: 100 -%}{%- assign count_form = 'other' -%}
-{%- if page.lang == 'ru' -%}{%- assign count_form = 'many' -%}{%- if count_mod10 == 1 and count_mod100 != 11 -%}{%- assign count_form = 'one' -%}{%- elsif count_mod10 >= 2 and count_mod10 <= 4 -%}{%- unless count_mod100 >= 12 and count_mod100 <= 14 -%}{%- assign count_form = 'few' -%}{%- endunless -%}{%- endif -%}{%- elsif include.count == 1 -%}{%- assign count_form = 'one' -%}{%- endif -%}
-{{- include.count }} {{ t.note_counts[count_form] -}}
+{% macro noteCount(count, lang, t) -%}
+{% set mod10 = count % 10 %}{% set mod100 = count % 100 %}{% set form = 'other' %}
+{% if lang == 'ru' %}{% set form = 'many' %}{% if mod10 == 1 and mod100 != 11 %}{% set form = 'one' %}{% elif mod10 >= 2 and mod10 <= 4 and not (mod100 >= 12 and mod100 <= 14) %}{% set form = 'few' %}{% endif %}{% elif count == 1 %}{% set form = 'one' %}{% endif %}
+{{- count }} {{ t.note_counts[form] -}}
+{%- endmacro %}

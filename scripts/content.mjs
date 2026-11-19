@@ -7,15 +7,19 @@ import { parse } from 'yaml';
 import { importObsidian, DEFAULT_MANIFEST } from './content/import-obsidian.mjs';
 import { exportContent } from './content/export-content.mjs';
 import { walk, collectionsRoot } from './content/documents.mjs';
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const rootArg = process.argv.indexOf('--root');
+if (rootArg >= 0 && !process.argv[rootArg + 1]) throw new Error('--root requires a site folder.');
+const root = rootArg >= 0 ? path.resolve(process.argv[rootArg + 1]) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const watch = process.argv.includes('--watch'), exportsOnly = process.argv.includes('--exports-only');
+const webOnly = process.argv.includes('--web-only');
 const arg = process.argv.indexOf('--vault');
 const vault = arg >= 0 ? process.argv[arg + 1] : process.env.OBSIDIAN_VAULT;
 async function sync() {
   if (!exportsOnly) await importObsidian(root, DEFAULT_MANIFEST, vault);
   // Isolate the SVG renderer from the PDF exporter's WASM instance.
-  execFileSync(process.execPath, [path.join(root, 'scripts/artwork/build-social-previews.mjs')], { stdio: 'inherit' });
-  await exportContent(root);
+  const previewScript = path.join(path.dirname(fileURLToPath(import.meta.url)), 'artwork/build-social-previews.mjs');
+  execFileSync(process.execPath, [previewScript, root], { stdio: 'inherit' });
+  await exportContent(root, { pdf: !webOnly });
 }
 async function fingerprint() {
   const manifestPath = path.join(root, DEFAULT_MANIFEST);
@@ -41,7 +45,9 @@ try {
   await sync();
   if (watch) {
     let previous = await fingerprint();
-    console.log('Watching selected Obsidian notes and site content. Save in Obsidian, then refresh the local preview. Ctrl+C stops.');
+    console.log(exportsOnly
+      ? 'Watching site content. Ctrl+C stops.'
+      : 'Watching selected Obsidian notes and site content. Ctrl+C stops.');
     // A sequential loop avoids overlapping writes when a save triggers several events.
     while (true) {
       await new Promise(resolve => setTimeout(resolve, 1500));

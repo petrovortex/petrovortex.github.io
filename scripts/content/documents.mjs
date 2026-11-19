@@ -24,7 +24,7 @@ export async function walk(directory) {
   return (await Promise.all(entries.filter(e => !e.name.startsWith('.') && !e.isSymbolicLink()).map(e => e.isDirectory() ? walk(path.join(directory, e.name)) : [path.join(directory, e.name)]))).flat();
 }
 export const slug = text => text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-а-яё]+/g, '').replace(/-+/g, '-');
-// Follow Jekyll's collections_dir setting in the existing local content tools.
+// Share the source directory setting between the site and its content tools.
 export function collectionsRoot(root, config) {
   return within(root, config.collections_dir || '.');
 }

@@ -1,6 +1,6 @@
 # Lecture 1. Introduction
 
-© 2026 Alexander Petrov. Study notes by Alexander Petrov.
+© 2026 Aleksandr Petrov. Study notes by Aleksandr Petrov.
 
 Original publication: [https://petrovortex.github.io/library/efficient-ml/lecture-1-introduction/](https://petrovortex.github.io/library/efficient-ml/lecture-1-introduction/)
 

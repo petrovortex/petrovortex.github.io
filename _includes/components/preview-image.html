@@ -1,3 +1,5 @@
-{%- assign preview_image = include.item.preview_image | default: include.item.image -%}
-{%- assign preview_dark = include.item.image_dark -%}{%- if include.item.preview_image -%}{%- assign preview_dark = include.item.preview_image_dark -%}{%- endif -%}
-{%- if preview_image and preview_image != '' -%}<span class="preview-art{% if preview_dark %} themed-art{% endif %}"><img {% if preview_dark %}class="art-light"{% endif %} src="{{ preview_image | relative_url }}" alt="" width="360" height="240" loading="lazy" decoding="async">{% if preview_dark %}<img class="art-dark" src="{{ preview_dark | relative_url }}" alt="" width="360" height="240" loading="lazy" decoding="async">{% endif %}</span>{%- endif -%}
+{% macro previewImage(item) %}
+{% set preview = item.preview_image or item.image %}
+{% set dark = item.preview_image_dark if item.preview_image else item.image_dark %}
+{% if preview %}<span class="preview-art{% if dark %} themed-art{% endif %}"><img {% if dark %}class="art-light"{% endif %} src="{{ preview | relativeUrl }}" alt="" width="360" height="240" loading="lazy" decoding="async">{% if dark %}<img class="art-dark" src="{{ dark | relativeUrl }}" alt="" width="360" height="240" loading="lazy" decoding="async">{% endif %}</span>{% endif %}
+{% endmacro %}

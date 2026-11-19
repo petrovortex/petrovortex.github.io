@@ -27,15 +27,23 @@
   icon: telegram
   group: channels
   url: https://t.me/open_notes
+- label: Google Scholar
+  icon: googlescholar
+  group: research
+  url: https://scholar.google.com/citations?user=Q4GgIPMAAAAJ&hl=en
+- label: ORCID
+  icon: orcid
+  group: research
+  url: https://orcid.org/0009-0001-6354-7463
 - label: GitHub
   icon: github
-  group: code
+  group: research
   url: https://github.com/petrovortex
 - label: Kaggle
   icon: kaggle
-  group: code
+  group: competitions
   url: https://www.kaggle.com/petrovortex
 - label: LeetCode
   icon: leetcode
-  group: code
+  group: competitions
   url: https://leetcode.com/u/petrovortex/

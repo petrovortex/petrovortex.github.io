@@ -1,27 +1,36 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { parse } from 'yaml';
 import { frontmatter, walk, pageUrl, writeChanged, collectionsRoot, collectionName } from './documents.mjs';
-import { preparePdfImages } from './pdf/images.mjs';
-import { renderArticle, renderMarkdown } from './render-markdown.mjs';
+import { pdfGeneratorHash, pdfInputHash } from './pdf/cache.mjs';
 
-export async function exportContent(root) {
+async function pythonExecutable(root) {
+  if (process.env.SITE_PYTHON) {
+    try { await fs.access(process.env.SITE_PYTHON); }
+    catch { throw new Error('SITE_PYTHON does not point to an existing Python executable: ' + process.env.SITE_PYTHON); }
+    return process.env.SITE_PYTHON;
+  }
+  const candidates = process.platform === 'win32'
+    ? [path.resolve(root, '../.site-tools/pdf-env/Scripts/python.exe')]
+    : [path.resolve(root, '../.site-tools/pdf-env/bin/python')];
+  for (const candidate of candidates) {
+    try { await fs.access(candidate); return candidate; } catch {}
+  }
+  return process.platform === 'win32' ? 'python' : 'python3';
+}
+
+export async function exportContent(root, { pdf: buildPdf = true } = {}) {
   const config = parse(await fs.readFile(path.join(root, '_config.yml'), 'utf8'));
   const contentRoot = collectionsRoot(root, config);
   const origin = config.url.replace(/\/$/, '') + (config.baseurl || '');
   const pdfScript = path.join(root, 'scripts/content/pdf/export.py');
-  const generatorHash = createHash('sha256').update(await fs.readFile(pdfScript)).update(await fs.readFile(path.join(root, 'scripts/content/render-markdown.mjs'))).update(await fs.readFile(path.join(root, 'scripts/content/export-content.mjs'))).update(await fs.readFile(path.join(root, 'scripts/content/pdf/images.mjs'))).digest('hex');
+  const generatorHash = buildPdf ? await pdfGeneratorHash(root) : null;
+  const renderMarkdown = buildPdf ? (await import('./render-markdown.mjs')).renderMarkdown : null;
   const files = (await Promise.all(['_posts', '_notes'].map(dir => walk(path.join(contentRoot, dir))))).flat().filter(file => file.endsWith('.md')).sort();
   const courses = (await Promise.all((await walk(path.join(contentRoot, '_courses'))).filter(f => f.endsWith('.md')).map(async file => frontmatter(await fs.readFile(file, 'utf8')).data)));
   const downloads = {}, jobs = [];
-  const temp = path.join(root, '.preview/exports'); await fs.mkdir(temp, { recursive: true });
-  const pythonCandidates = [process.env.SITE_PYTHON, path.resolve(root, '../.site-tools/pdf-env/Scripts/python.exe'), path.resolve(root, '../.site-tools/pdf-env/bin/python')].filter(Boolean);
-  const python = (await Promise.all(pythonCandidates.map(async p => await fs.access(p).then(() => p).catch(() => null)))).find(Boolean) || (process.platform === 'win32' ? 'python' : 'python3');
-  const assetHash = createHash('sha256');
-  for (const file of (await walk(path.join(root, 'assets'))).filter(file => !file.includes(path.sep + 'downloads' + path.sep)).sort()) assetHash.update(await fs.readFile(file));
-  const assetDigest = assetHash.digest('hex');
+  const temp = path.join(root, '.preview/exports');
   for (const file of files) {
     const raw = await fs.readFile(file, 'utf8'), { data, body } = frontmatter(raw);
     if (data.redirect_to || data.published === false) continue;
@@ -32,7 +41,7 @@ export async function exportContent(root) {
     const url = pageUrl(file, data), canonical = origin + url;
     const key = (note ? 'note-' : 'post-') + data.lang_ref + '-' + data.lang;
     const year = data.copyright_year || String(data.date || '').slice(0, 4) || new Date().getFullYear();
-    const author = config.author || 'Alexander Petrov';
+    const author = config.author || 'Aleksandr Petrov';
     const course = note ? courses.find(s => s.course_id === data.course && s.lang === data.lang) : null;
     if (note && !course) throw new Error('Missing course for ' + file);
     const ownership = '© ' + year + ' ' + author + '. ' + (note ? 'Study notes by ' + author + '.' : 'Written by ' + author + '.');
@@ -41,29 +50,30 @@ export async function exportContent(root) {
     const image = data.image ? '![' + (data.image_alt || data.title) + '](' + absolute(data.image) + ')\n\n' + (data.image_caption ? '*' + data.image_caption + '*\n\n' : '') : '';
     const mdBody = (image + body).replace(/(!?\[[^\]\n]*\]\()\/(?!\/)/g, '$1' + origin + '/').replace(/((?:src|href)=["'])\/(?!\/)/g, '$1' + origin + '/');
     const markdown = '# ' + data.title + '\n\n' + ownership + '\n\nOriginal publication: [' + canonical + '](' + canonical + ')\n\n' + (source ? source + '\n\nCourse: ' + course.source_url + '\n\n' : '') + '---\n\n' + mdBody.trim() + '\n';
-    const article = renderArticle(body, data.math, data.lang);
-    const html = image ? renderMarkdown(image + body, data.math, data.lang) : article.html;
-    const entry = { md: '/assets/downloads/' + key + '.md', pdf: '/assets/downloads/' + key + '.pdf' };
-    if (data.math || article.hasFootnotes) {
-      entry.html = 'compiled/' + key + '.html';
-      await writeChanged(path.join(root, '_includes', entry.html), '{% raw %}\n' + article.html + '{% endraw %}\n');
-    }
+    const entry = { md: '/assets/downloads/' + key + '.md' };
+    const pdfUrl = '/assets/downloads/' + key + '.pdf';
+    const pdf = path.join(root, pdfUrl.slice(1));
+    const hasPdf = await fs.access(pdf).then(() => true).catch(() => false);
+    if (buildPdf || hasPdf) entry.pdf = pdfUrl;
     downloads[url] = entry;
     await writeChanged(path.join(root, entry.md.slice(1)), markdown);
-    const hash = createHash('sha256').update(markdown).update(generatorHash).update(assetDigest).digest('hex');
-    const hashFile = path.join(temp, key + '.sha256');
-    const pdf = path.join(root, entry.pdf.slice(1));
-    const cached = await fs.readFile(hashFile, 'utf8').catch(() => '');
-    if (cached !== hash || !await fs.access(pdf).then(() => true).catch(() => false)) {
-      jobs.push({ key, title: data.title, lang: data.lang, author, ownership, source, source_url: course?.source_url, canonical, html, pdf, hashFile, hash, origin, root });
+    if (buildPdf) {
+      const html = renderMarkdown(image + body, data.math, data.lang);
+      const job = { key, title: data.title, lang: data.lang, author, ownership, source, source_url: course?.source_url, canonical, html, pdf, origin, root };
+      job.hash = await pdfInputHash(job, generatorHash);
+      job.hashFile = path.join(temp, key + '.sha256');
+      const cached = await fs.readFile(job.hashFile, 'utf8').catch(() => '');
+      if (cached !== job.hash || !hasPdf) jobs.push(job);
     }
   }
   if (jobs.length) {
+    const python = await pythonExecutable(root);
+    const { preparePdfImages } = await import('./pdf/images.mjs');
     for (const job of jobs) await preparePdfImages(job);
     const jobFile = path.join(temp, 'jobs.json');
     await writeChanged(jobFile, JSON.stringify(jobs, null, 2));
     const result = spawnSync(python, [pdfScript, jobFile], { stdio: 'inherit' });
-    if (result.error || result.status !== 0) throw new Error('PDF export failed. Set SITE_PYTHON or install scripts/content/pdf/requirements.txt. ' + (result.error?.message || ''));
+    if (result.error || result.status !== 0) throw new Error('PDF export failed with Python "' + python + '". Check that this executable runs and has scripts/content/pdf/requirements.txt installed. ' + (result.error?.message || 'Exit code: ' + result.status));
     for (const job of jobs) await writeChanged(job.hashFile, job.hash);
   }
   const previous = JSON.parse(await fs.readFile(path.join(root, '_data/downloads.json'), 'utf8').catch(() => '{}'));
@@ -79,5 +89,6 @@ export async function exportContent(root) {
     }
   }
   await writeChanged(path.join(root, '_data/downloads.json'), JSON.stringify(downloads, null, 2) + '\n');
-  console.log('Downloads: ' + Object.keys(downloads).length + ' articles, ' + jobs.length + ' PDF(s) rebuilt.');
+  console.log('Content: ' + Object.keys(downloads).length + ' articles prepared; ' + (buildPdf ? jobs.length + ' PDF(s) rebuilt.' : 'existing PDFs kept (PDF generation is separate).'));
+  return { downloads, pdfsRebuilt: jobs.length };
 }

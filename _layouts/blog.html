@@ -1,22 +1,25 @@
 ---
 layout: default
 ---
-{% assign t = site.data.ui[page.lang] %}
-{% assign posts = site.posts | where: 'lang', page.lang | where_exp: 'post', 'post.redirect_to == nil' %}
+{% from "components/banner.html" import banner as pageBanner %}
+{% from "components/preview-image.html" import previewImage %}
+{% from "components/engagement.html" import engagement %}
+{% set t = ui[lang] %}
+{% set posts = collections.posts | filterBy('data.lang', lang) | without('data.redirect_to') | sort(true, false, 'date') %}
 <header class="page-heading"><p class="eyebrow">{{ t.blog }}</p><h1>{{ t.blog_title }}</h1><p>{{ t.blog_intro }}</p></header>
-{% include components/banner.html name='blog' %}
-{% include components/listing-controls.html kind='blog' %}
-<div class="post-list" data-listing="blog" data-result-label="{{ t.posts }}" data-result-forms="{{ t.post_counts | jsonify | escape }}">
+{{ pageBanner('blog') }}
+{% include "components/listing-controls.html" %}
+<div class="post-list" data-listing="blog" data-result-label="{{ t.posts }}" data-result-forms="{{ t.post_counts | jsonify }}">
   {% for post in posts %}
-  <article class="post-row listing-card" data-list-item data-title="{{ post.title | escape }}" data-date="{{ post.date | date: '%s' }}" data-updated="{{ post.last_modified_at | default: post.date | date: '%s' }}" data-tags="{{ post.tags | jsonify | escape }}" data-post-id="{{ post.lang_ref | escape }}">
+  <article class="post-row listing-card" data-list-item data-title="{{ post.data.title }}" data-date="{{ post.date | timestamp }}" data-updated="{{ (post.data.last_modified_at or post.date) | timestamp }}" data-tags="{{ post.data.tags | jsonify }}" data-post-id="{{ post.data.lang_ref }}">
     <div class="card-copy">
-      <div class="card-meta"><time datetime="{{ post.date | date_to_xmlschema }}" title="{{ post.date | date: '%d.%m.%Y %H:%M %Z' }}">{{ post.date | date: '%d.%m.%Y' }}</time></div>
-      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-      <p class="card-description">{{ post.excerpt | strip_html }}</p>
-      <div class="tags">{% for tag in post.tags %}<a class="tag" href="?topic={{ tag | url_encode }}" data-tag-link="{{ tag | escape }}">{{ tag }}</a>{% endfor %}</div>
+      <div class="card-meta"><time datetime="{{ post.date | isoDate }}" title="{{ post.date | timestampTitle }}">{{ post.date | displayDate }}</time></div>
+      <h2><a href="{{ post.url | relativeUrl }}">{{ post.data.title }}</a></h2>
+      <p class="card-description">{{ post.data.excerpt | striptags }}</p>
+      <div class="tags">{% for tag in post.data.tags %}<a class="tag" href="?topic={{ tag | urlencode }}" data-tag-link="{{ tag }}">{{ tag }}</a>{% endfor %}</div>
     </div>
-    {% if post.preview_image or post.image %}<a class="card-preview post-preview" href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">{% include components/preview-image.html item=post %}</a>{% endif %}
-    <div class="card-actions">{% include components/engagement.html id=post.lang_ref url=post.url title=post.title %}</div>
+    {% if post.data.preview_image or post.data.image %}<a class="card-preview post-preview" href="{{ post.url | relativeUrl }}" tabindex="-1" aria-hidden="true">{{ previewImage(post.data) }}</a>{% endif %}
+    <div class="card-actions">{{ engagement(post.data.lang_ref, post.url, post.data.title, t) }}</div>
   </article>
   {% endfor %}
 </div>

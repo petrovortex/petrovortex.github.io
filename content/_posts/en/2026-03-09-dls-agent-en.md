@@ -1,6 +1,6 @@
 ---
 title: "My first experience with Agentic AI"
-date: 2026-03-09 19:56:00 +0300
+date: 2026-03-09T19:56:00+03:00
 lang: en
 lang_ref: dls_agent
 image: /assets/images/banners/agentic-ai.svg

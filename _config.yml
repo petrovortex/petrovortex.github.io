@@ -1,53 +1,10 @@
-title: Alexander Petrov
-author: Alexander Petrov
+title: Aleksandr Petrov
+author: Aleksandr Petrov
 email: alex.petrovortex@gmail.com
 description: This is where I showcase my projects, share my thoughts, and publish study notes on the topics that I like.
 url: "https://petrovortex.github.io"
 baseurl: ""
-permalink: /:title/
 timezone: Europe/Moscow
 lang: en
-markdown: kramdown
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-# Native Jekyll collection container; underscores remain required.
+# Shared source directory for Eleventy and the content tools.
 collections_dir: content
-collections:
-  courses:
-    output: true
-  notes:
-    output: true
-defaults:
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: post
-      section: blog
-  - scope:
-      path: ""
-      type: courses
-    values:
-      layout: course
-      section: library
-  - scope:
-      path: ""
-      type: notes
-    values:
-      layout: note
-      section: library
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - README.md
-  - docs
-  - scripts
-  - config
-  - tests
-  - package.json
-  - package-lock.json
-  - node_modules
-  - vendor
-  - .bundle
-  - .preview
