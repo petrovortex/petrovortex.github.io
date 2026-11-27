@@ -236,7 +236,7 @@ class Renderer:
                  Paragraph('Original publication: <a color="#b94432" href="' + escape(job['canonical'],quote=True) + '">' + escape(job['canonical']) + '</a>', SMALL)]
         if job['source']:
             story += [Paragraph(escape(job['source']), SMALL),
-                      Paragraph('Course: <a color="#b94432" href="' + escape(job['source_url'],quote=True) + '">' + escape(job['source_url']) + '</a>', SMALL)]
+                      Paragraph('Source: <a color="#b94432" href="' + escape(job['source_url'],quote=True) + '">' + escape(job['source_url']) + '</a>', SMALL)]
         story += [HRFlowable(width='100%', thickness=.6, color=colors.HexColor('#d7d0c5'), spaceBefore=5, spaceAfter=17)]
         body = BeautifulSoup(job['html'],'html.parser')
         # Citation targets belong to list items; ReportLab anchors live in paragraphs.

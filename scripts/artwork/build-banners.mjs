@@ -49,7 +49,29 @@ function grid(x,y,size,gap,active) {
     return `<rect x="${col*gap}" y="${row*gap}" width="${gap-5}" height="${gap-5}" rx="2" fill="${on?'accent':'fill'}" opacity="${on?'.8':'.28'}"/>`;
   }).join('')+'</g>';
 }
+function microphone(x, y) {
+  return `<g transform="translate(${x} ${y})">
+    <rect x="-26" y="-62" width="52" height="88" rx="26" fill="page" stroke="ink" stroke-width="2.5"/>
+    ${line('M-15-42H15M-19-31H19M-19-20H19M-17-9H17', 'accent', 'stroke-width="2"')}
+    ${line('M-37-9V0A37 37 0 0 0 37 0V-9M0 37V59M-24 60H24', 'ink', 'stroke-width="3"')}
+  </g>`;
+}
+function waveform(x, y, heights, color) {
+  return `<g transform="translate(${x} ${y})">${heights.map((height, i) =>
+    line(`M${i * 11} -${height}v${2 * height}`, color, 'stroke-width="3"')
+  ).join('')}</g>`;
+}
 const art = {
+  onigiri: { family:'library', body:()=>`
+    ${line('M72 131H888', 'ink', 'opacity=".24" stroke-dasharray="2 7"')}
+    ${waveform(100,131,[3,6,12,20,11,8,17,38,55,40,21,12,17,32,45,28,14,9,19,12,6,3],'accent')}
+    ${microphone(480,130)}
+    ${waveform(617,131,[4,8,16,26,40,24,13,8,16,48,62,41,20,11,21,32,26,13,7,3],'ink')}` },
+  'onigiri-preview': { family:'library', width:360, height:240, body:()=>`
+    ${line('M24 120H336', 'ink', 'opacity=".25" stroke-dasharray="2 5"')}
+    ${waveform(29,120,[3,10,23,35,15,6,12,4],'accent')}
+    ${microphone(180,120)}
+    ${waveform(253,120,[4,11,25,40,27,13,5,3],'ink')}` },
   blog: { family:'blog', body:()=>`
     ${line('M66 177C160 177 167 80 260 80S322 178 411 178S492 87 574 87S686 177 759 177S834 116 893 116','ink','opacity=".45" stroke-dasharray="3 7"')}
     ${page(132,62,105,139,-10)}${page(151,54,105,139,5)}
@@ -185,4 +207,4 @@ ${body}
     await fs.writeFile(path.join(directory,name+(theme==='dark'?'-dark':'')+'.svg'),svg);
   }
 }
-console.log('Generated 6 banners and 3 dedicated previews, each in light and dark editions.');
+console.log(`Generated ${Object.keys(art).length} illustrations, each in light and dark editions.`);

@@ -2,7 +2,7 @@
 
 [Documentation](../README.md#documentation) / Artwork
 
-A banner appears below the page heading. A thumbnail appears in the Blog, Library, or chapter list. Each post, note, or course can have both.
+A banner appears below the page heading. A thumbnail appears in the Blog, Library, or chapter list. Each post, note, or notebook can have both.
 
 Paths below start in the **site folder**: the folder containing `package.json` and `_config.yml`. Edit files in a text editor. Run commands in a [terminal opened in that folder](setup.md#where-to-run-commands).
 
@@ -54,7 +54,7 @@ preview_image: "Attachments/example-topic/thumbnail.png"
 3. In the site's `config/obsidian-imports.yml`, find the entry whose `source` points to this note. Remove any `image`, `image_alt`, or `preview_image` lines from its `metadata` block so the note's values can take effect.
 4. Save both files and follow [Review and publish](#review-and-publish).
 
-Replace the example paths with your attachment paths. Imports copy the files into the site. Courses use the repository method above because they are not imported from Obsidian.
+Replace the example paths with your attachment paths. Imports copy the files into the site. Notebooks use the repository method above because they are not imported from Obsidian.
 
 ## Assign artwork
 
@@ -72,7 +72,7 @@ Open `config/obsidian-imports.yml` in a text editor. Find the entry whose `sourc
 
 Replace the image paths and description. If a key already exists, edit its value instead of adding a duplicate. Keep the other settings in the entry. Save `config/obsidian-imports.yml`; do not edit the generated Markdown file named by `destination:`.
 
-### Directly authored post, note, or course
+### Directly authored post, note, or notebook
 
 Open the item's Markdown file in a text editor:
 
@@ -80,7 +80,7 @@ Open the item's Markdown file in a text editor:
 | --- | --- |
 | Blog post | `content/_posts/en/YYYY-MM-DD-your-post-en.md` |
 | Note | `content/_notes/en/your-note-en.md` |
-| Course | `content/_courses/en/your-course-en.md` |
+| Notebook | `content/_notebooks/en/your-notebook-en.md` |
 
 These are filename patterns: choose the actual file for your item. Russian files use `ru/` and `-ru.md`.
 
@@ -106,7 +106,7 @@ preview_image_dark: /assets/images/example-topic/thumbnail-dark.png
 
 For vault images, use attachment paths such as `Attachments/example-topic/banner-dark.png` and remove competing values from the import entry's `metadata` block.
 
-Without `preview_image`, the banner is also used as the thumbnail. An older course `banner` setting selects a named SVG pair; `image` takes precedence. See [Image fields](content-reference.md#image-fields) for the complete rules.
+Without `preview_image`, the banner is also used as the thumbnail. An older notebook `banner` setting selects a named SVG pair; `image` takes precedence. See [Image fields](content-reference.md#image-fields) for the complete rules.
 
 ## Link previews
 
@@ -116,7 +116,7 @@ Sharing a page URL uses its title, description, and light banner automatically. 
 | --- | --- | --- |
 | Homepage | `bio` for that language in `_data/ui.yml` | `portrait` in `_data/profile.yml` |
 | Post | `description`, or `excerpt` if no description is set | `image` |
-| Note or course | `description` | `image`, or a course's named `banner` |
+| Note or notebook | `description` | `image`, or a notebook's named `banner` |
 | Blog, Library, or Publications index | Its introduction in `_data/ui.yml` | Its section banner |
 
 Edit article fields in the same front matter or import metadata block described under [Assign artwork](#assign-artwork). No additional preview fields are required. Without a banner, the preview uses `preview_image`, then the profile portrait. The separate list thumbnail remains unchanged.
@@ -138,7 +138,7 @@ Save the edited files. In a [terminal opened in the site folder](setup.md#where-
 | Content | Command to type in the terminal |
 | --- | --- |
 | Imported post or note | `npm run content:sync` |
-| Directly authored post, note, or course | No extra command while the preview is running; it rebuilds after saving |
+| Directly authored post, note, or notebook | No extra command while the preview is running; it rebuilds after saving |
 
 If `npm run content:watch` is already running in another terminal, wait for it to finish processing your save instead.
 

@@ -38,7 +38,7 @@ npm run verify:fixtures
 | Check | Covers |
 | --- | --- |
 | Node tests | Imports, metadata precedence, math, sort/filter URLs, reader navigation, preferences, sharing, and engagement failures/deduplication |
-| Metadata validation | Required fields/dates, library routes, course/language relationships, status/topics, and chapter order uniqueness |
+| Metadata validation | Required fields/dates, library routes, notebook/language relationships, status/topics, and chapter order uniqueness |
 | Generated-site verification | Links/assets/anchors, translations, metadata, feeds, thumbnails, engagement placements, and current download copies |
 | Documentation (`npm run verify:docs`) | Local links and headings, one page title per document, YAML examples, and required template fields |
 | Fixtures | Synthetic library content and independent cover/thumbnail behavior, excluded from publication |
@@ -55,7 +55,7 @@ After visual changes, inspect the affected pages in the local preview, in both t
 | --- | --- | --- |
 | Imported documents carrying `obsidian_import` | Vault note + manifest metadata | Yes |
 | `assets/imported/` | Referenced vault attachments | Yes |
-| `assets/downloads/`, `_data/downloads.json` | Posts, notes, course attribution, export scripts | Yes |
+| `assets/downloads/`, `_data/downloads.json` | Posts, notes, notebook attribution, export scripts | Yes |
 | `assets/images/social/`, `_data/social_images.json` | Cover images, named banners, profile portrait; refreshed by content commands and preview/build | Yes |
 | Named SVG outputs of [the artwork script](banner-design.md#regenerate-vector-artwork) | `scripts/artwork/build-banners.mjs` | Yes |
 | `assets/favicon-ap.png` | `assets/favicon.svg` | Yes |
@@ -78,11 +78,11 @@ Keep generated copies with the source for local downloads and review. The GitHub
 
 ## Maintenance conventions
 
-- Keep shared list behavior in `listings.js` and reusable markup in `_includes/`; keep course ordering separate.
+- Keep shared list behavior in `listings.js` and reusable markup in `_includes/`; keep notebook ordering separate.
 - Preserve published permalinks, translation references, and engagement IDs unless a migration is intentional.
 - Keep UI labels in `_data/ui.yml`. Preserve corresponding language keys and the existing CSS design tokens.
 - Keep imported data transformations separate from output formatting. Validate imported targets before writing.
 - Use behavior tests for changes to routing, sorting, imports, or engagement; visually review presentation changes.
-- Document commands in `setup.md`, fields in `content-reference.md`, and processing rules in `content-workflow.md`. Link from task recipes instead of maintaining competing definitions. Use relative links and keep machine-specific paths out of general instructions. Describe the general procedure first, then use fictional examples. Avoid inventories of currently published posts or courses in authoring instructions. Before a copyable block, name the file and insertion point, or the terminal and working folder. Define placeholders and required indentation.
+- Document commands in `setup.md`, fields in `content-reference.md`, and processing rules in `content-workflow.md`. Link from task recipes instead of maintaining competing definitions. Use relative links and keep machine-specific paths out of general instructions. Describe the general procedure first, then use fictional examples. Avoid inventories of currently published posts or notebooks in authoring instructions. Before a copyable block, name the file and insertion point, or the terminal and working folder. Define placeholders and required indentation.
 
 Related: [Configuration boundaries](configuration.md#scope-and-existing-integrations) · [Troubleshooting](troubleshooting.md)

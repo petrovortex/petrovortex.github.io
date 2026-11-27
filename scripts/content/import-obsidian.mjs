@@ -58,7 +58,9 @@ export async function importObsidian(root, manifestFile = DEFAULT_MANIFEST, vaul
     );
     const manifestMetadata = item.metadata || {};
     const meta = { ...sourceMetadata, ...manifestMetadata, obsidian_import: item.id };
+    meta.collect_references = item.collect_references !== false;
     if (!meta.title || !meta.lang || !meta.lang_ref) throw new Error(item.id + ': title, lang and lang_ref are required');
+    if (!/^[a-z0-9_-]+$/.test(meta.lang_ref)) throw new Error(item.id + ': invalid lang_ref');
     const location = locations.get(item.id);
     if (meta.lang !== location.lang) throw new Error(item.id + ': language must match the destination folder');
     const destination = within(root, item.destination);
@@ -103,11 +105,14 @@ export async function importObsidian(root, manifestFile = DEFAULT_MANIFEST, vaul
       if (!/\.(png|jpe?g|gif|webp|svg|pdf)$/i.test(file)) throw new Error('Unsupported attachment: ' + target);
       const bytes = await fs.readFile(file);
       const name = createHash('sha256').update(bytes).digest('hex').slice(0, 16) + path.extname(file).toLowerCase();
-      const url = '/assets/imported/' + item.id + '/' + name;
+      const url = '/assets/imported/' + meta.lang_ref + '/' + name;
       pending.set(within(root, url.slice(1)), bytes);
       return (embed ? '!' : '') + '[' + label + '](' + url + ')';
     }
     let body = original.replace(/\r\n/g, '\n');
+    // The reader already displays the publication title above the body.
+    const firstHeading = body.trimStart().match(/^#\s+([^\n]+)(?:\n|$)/);
+    if (firstHeading?.[1].trim() === meta.title) body = body.trimStart().slice(firstHeading[0].length).trimStart();
     body = await transformProse(body, async prose => {
       // Obsidian comments are private; do not include them in the public document.
       prose = prose.replace(/%%[\s\S]*?%%/g, '');

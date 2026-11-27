@@ -3,7 +3,7 @@ date: 2026-10-26T12:00:00+07:00
 title: First topic
 lang: en
 lang_ref: note-example-first
-course: example
+notebook: example
 order: 1
 module: Foundations
 math: true

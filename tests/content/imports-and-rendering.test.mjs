@@ -15,7 +15,7 @@ async function fixture(t) {
   const root=path.join(base,'site'), vault=path.join(base,'vault');
   await fs.mkdir(path.join(root,'config'),{recursive:true}); await fs.mkdir(vault);
   await fs.writeFile(path.join(root,'_config.yml'), 'collections_dir: content\n');
-  const item = {id:'first',source:'First.md',destination:'content/_notes/en/first.md',metadata:{title:'First',lang:'en',lang_ref:'first',permalink:'/library/course/first/',course:'course',order:1}};
+  const item = {id:'first',source:'First.md',destination:'content/_notes/en/first.md',metadata:{title:'First',lang:'en',lang_ref:'first',permalink:'/library/notebook/first/',notebook:'notebook',order:1}};
   const manifest = async (items=[item])=>fs.writeFile(path.join(root,'config/obsidian-imports.yml'),stringify({vault:'../vault',items}));
   await manifest();
   return {root,vault,item,manifest};

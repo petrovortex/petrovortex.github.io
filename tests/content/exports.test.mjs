@@ -64,7 +64,7 @@ test('PDF cache ignores unrelated site assets and tracks referenced image bytes 
   await write('assets/figure.png', 'updated image bytes');
   assert.notEqual(await pdfInputHash(job, 'generator'), initial);
   assert.equal(await pdfInputHash(other, 'generator'), otherInitial);
-  assert.notEqual(await pdfInputHash({ ...other, source_url: 'https://example.com/course' }, 'generator'), otherInitial);
+  assert.notEqual(await pdfInputHash({ ...other, source_url: 'https://example.com/notebook' }, 'generator'), otherInitial);
   assert.notEqual(await pdfInputHash({ ...other, author: 'Different Author' }, 'generator'), otherInitial);
   await assert.rejects(pdfInputHash({ ...job, html: '<img src="/assets/missing.png">' }, 'generator'), /Missing article image/);
   await assert.rejects(pdfInputHash({ ...job, html: '<img src="/../private.png">' }, 'generator'), /escapes its root/);

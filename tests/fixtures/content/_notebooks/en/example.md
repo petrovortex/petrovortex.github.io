@@ -1,19 +1,19 @@
 ---
 date: 2026-10-26T12:00:00+07:00
-title: Example course
-course_id: example
+title: Example notebook
+notebook_id: example
 topics: [Testing]
 status: complete
 lang: en
-lang_ref: course-example
+lang_ref: notebook-example
 description: Synthetic test content. Never published.
 source_author: Example instructor
-source_url: https://example.com/course
+source_url: https://example.com/notebook
 materials:
-  - title: Course website
-    url: https://example.com/course
+  - title: Notebook website
+    url: https://example.com/notebook
   - title: Slides
-    url: https://example.com/course/slides
+    url: https://example.com/notebook/slides
 image: /assets/favicon-ap.png
 image_alt: Uploaded raster cover
 image_caption: A caption for the uploaded cover.

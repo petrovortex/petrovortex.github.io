@@ -8,7 +8,7 @@ On this page: [Instructions](#how-to-use) · [Brief](#content-brief) · [Colors]
 
 ## How to use
 
-1. Open a chat that supports image generation. In its message box, paste the [content brief](#content-brief). Replace the text in square brackets with details from your draft. For a course, describe the course or book; for a note, describe that chapter.
+1. Open a chat that supports image generation. In its message box, paste the [content brief](#content-brief). Replace the text in square brackets with details from your draft. For a notebook, describe its subject and source material; for a note, describe that chapter.
 2. In the same message, paste the [generation prompt](#generation-prompt) below the completed brief. Write `FORMAT: banner` and fill `COLORS` with the matching row from [Colors](#colors). Send the message.
 3. Download the result as `banner.png` (or keep its actual `.jpg`/`.webp` extension). Send another message with the same brief and prompt, changing the line to `FORMAT: thumbnail`. Attach the accepted banner as a reference if supported. Download this result as `thumbnail.png` with its actual extension.
 4. For dark versions, attach each accepted image to a new message and paste the [dark-version prompt](#optional-dark-version), filling in the dark colors.
@@ -23,7 +23,7 @@ An existing site illustration can be supplied as a style reference. Ask the mode
 Paste this block into the image-generation chat's message box and replace each bracketed value. Give concrete objects or relationships that represent the content; “technology” or “learning” alone is too broad.
 
 ```text
-CONTENT TYPE: [blog post / note / course]
+CONTENT TYPE: [blog post / note / notebook]
 TITLE: [used for context; do not draw it in the image]
 SUMMARY: [2–4 sentences describing the content]
 MAIN IDEA: [one idea the reader should remember]
@@ -36,7 +36,7 @@ REFERENCE IMAGE: [optional attached illustration]
 
 ## Colors
 
-Use the Blog row for original articles, Library for courses and notes, and Publications for research artwork. Keep these same colors when making related images.
+Use the Blog row for original articles, Library for notebooks and notes, and Publications for research artwork. Keep these same colors when making related images.
 
 | Section and theme | Background | Line | Accent | Fill | Surface |
 | --- | --- | --- | --- | --- | --- |

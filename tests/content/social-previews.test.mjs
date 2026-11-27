@@ -4,9 +4,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { buildSocialPreviews, previewSource } from '../../scripts/artwork/build-social-previews.mjs';
 
-test('previews prefer the full cover, support named course banners, and fall back to a thumbnail or portrait', () => {
-  assert.equal(previewSource({ image: '/cover.png', banner: 'course', preview_image: '/thumb.png' }, '/face.jpg'), '/cover.png');
-  assert.equal(previewSource({ banner: 'course' }, '/face.jpg'), '/assets/images/banners/course.svg');
+test('previews prefer the full cover, support named notebook banners, and fall back to a thumbnail or portrait', () => {
+  assert.equal(previewSource({ image: '/cover.png', banner: 'notebook', preview_image: '/thumb.png' }, '/face.jpg'), '/cover.png');
+  assert.equal(previewSource({ banner: 'notebook' }, '/face.jpg'), '/assets/images/banners/notebook.svg');
   assert.equal(previewSource({ preview_image: '/thumb.png' }, '/face.jpg'), '/thumb.png');
   assert.equal(previewSource({ layout: 'library' }, '/face.jpg'), '/assets/images/banners/library.svg');
   assert.equal(previewSource({}, '/face.jpg'), '/face.jpg');
@@ -23,7 +23,7 @@ test('preview generation rasterizes SVGs, copies photos, changes URLs with image
   await write('_data/profile.yml', 'portrait: /assets/photo.png\n');
   await write('assets/photo.png', photo);
   await write('assets/images/banners/example.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260"><rect width="960" height="260" fill="#60754f"/></svg>');
-  await write('content/_courses/en/example.md', '---\nbanner: example\n---\n');
+  await write('content/_notebooks/en/example.md', '---\nbanner: example\n---\n');
   await write('content/_posts/en/2026-01-01-example.md', '---\nimage: /assets/images/banners/example.svg\n---\n');
   await write('content/_notes/en/one.md', '---\nimage: /assets/photo.png\n---\n');
   await write('content/_notes/en/draft.md', '---\npublished: false\nimage: /assets/missing.png\n---\n');

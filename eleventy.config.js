@@ -28,18 +28,21 @@ export default async function (config) {
   }));
   config.setNunjucksEnvironmentOptions({ autoescape: true });
   config.addExtension('xml', { key: 'njk' });
-  config.setLibrary('md', { render: (source, data = {}) => renderMarkdown(source, Boolean(data.math), data.lang || 'en') });
+  config.setLibrary('md', { render: (source, data = {}) => renderMarkdown(source, Boolean(data.math), data.lang || 'en', data.collect_references === true) });
   registerFilters(config, settings);
   config.addPreprocessor('publication-state', '*', data => {
     if (data.published === false || (data.date && new Date(data.date).getTime() > Date.now())) return false;
   });
 
-  for (const name of ['posts', 'courses', 'notes']) {
+  for (const name of ['posts', 'notebooks', 'notes']) {
     config.addCollection(name, api => api.getFilteredByGlob(`${content}/_${name}/**/*.md`));
   }
   config.addCollection('pages', api => api.getFilteredByGlob('pages/**/*.{html,njk,xml}'));
   for (const ignored of ['README.md', 'docs/**', 'scripts/**', 'config/**', 'tests/**', 'vendor/**', 'node_modules/**', '.preview/**', '.github/**', 'assets/**']) config.ignores.add(ignored);
   config.addPassthroughCopy('assets');
+  config.ignores.add('resume/archive/**');
+  config.ignores.add('resume/*.{md,html,njk,xml}');
+  config.addPassthroughCopy('resume/cv.pdf');
   config.addWatchTarget('_config.yml');
   config.addWatchTarget('assets/images/');
   config.addWatchTarget('assets/imported/');

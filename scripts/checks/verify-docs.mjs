@@ -58,11 +58,11 @@ for (const file of files) {
     }
   }
 }
-for (const name of ['post', 'note', 'course']) {
+for (const name of ['post', 'note', 'notebook']) {
   const source = await fs.readFile('docs/templates/' + name + '.md', 'utf8');
   const { data } = frontmatter(source);
   for (const key of ['title', 'date', 'lang', 'lang_ref', 'permalink']) assert(data[key], name + ': missing ' + key);
-  const collection = name === 'post' ? '_posts' : name === 'note' ? '_notes' : '_courses';
+  const collection = name === 'post' ? '_posts' : name === 'note' ? '_notes' : '_notebooks';
   const directory = '.preview/doc-examples/content/' + collection + '/' + data.lang;
   await fs.mkdir(directory, { recursive: true });
   await fs.writeFile(directory + '/' + (name === 'post' ? '2026-10-28-' : '') + name + '-en.md', source);

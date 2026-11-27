@@ -31,8 +31,8 @@ export function registerFilters(config, site) {
   config.addFilter('markdown', source => renderMarkdown(String(source || '')));
   config.addFilter('jsonify', value => JSON.stringify(value ?? null).replace(/</g, '\\u003c'));
   config.addFilter('normalizeWhitespace', value => String(value || '').replace(/\s+/g, ' ').trim());
-  config.addFilter('courseLastUpdated', (course, notes) => {
-    const timestamps = [course?.last_modified_at || course?.date,
+  config.addFilter('notebookLastUpdated', (notebook, notes) => {
+    const timestamps = [notebook?.last_modified_at || notebook?.date,
       ...(notes || []).map(note => note.data.last_modified_at || note.data.date)].filter(Boolean).map(value => new Date(value).getTime());
     return timestamps.length ? new Date(Math.max(...timestamps)).toISOString() : null;
   });

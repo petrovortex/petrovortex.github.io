@@ -19,10 +19,12 @@ for (const directory of [source, output]) {
   await fs.rm(directory, { recursive: true, force: true });
 }
 await fs.mkdir(source, { recursive: true });
+await fs.mkdir(path.join(source, 'resume'));
+await fs.copyFile(path.join(root, 'resume/cv.pdf'), path.join(source, 'resume/cv.pdf'));
 for (const name of ['_config.yml', 'eleventy.config.js', '_layouts', '_includes', '_data', 'assets', 'pages', 'scripts', 'config', 'package.json']) {
   await fs.cp(path.join(root, name), path.join(source, name), { recursive: true });
 }
-for (const name of ['_posts', '_courses', '_notes']) {
+for (const name of ['_posts', '_notebooks', '_notes']) {
   const destination = path.join(source, content, name);
   await fs.mkdir(destination, { recursive: true });
   if (name === '_posts') await fs.cp(path.join(root, content, name), destination, { recursive: true });

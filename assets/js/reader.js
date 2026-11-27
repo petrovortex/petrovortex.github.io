@@ -104,7 +104,9 @@ export function initReader({ doc = document, texts, copy }) {
     if (rail.contains(link) && !desktop.matches) panel.open = false;
     reveal(id);
     win.history.pushState(null, '', '#' + encodeURIComponent(id));
-    const target = doc.getElementById(id); target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true });
+    const target = doc.getElementById(id);
+    if (!target.matches('a[href], button, input, select, textarea, [tabindex]')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
   });
   let frame = 0;
   function updateActive() {

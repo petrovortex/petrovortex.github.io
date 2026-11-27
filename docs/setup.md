@@ -106,7 +106,7 @@ Type these in a [site terminal](#where-to-run-commands), not in Obsidian, a Mark
 | --- | --- |
 | `npm run dev` | Prepare web content, build, serve, and watch the site; no Python or PDF generation |
 | `npm run build` | Refresh all editions including PDFs, validate content, and build `_site/` once |
-| `npm run validate` | Validate content metadata and course/note relationships |
+| `npm run validate` | Validate content metadata and notebook/note relationships |
 | `npm run content:sync` | Import selected vault files, then prepare Markdown downloads and link images; no PDF generation |
 | `npm run content:watch` | Repeat the import and web preparation after saved changes in selected vault files |
 | `npm run content:prepare` | Prepare Markdown downloads and link images from site files; no vault import or PDF generation |

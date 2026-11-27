@@ -30,7 +30,7 @@ async function fingerprint() {
   const sources = exportsOnly ? [] : (manifest.items || []).map(item => path.resolve(vaultRoot, item.source));
   // Attachment changes are detected without importing any additional notes.
   const attachments = exportsOnly ? [] : (await walk(vaultRoot)).filter(f => /\.(png|jpe?g|gif|webp|svg|pdf)$/i.test(f));
-  const directories = ['_posts', '_notes', '_courses'].map(dir => path.join(contentRoot, dir));
+  const directories = ['_posts', '_notes', '_notebooks'].map(dir => path.join(contentRoot, dir));
   directories.push(path.join(root, 'assets/images'), path.join(root, 'assets/imported'));
   const site = (await Promise.all(directories.map(walk))).flat();
   site.push(...await walk(path.join(root, 'pages')), ...await walk(path.join(root, '_data')));

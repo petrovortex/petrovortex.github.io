@@ -1,3 +1,3 @@
-{% macro courseStatus(course, t) %}
-{% set status = course.status or 'in_progress' %}<span class="course-status status-{{ status }}" title="{{ t.course_complete_hint if status == 'complete' else t.course_progress_hint }}"><span aria-hidden="true"></span>{{ t.course_complete if status == 'complete' else t.course_progress }}</span>
+{% macro notebookStatus(notebook, t) %}
+{% set status = notebook.status or 'in_progress' %}<span class="notebook-status status-{{ status }}" title="{{ t.notebook_complete_hint if status == 'complete' else t.notebook_progress_hint }}"><span aria-hidden="true"></span>{{ t.notebook_complete if status == 'complete' else t.notebook_progress }}</span>
 {% endmacro %}

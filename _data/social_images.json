@@ -29,6 +29,12 @@
     "width": 1200,
     "height": 325
   },
+  "/assets/images/banners/onigiri.svg": {
+    "path": "/assets/images/social/onigiri-2440b937eab3bb2d.png",
+    "type": "image/png",
+    "width": 1200,
+    "height": 325
+  },
   "/assets/images/banners/publications.svg": {
     "path": "/assets/images/social/publications-cc5d8952e6ca33df.png",
     "type": "image/png",

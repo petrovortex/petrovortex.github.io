@@ -20,7 +20,7 @@ content/_posts/ and content/_notes/ + referenced assets
                 _site/
 ```
 
-The importer reads the vault without editing it. Only manifest entries become site documents. Directly authored posts and notes are read from `content/_posts/` and `content/_notes/`; they need no vault. Courses are authored in the repository.
+The importer reads the vault without editing it. Only manifest entries become site documents. Directly authored posts and notes are read from `content/_posts/` and `content/_notes/`; they need no vault. Notebooks are authored in the repository.
 
 Content commands also refresh [link preview images](banner-design.md#link-previews) from covers and the profile portrait. Preview and import commands refresh these images and Markdown downloads without Python. Eleventy renders the article HTML, including formulas and footnotes, directly from Markdown. `npm run content:exports` and `npm run build` also generate PDFs. The site preview/build **does not import the vault**. Sync selected notes before a one-time build, or keep the content watcher running during editing.
 
@@ -41,7 +41,8 @@ The file's `items:` section lists the selected notes. An **entry** is the block 
 | `id` | Unique lowercase hyphenated import ID, e.g. `example-note-en` |
 | `source` | Existing Markdown file relative to the vault |
 | `destination` | Repository-relative `content/_notes/<lang>/<slug>.md` or dated `content/_posts/<lang>/YYYY-MM-DD-<slug>.md` |
-| `metadata` | Publication properties such as language, stable reference, public URL, course, and order |
+| `collect_references` | Defaults to `true` for imported posts and notes. Set to `false` alongside `source` and `destination` to disable the automatic list of external links for this item. |
+| `metadata` | Publication properties such as language, stable reference, public URL, notebook, and order |
 
 Use a distinct entry for each language. The destination folder must match metadata `lang` (`en` or `ru`); additional folders may group documents inside that language folder. The tools read the project's `collections_dir` setting from `_config.yml` to locate the collections. Source/destination paths must stay inside their respective roots. Destinations and IDs must be unique. To use a different vault without editing this file, pass `--vault` or set `OBSIDIAN_VAULT` as described in [Setup](setup.md#environment-variables).
 
@@ -55,7 +56,7 @@ An entry's `metadata:` block contains its publication settings. These **override
 
 `title`, `description`, `excerpt`, `tags`, `image`, `image_dark`, `image_alt`, `image_caption`, `preview_image`, `preview_image_dark`, `math`, `published`, and `date`.
 
-Write `lang`, `lang_ref`, `permalink`, `course`, and `order` inside the entry's `metadata:` block in `config/obsidian-imports.yml`, aligned with `title:`. Other source properties are omitted, except for the timestamp fallbacks below. Manifest metadata itself is publication data and is written to the generated front matter.
+Write `lang`, `lang_ref`, `permalink`, `notebook`, and `order` inside the entry's `metadata:` block in `config/obsidian-imports.yml`, aligned with `title:`. Other source properties are omitted, except for the timestamp fallbacks below. Manifest metadata itself is publication data and is written to the generated front matter.
 
 The first non-empty value wins:
 
@@ -71,15 +72,16 @@ An existing imported creation date survives ordinary saves when no explicit date
 | In the vault | Public result |
 | --- | --- |
 | Standard Markdown headings, lists, tables, quotes, and code | Markdown content preserved |
+| `[phrase](https://example.org/report "Full report title")` | The phrase links to the source. The automatic list uses the link title when supplied. See [Add numbered references](author-guide.md#add-numbered-references) |
 | `[^label]` and a matching `[^label]: Source` definition | Numbered citations and a references list; see [authoring instructions](author-guide.md#add-numbered-references) |
 | `[[Selected note\|label]]` | Link to the selected note's public URL |
 | `[[Selected note#Heading]]` | Public URL plus a heading anchor |
 | `![[picture.png\|Description]]` or local inline Markdown image | Copied asset and image link |
-| PNG, JPEG, WebP, GIF, SVG; linked PDF attachments | Copied under `assets/imported/<id>/` using names based on file contents |
+| PNG, JPEG, WebP, GIF, SVG; linked PDF attachments | Copied under `assets/imported/<lang_ref>/` using names based on file contents |
 | `%% comments %%` outside code | Omitted from public prose |
 | `$...$` / `$$...$$` with `math: true` | Formulas rendered in web pages and PDF editions; Markdown downloads keep TeX |
 
-The shallowest Markdown heading becomes a `##` heading; deeper headings keep their relative levels, up to `######`. Fenced and inline code are left unchanged, including example wiki syntax. Numeric wiki-image size aliases are ignored in favor of responsive layout.
+If the opening `#` heading matches the publication title, the reader displays it once above the article. The shallowest remaining heading becomes `##`, and deeper headings keep their relative levels up to `######`. Fenced and inline code are left unchanged, including example wiki syntax. Numeric wiki-image size aliases are ignored in favor of responsive layout.
 
 The importer stops on unselected note links, missing or ambiguous attachment names, unsupported file types, note transclusions (`![[Other note]]`), or note block references (`#^block`). Use a heading link, select the linked note, or replace it with plain text. Plugin output such as Dataview and Canvas is not executed. Use inline Markdown links for local targets; reference-style local links are not rewritten.
 
@@ -97,13 +99,13 @@ For a local path, the importer tries:
 
 Files must stay inside the vault. If two attachments share a filename, use an explicit path. Spaces work in wiki embeds; for inline Markdown, use `<Attachments/my photo.jpg>` or URL-encoded spaces (`my%20photo.jpg`). Raw HTML `<img>` tags and reference-style image links such as `![Photo][photo]` are not rewritten. Use an inline image or wiki embed for local attachments. HEIC and other unlisted formats must be converted before import.
 
-The importer preserves the attachment's bytes and writes it under `assets/imported/<id>/`. It updates the public link when the file contents change. It does not resize or optimize photos, so resize very large camera images before publication. A body image remains at its position in the note; choosing a banner or thumbnail requires the corresponding image property.
+The importer preserves the attachment's bytes under `assets/imported/<lang_ref>/`. Translations with the same `lang_ref` share one copy of each identical image. New image contents get a new public URL. Resize large camera photos before importing. Body images keep their positions in the note. Choose banners and thumbnails separately with the corresponding image properties.
 
 `https://` and `http://` images remain external URLs. `/assets/...` paths refer to files already in the site and are not copied from the vault. Import metadata takes precedence over note properties; an old `image` override can therefore keep a newly selected Obsidian cover from appearing.
 
 ## Downloadable editions
 
-Each published, non-redirect blog post and note gets a Markdown edition during web preparation and a PDF edition during full export. Preview preserves the last generated PDF; a new article has no PDF link until its PDF has been generated. Future-dated articles are skipped. Courses do not get combined course downloads.
+Each published, non-redirect blog post and note gets a Markdown edition during web preparation and a PDF edition during full export. Preview preserves the last generated PDF; a new article has no PDF link until its PDF has been generated. Future-dated articles are skipped. Notebooks do not get combined notebook downloads.
 
 | Output | Role |
 | --- | --- |
@@ -114,7 +116,9 @@ Each published, non-redirect blog post and note gets a Markdown edition during w
 
 After editing an imported note, run `npm run content:sync` in the site terminal. To refresh PDF editions after saving or importing, run `npm run content:exports`; `npm run build` also includes that step. Do not edit generated outputs manually. Commit public outputs with the source for local downloads and review. The GitHub Actions workflow regenerates them before deployment.
 
-Editions include the configured author, copyright year, and canonical public URL, even in local preview. Notes also credit the course's original author and source URL. Markdown keeps editable TeX and absolute asset links. Its images load from the published site; the `.md` download is not a standalone offline image bundle. New image URLs work publicly after publication. PDF embeds local images and formulas, uses Unicode fonts and page numbers, and preserves links. Remote images remain links in the PDF; store an illustration locally to embed it. Convert complex HTML widgets to ordinary Markdown for reliable exports.
+In the automatic references list, a return arrow jumps to the corresponding mention on the page or in the PDF. In the Markdown download, that arrow links to the mention in the published article.
+
+Editions include the configured author, copyright year, and canonical public URL, even in local preview. Notes also credit the notebook's original author and source URL. Markdown keeps editable TeX and absolute asset links. Its images load from the published site; the `.md` download is not a standalone offline image bundle. New image URLs work publicly after publication. PDF embeds local images and formulas, uses Unicode fonts and page numbers, and preserves links. Remote images remain links in the PDF; store an illustration locally to embed it. Convert complex HTML widgets to ordinary Markdown for reliable exports.
 
 Changing publication status or removing an article causes exports recorded in the previous index to be removed. Imported attachment directories are retained so shared references can be reviewed separately. PDFs are cached using their content, attribution, generator and referenced local images. Changing site CSS, a thumbnail, or an unrelated image does not rebuild them.
 

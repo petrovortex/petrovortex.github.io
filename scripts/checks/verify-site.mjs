@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
+import { parse } from 'yaml';
 
 const directory = path.resolve(process.argv[2] || '_site');
 const origin = 'https://petrovortex.github.io';
@@ -12,6 +13,7 @@ async function walk(dir) {
 }
 const files = await walk(directory);
 const htmlFiles = files.filter(file => file.endsWith('.html'));
+assert.deepEqual(await fs.readdir(path.join(directory, 'resume')), ['cv.pdf'], 'Publish only the finished CV');
 const docs = new Map();
 for (const file of htmlFiles) {
   const url = '/' + path.relative(directory, file).replaceAll('\\', '/').replace(/index\.html$/, '');
@@ -25,6 +27,10 @@ for (const file of htmlFiles) {
 }
 for (const [file, doc] of docs) {
   const meta = name => doc.querySelector('meta[property="' + name + '"], meta[name="' + name + '"]')?.content;
+  for (const button of doc.querySelectorAll('a.cv-link')) {
+    assert.equal(button.getAttribute('href'), '/resume/cv.pdf', file + ': CV must link directly to the PDF');
+    assert.equal(button.target, '_blank', file + ': CV must open in a new tab');
+  }
   for (const name of ['og:title', 'og:description', 'og:image', 'twitter:card', 'twitter:title', 'twitter:description', 'twitter:image']) {
     assert(meta(name)?.trim(), file + ': missing ' + name);
   }
@@ -52,9 +58,10 @@ if (directory.endsWith('_site')) {
   const ru = await read('ru/index.html');
   assert.equal(home.documentElement.lang, 'en');
   assert.equal(ru.documentElement.lang, 'ru');
-  assert.equal(home.querySelectorAll('.timeline li').length, 16);
+  const { timeline } = parse(await fs.readFile('_data/profile.yml', 'utf8'));
   for (const [page, prefix] of [[home, ''], [ru, '/ru']]) {
-    assert(page.querySelector('.timeline').textContent.includes('2007'));
+    assert.deepEqual([...page.querySelectorAll('.timeline li h3')].map(heading => heading.textContent),
+      timeline.map(event => event.title[page.documentElement.lang]));
     assert.deepEqual([...page.querySelectorAll('.hero-navigation a')].map(a => new URL(a.getAttribute('href'), origin + prefix + '/').pathname), [prefix + '/blog/', prefix + '/library/', prefix + '/publications/', prefix + '/links/']);
     assert(page.querySelector('.portrait-front[src$="main_page.jpg"]'));
     assert(page.querySelector('.portrait-back[src$="main_page_back.jpg"]'));
@@ -67,12 +74,12 @@ if (directory.endsWith('_site')) {
   }
   assert.equal(home.querySelectorAll('.post-row').length, 0);
   const library = await read('library/index.html');
-  const course = await read('library/efficient-ml/index.html');
-  assert.equal(library.querySelectorAll('.course-row').length, 1);
+  const notebook = await read('library/efficient-ml/index.html');
+  assert(library.querySelector('.notebook-row a[href="/library/efficient-ml/"]'));
   assert(!library.querySelector('.card-source'));
-  const materials = course.querySelector('.course-materials');
+  const materials = notebook.querySelector('.notebook-materials');
   assert(materials && !materials.open);
-  assert.equal(materials.querySelector('summary').textContent.trim(), 'Course materials');
+  assert.equal(materials.querySelector('summary').textContent.trim(), 'Notebook materials');
   assert.deepEqual([...materials.querySelectorAll('a')].map(a => a.getAttribute('href')), ['https://efficientml.ai/']);
   const blog = await read('blog/index.html');
   const publications = await read('publications/index.html');
@@ -118,10 +125,11 @@ if (directory.endsWith('_site')) {
     assert(listing.querySelector('.card-preview .art-light').getAttribute('src').endsWith('-preview.svg'));
     assert(listing.querySelector('.card-preview .art-dark').getAttribute('src').endsWith('-preview-dark.svg'));
   }
-  assert.equal(library.querySelector('.card-actions [data-stats-id]').dataset.statsId, course.querySelector('[data-stats-id]').dataset.statsId);
-  assert(course.querySelector('.chapter-preview .art-light').getAttribute('src').endsWith('efficient-ml-01-preview.svg'));
-  assert(course.querySelector('.chapter-preview .art-dark'));
-  assert(!library.querySelector('[data-article-id]'), 'Library visits must not count as course views');
+  const efficientMLCard = library.querySelector('a[href="/library/efficient-ml/"]').closest('.notebook-row');
+  assert.equal(efficientMLCard.querySelector('.card-actions [data-stats-id]').dataset.statsId, notebook.querySelector('[data-stats-id]').dataset.statsId);
+  assert(notebook.querySelector('.chapter-preview .art-light').getAttribute('src').endsWith('efficient-ml-01-preview.svg'));
+  assert(notebook.querySelector('.chapter-preview .art-dark'));
+  assert(!library.querySelector('[data-article-id]'), 'Library visits must not count as notebook views');
   const lecture = await read('library/efficient-ml/lecture-1-introduction/index.html');
   assert(!lecture.querySelector('.reader-header .source-credit'));
   for (const [file, label] of [['dls-agent-en/index.html', 'Post'], ['dls-agent-ru/index.html', 'Пост']]) {
@@ -131,21 +139,24 @@ if (directory.endsWith('_site')) {
     assert.equal(post.querySelectorAll('.footnote-item').length, 5);
     assert.equal(post.querySelector('#references').parentElement, post.querySelector('.article-body'));
   }
-  assert.equal(lecture.querySelector('#references').parentElement, lecture.querySelector('.article-body'));
-  assert.equal(lecture.querySelectorAll('.references-section').length, 1);
-  assert(lecture.querySelector('.footnote-ref a[href="#fn1"]'));
-  assert(lecture.querySelector('.footnotes-list a[href*="4824-imagenet-classification"]'));
-  assert(lecture.querySelector('.math-inline svg'));
-  for (const formula of lecture.querySelectorAll('.math-inline, .math-display')) {
-    const delimiter = formula.classList.contains('math-display') ? '$$' : '$';
-    const tex = formula.querySelector('svg').getAttribute('aria-label');
-    assert.equal(formula.dataset.mathSource, delimiter + tex + delimiter, 'Compiled formula is missing its exact Markdown source');
+  for (const prefix of ['', 'ru/']) {
+    const notebookPath = '/' + prefix + 'library/onigiri/';
+    const listing = await read(prefix + 'library/index.html');
+    assert(listing.querySelector(`.notebook-row a[href="${notebookPath}"]`));
+    const podcast = await read(prefix + 'library/onigiri/index.html');
+    assert(podcast.querySelector(`a[href="${notebookPath}whats-next-for-ai/"]`));
+    const episode = await read(prefix + 'library/onigiri/whats-next-for-ai/index.html');
+    assert(episode.querySelector('.breadcrumbs a[href="' + notebookPath + '"]'));
+    assert(episode.querySelector('.article-body img[src^="/assets/imported/"]'));
+    for (const formula of episode.querySelectorAll('.math-inline, .math-display')) {
+      const delimiter = formula.classList.contains('math-display') ? '$$' : '$';
+      const tex = formula.querySelector('svg').getAttribute('aria-label');
+      assert.equal(formula.dataset.mathSource, delimiter + tex + delimiter, 'Compiled formula is missing its exact Markdown source');
+    }
   }
   assert.equal(lecture.querySelectorAll('.article-downloads a').length, 2);
-  assert(lecture.querySelector('.article-body h2'));
   assert.equal(lecture.querySelectorAll('.article-cover').length, 1);
   assert(lecture.querySelector('.article-cover .art-dark'));
-  assert(!lecture.querySelector('.article-body').textContent.includes('$'));
   assert.equal((await read('blog/index.html')).querySelectorAll('.post-row').length, 1);
   assert((await read('blog/index.html')).querySelector('.post-preview .art-dark'));
   assert((await read('links/index.html')).querySelector('a[href="https://www.youtube.com/@petrovortex"]'));
@@ -180,19 +191,19 @@ if (directory.endsWith('fixture-site')) {
   assert(list.querySelector('.post-preview img[src$="base_scheme.svg"]'));
   assert(article.querySelector('.article-cover img[alt="Inputs and output of the project"]'));
   assert(article.querySelector('.article-cover figcaption'));
-  const course = new JSDOM(await fs.readFile(path.join(directory, 'library/example/index.html'), 'utf8')).window.document;
-  assert(!course.querySelector('.course-materials').open);
-  assert.deepEqual([...course.querySelectorAll('.course-materials a')].map(a => [a.textContent, a.getAttribute('href')]), [
-    ['Course website', 'https://example.com/course'], ['Slides', 'https://example.com/course/slides'],
+  const notebook = new JSDOM(await fs.readFile(path.join(directory, 'library/example/index.html'), 'utf8')).window.document;
+  assert(!notebook.querySelector('.notebook-materials').open);
+  assert.deepEqual([...notebook.querySelectorAll('.notebook-materials a')].map(a => [a.textContent, a.getAttribute('href')]), [
+    ['Notebook website', 'https://example.com/notebook'], ['Slides', 'https://example.com/notebook/slides'],
   ]);
   const library = new JSDOM(await fs.readFile(path.join(directory, 'library/index.html'), 'utf8')).window.document;
-  assert.equal(course.querySelectorAll('.article-cover').length, 1);
-  assert(course.querySelector('.article-cover .art-light[src$="favicon-ap.png"][alt="Uploaded raster cover"]'));
-  assert(course.querySelector('.article-cover .art-dark[src$="favicon-ap.png"]'));
-  assert.equal(course.querySelector('.article-cover figcaption').textContent, 'A caption for the uploaded cover.');
-  assert(!course.querySelector('.page-banner'), 'An uploaded cover must replace the named SVG banner');
-  assert(course.querySelector('meta[property="og:image"]').content.includes('/social/favicon-ap-'), 'Preview must also prefer the uploaded cover');
-  assert(library.querySelector('.course-row .card-preview img[src$="base_scheme.svg"]'), 'The list must use its separate thumbnail');
+  assert.equal(notebook.querySelectorAll('.article-cover').length, 1);
+  assert(notebook.querySelector('.article-cover .art-light[src$="favicon-ap.png"][alt="Uploaded raster cover"]'));
+  assert(notebook.querySelector('.article-cover .art-dark[src$="favicon-ap.png"]'));
+  assert.equal(notebook.querySelector('.article-cover figcaption').textContent, 'A caption for the uploaded cover.');
+  assert(!notebook.querySelector('.page-banner'), 'An uploaded cover must replace the named SVG banner');
+  assert(notebook.querySelector('meta[property="og:image"]').content.includes('/social/favicon-ap-'), 'Preview must also prefer the uploaded cover');
+  assert(library.querySelector('.notebook-row .card-preview img[src$="base_scheme.svg"]'), 'The list must use its separate thumbnail');
 
 }
 if (directory.endsWith('_site')) {

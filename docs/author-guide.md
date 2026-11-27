@@ -8,7 +8,7 @@ Edit site files in a text editor and vault notes in Obsidian. Type all commands 
 
 The preview rebuilds saved site files automatically. Import vault changes with `npm run content:sync`, or keep its watcher running. To create or update PDF downloads, run `npm run content:exports` separately; ordinary preview and imports update Markdown downloads but keep existing PDFs.
 
-On this page: [Workflow](#from-draft-to-publication) · [Edit](#edit-existing-content) · [Add a post](#add-a-blog-post) · [Create a course](#create-a-course) · [Add a note](#add-a-note) · [References](#add-numbered-references) · [Images](#add-images) · [Translations](#add-a-translation) · [Hide or remove](#hide-or-remove-content)
+On this page: [Workflow](#from-draft-to-publication) · [Edit](#edit-existing-content) · [Add a post](#add-a-blog-post) · [Create a notebook](#create-a-notebook) · [Add a note](#add-a-note) · [References](#add-numbered-references) · [Images](#add-images) · [Translations](#add-a-translation) · [Hide or remove](#hide-or-remove-content)
 
 ## From draft to publication
 
@@ -22,7 +22,7 @@ For automatic local updates, leave `npm run content:watch` running in a separate
 
 ## Edit existing content
 
-Find the item's site Markdown file under `content/_posts/`, `content/_notes/`, or `content/_courses/`. Its title and other settings are between the opening and closing `---` lines; this block is called **front matter**. The article text follows the closing line.
+Find the item's site Markdown file under `content/_posts/`, `content/_notes/`, or `content/_notebooks/`. Its title and other settings are between the opening and closing `---` lines; this block is called **front matter**. The article text follows the closing line.
 
 If that settings block contains `obsidian_import`, the file is generated. Find the matching `id` in `config/obsidian-imports.yml`; its `source` gives the original note's path inside the vault.
 
@@ -30,7 +30,7 @@ If that settings block contains `obsidian_import`, the file is generated. Find t
 | --- | --- | --- |
 | Imported post or note | Original vault note for text; its entry in `config/obsidian-imports.yml` for publication settings | `npm run content:sync` |
 | Directly authored post or note | Its file in `content/_posts/` or `content/_notes/` | The preview rebuilds automatically; run `npm run content:exports` when updating PDFs |
-| Course | Its file in `content/_courses/` | The preview rebuilds automatically |
+| Notebook | Its file in `content/_notebooks/` | The preview rebuilds automatically |
 
 Do not edit generated copies; the next import replaces them. Keep `date`, `lang_ref`, and `permalink` unchanged when updating published content. For directly authored items, update `last_modified_at` inside their front matter. Imported update dates follow [these rules](content-workflow.md#metadata-and-timestamps).
 
@@ -70,63 +70,73 @@ Settings inside `metadata:` override the original note's properties. To control 
 
 Do not add an import entry pointing to this directly authored file.
 
-## Create a course
+## Create a notebook
 
-1. Copy `docs/templates/course.md` to `content/_courses/en/your-course-en.md`. Replace `your-course` with a short course name.
-2. Open the copy in a text editor. In its top `---` block, replace the example title, description, topics, dates, `course_id`, `lang_ref`, and source credit. Set `permalink` to `/library/your-course/` using the same short name.
-3. Write the introduction below the closing `---`. Add a banner and thumbnail using [the course image instructions](banner-design.md#directly-authored-post-note-or-course).
+1. Copy `docs/templates/notebook.md` to `content/_notebooks/en/your-notebook-en.md`. Replace `your-notebook` with a short notebook name.
+2. Open the copy in a text editor. In its top `---` block, replace the example title, description, topics, dates, `notebook_id`, `lang_ref`, and source credit. Set `permalink` to `/library/your-notebook/` using the same short name.
+3. Write the introduction below the closing `---`. Add a banner and thumbnail using [the notebook image instructions](banner-design.md#directly-authored-post-note-or-notebook).
 4. Save the file. In the site terminal, run `npm run validate` (`npm.cmd run validate` in PowerShell).
-5. With the preview running, refresh <http://127.0.0.1:4000/library/> and open the new course. It can exist before any notes are added.
+5. With the preview running, refresh <http://127.0.0.1:4000/library/> and open the new notebook. It can exist before any notes are added.
 
-In the course's top settings block, use `status: in_progress` while working and `status: complete` when finished. Set `topics` there; individual notes do not have topics. Update `last_modified_at` when the introduction or status changes. The displayed update date also includes changes to its notes.
+In the notebook's top settings block, use `status: in_progress` while working and `status: complete` when finished. Set `topics` there; individual notes do not have topics. Update `last_modified_at` when the introduction or status changes. The displayed update date also includes changes to its notes.
 
-### Course materials
+### Notebook materials
 
-In the course file (`content/_courses/en/your-course-en.md`), add `materials` inside its top `---` settings block. Each entry needs a title and an absolute web URL:
+In the notebook file (`content/_notebooks/en/your-notebook-en.md`), add `materials` inside its top `---` settings block. Each entry needs a title and an absolute web URL:
 
 ```yaml
 materials:
-  - title: Course website
-    url: https://example.com/course
+  - title: Source website
+    url: https://example.com/notebook
   - title: Lecture slides
-    url: https://example.com/course/slides
+    url: https://example.com/notebook/slides
 ```
 
-The course page shows these links, in the listed order, inside a collapsed **Course materials** menu. If `materials` is omitted, the menu contains one link to `source_url`. Keep `source_author` and `source_url`: they supply attribution in each note's downloads. The Library cards and note headers do not repeat this credit.
+The notebook page shows these links, in the listed order, inside a collapsed **Notebook materials** menu. If `materials` is omitted, the menu contains one link to `source_url`. Keep `source_author` and `source_url`: they supply attribution in each note's downloads. The Library cards and note headers do not repeat this credit.
 
-Field definitions: [Course fields](content-reference.md#course-fields).
+Field definitions: [Notebook fields](content-reference.md#notebook-fields).
 
 ## Add a note
 
-Create its course first. Write the note in Obsidian, then open `config/obsidian-imports.yml` in a text editor. Append this block under `items:`, after the other entries, with the shown indentation:
+Create its notebook first. Write the note in Obsidian, then open `config/obsidian-imports.yml` in a text editor. Append this block under `items:`, after the other entries, with the shown indentation:
 
 ```yaml
-  - id: example-course-introduction-en
-    source: Public/Example course/Introduction.md
-    destination: content/_notes/en/example-course-introduction-en.md
+  - id: example-notebook-introduction-en
+    source: Public/Example notebook/Introduction.md
+    destination: content/_notes/en/example-notebook-introduction-en.md
     metadata:
       title: "Introduction"
       date: 2026-10-28T12:00:00+07:00
       lang: en
-      lang_ref: example-course-introduction
-      course: example-course
+      lang_ref: example-notebook-introduction
+      notebook: example-notebook
       order: 10
       description: "The main ideas covered in this note."
-      permalink: /library/example-course/introduction/
+      permalink: /library/example-notebook/introduction/
       math: true
 ```
 
-Replace the example paths, date, title, description, and IDs. Under `metadata:`, set `course` to the existing course's `course_id`; `lang` must also match. Set `permalink` to the course's URL followed by the note's short name and `/`.
+Replace the example paths, date, title, description, and IDs. Under `metadata:`, set `notebook` to the existing notebook's `notebook_id`; `lang` must also match. Set `permalink` to the notebook's URL followed by the note's short name and `/`.
 
-Give each note a unique positive integer `order` within that course and language. Values `10`, `20`, and `30` leave room to insert `15`; readers see consecutive chapter numbers. An optional `module: "Part I"` line under `metadata:` labels a group of consecutive notes. `math: true` enables formulas.
+Give each note a unique positive integer `order` within that notebook and language. Values `10`, `20`, and `30` leave room to insert `15`; readers see consecutive chapter numbers. An optional `module: "Part I"` line under `metadata:` labels a group of consecutive notes. `math: true` enables formulas.
 
-Save the configuration and run `npm run content:sync` in the site terminal. Open the local Library list, the course, then the note. Check its position, navigation, images, and downloads, including the source credit in the downloads.
+Save the configuration and run `npm run content:sync` in the site terminal. Open the local Library list, the notebook, then the note. Check its position, navigation, images, and downloads, including the source credit in the downloads.
 
-For a directly authored note, copy `docs/templates/note.md` to `content/_notes/en/your-course-your-topic-en.md`. Edit the copy's top `---` settings and body, then save; the running preview rebuilds it. Run `npm run content:exports` in the site terminal to generate its PDF.
+For a directly authored note, copy `docs/templates/note.md` to `content/_notes/en/your-notebook-your-topic-en.md`. Edit the copy's top `---` settings and body, then save; the running preview rebuilds it. Run `npm run content:exports` in the site terminal to generate its PDF.
 
 ## Add numbered references
 
-Posts and notes use the same footnote syntax. In the original Obsidian note, switch to Source mode. For a directly authored article, open its file under `content/_posts/` or `content/_notes/` in a text editor. Write a marker after the name of the work, then define that marker at the bottom of the **same file**, outside the top settings block:
+Add sources in the original Obsidian note. Write an external Markdown link where you mention the source. If the phrase in the sentence is too short for the references list, give the link a title in quotation marks.
+
+```markdown
+The authors describe their method in [the report](https://example.org/report "A Survey of Model Evaluation Methods").
+```
+
+Readers see **the report** in the sentence and **A Survey of Model Evaluation Methods** in the list. Save the note and run `npm run content:sync` in the [site terminal](setup.md#where-to-run-commands). Each URL appears once, in order of first mention, with a return arrow for each place it appears. An article without sources has no generated list. To add a missing source later, edit the vault note and sync again. Run `npm run content:exports` to update its PDF.
+
+To turn off automatic collection for one imported note, set `collect_references: false` beside its `source:` line in `config/obsidian-imports.yml`. For a post or note written directly under `content/_posts/` or `content/_notes/`, set `collect_references: true` in its front matter to enable the same behavior.
+
+For a citation with author, year, or commentary, add a footnote in the article body. Put the marker after the work's name and the definition at the bottom of the same file.
 
 ```markdown
 AlexNet[^alexnet] helped establish deep convolutional networks.
@@ -134,11 +144,7 @@ AlexNet[^alexnet] helped establish deep convolutional networks.
 [^alexnet]: Alex Krizhevsky et al. [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf). 2012.
 ```
 
-Use a distinct label for each source; reuse the same label when citing it again. You provide the source title and URL. The renderer numbers citations in order of first use and builds the references list below the article. Only the number is linked in the text. The generated References heading is a separate `##` section with its own collapse control and table-of-contents entry. Do not write a separate References heading.
-
-Save the note, then run `npm run content:sync` in the [site terminal](setup.md#where-to-run-commands). For a post or note written directly in the repository, save the same syntax in its Markdown body; no import is needed. Check the citation and its return link in the preview. Run `npm run content:exports` before checking the updated PDF.
-
-References work with or without formulas. PDF editions include the list and clickable citations; Markdown editions retain the footnote syntax. Ordinary links remain ordinary links and do not create references. The former `references` setting is no longer used and can be removed from article settings or import metadata.
+Reuse the same footnote label for repeated citations. The renderer assigns the numbers and adds the References heading.
 
 ## Add images
 
@@ -172,9 +178,9 @@ After saving image changes, run `npm run content:sync` for an imported article; 
 
 ## Add a translation
 
-Create the translated document using the post, course, or note procedure above, in the other language folder (`en/` or `ru/`). For imports, add a separate entry in `config/obsidian-imports.yml` with a distinct `id` and destination.
+Create the translated document using the post, notebook, or note procedure above, in the other language folder (`en/` or `ru/`). For imports, add a separate entry in `config/obsidian-imports.yml` with a distinct `id` and destination.
 
-In the new document's top settings block—or `metadata:` for imports—set `lang` to the new language, keep the original `lang_ref`, and set a distinct `permalink`. For notes, create the translated course first, with the same `course_id` as the original. See [identifiers and languages](content-reference.md#identifiers-and-languages).
+In the new document's top settings block—or `metadata:` for imports—set `lang` to the new language, keep the original `lang_ref`, and set a distinct `permalink`. For notes, create the translated notebook first, with the same `notebook_id` as the original. See [identifiers and languages](content-reference.md#identifiers-and-languages).
 
 Save and run `npm run content:sync` for imports; directly authored files need no import command. Check the language switcher after the local preview rebuilds.
 
@@ -190,6 +196,6 @@ Save and run `npm run content:sync` for imports; directly authored files need no
 
 For an imported item, run `npm run content:sync` in the site terminal after saving. After hiding, deleting, or moving a site file, stop the preview with Ctrl+C and run `npm run dev` again to clear the old URL. Then [build and check](development.md#checks) before publishing the removal.
 
-Before hiding or removing a course, hide or remove its notes too. Update links to removed items. `published: false` hides website output, not files in a public Git repository. Removing an import entry alone stops updates but does not delete its site copy.
+Before hiding or removing a notebook, hide or remove its notes too. Update links to removed items. `published: false` hides website output, not files in a public Git repository. Removing an import entry alone stops updates but does not delete its site copy.
 
 Old downloads are removed automatically. Copied vault images remain under `assets/imported/`; check for remaining references before deleting them.

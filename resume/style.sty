@@ -1,0 +1,285 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{resume-style}[2026/11/18 Academic CV style (moderncv casual blue)]
+
+\RequirePackage{iftex}
+\RequirePackage{etoolbox}
+\RequirePackage[
+  letterpaper,
+  left=50.4bp,
+  right=68.4bp,
+  top=28bp,
+  bottom=42bp,
+  headheight=0bp,
+  headsep=0bp,
+  footskip=22bp
+]{geometry}
+\RequirePackage{fontspec}
+\RequirePackage{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{fancyhdr}
+\RequirePackage{tikz}
+\RequirePackage{fontawesome5}
+\RequirePackage{hyperref}
+
+\AtEndDocument{\label{LastPage}}
+
+% --- Color Palette (moderncv 'blue') ----------------------------------------
+\definecolor{color0}{rgb}{0,0,0}
+\definecolor{color1}{rgb}{0.22,0.45,0.70}
+\definecolor{color2}{rgb}{0.38,0.38,0.38}
+\definecolor{color2light}{rgb}{0.56,0.56,0.56}
+\definecolor{color2rule}{rgb}{0.725,0.725,0.725}
+\color{color0}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=color1,
+  urlcolor=color1,
+  citecolor=color1
+}
+
+% --- Fonts & Language-Specific Sizing ---------------------------------------
+\newcommand{\cv@setenglishfonts}{%
+  \setmainfont{lmsans10-regular.otf}[
+    BoldFont        = lmsans10-bold.otf,
+    ItalicFont      = lmsans10-oblique.otf,
+    BoldItalicFont  = lmsans10-boldoblique.otf,
+    SlantedFont     = lmsans10-oblique.otf,
+    BoldSlantedFont = lmsans10-boldoblique.otf,
+    SizeFeatures    = {
+      {Size = -9.5,    Font = lmsans9-regular.otf,  ItalicFont = lmsans9-oblique.otf},
+      {Size = 9.5-11,  Font = lmsans10-regular.otf, BoldFont = lmsans10-bold.otf, ItalicFont = lmsans10-oblique.otf},
+      {Size = 11-15.5, Font = lmsans12-regular.otf, ItalicFont = lmsans12-oblique.otf},
+      {Size = 15.5-,   Font = lmsans17-regular.otf, BoldFont = lmsans10-bold.otf, ItalicFont = lmsans17-oblique.otf}
+    }
+  ]%
+  \newcommand{\cvbodyfont}{\fontsize{9.9626bp}{12bp}\selectfont}%
+  \newcommand{\cvsmallfont}{\fontsize{8.9664bp}{10.959bp}\selectfont}%
+  \newcommand{\cvsecfont}{\fontsize{14.3462bp}{16bp}\selectfont}%
+  \newcommand{\cvfootfont}{\fontsize{9.9626bp}{12bp}\selectfont}%
+  \newcommand{\cvnamesep}{0.28em}%
+}
+
+\newcommand{\cv@setrussianfonts}{%
+  \setmainfont{Calibri}%
+  \newcommand{\cvbodyfont}{\fontsize{10.4bp}{12bp}\selectfont}%
+  \newcommand{\cvsmallfont}{\fontsize{9.5bp}{11.2bp}\selectfont}%
+  \newcommand{\cvsecfont}{\fontsize{14.5bp}{16bp}\selectfont}%
+  \newcommand{\cvfootfont}{\fontsize{10.2bp}{12bp}\selectfont}%
+  \newcommand{\cvnamesep}{0.26em}%
+}
+
+\DeclareOption{english}{%
+  \PassOptionsToPackage{english}{babel}%
+  \newcommand{\cv@loadfonts}{\cv@setenglishfonts}%
+}
+\DeclareOption{russian}{%
+  \PassOptionsToPackage{russian}{babel}%
+  \newcommand{\cv@loadfonts}{\cv@setrussianfonts}%
+}
+\ProcessOptions\relax
+\RequirePackage{babel}
+\cv@loadfonts
+\RequirePackage{csquotes}
+\RequirePackage[
+  backend=biber,
+  style=numeric,
+  sorting=none,
+  maxbibnames=99,
+  giveninits=true,
+  url=false,
+  doi=false,
+  isbn=false
+]{biblatex}
+
+% --- Bibliography Formatting (publications.bib) -----------------------------
+\newcommand{\cvhighlightauthor}[1]{\def\cv@highlightfamily{#1}}
+\cvhighlightauthor{Petrov}
+
+\renewcommand*{\mkbibnamegiven}[1]{%
+  \ifdefstrequal{\namepartfamily}{\cv@highlightfamily}{\mkbibbold{#1}}{#1}%
+}
+\renewcommand*{\mkbibnamefamily}[1]{%
+  \ifdefstrequal{\namepartfamily}{\cv@highlightfamily}{\mkbibbold{#1}}{#1}%
+}
+
+\DeclareFieldFormat[article,inproceedings,thesis,report,techreport,unpublished,misc]{title}{%
+  \iffieldundef{url}{%
+    \iffieldundef{doi}{#1}{\href{https://doi.org/\thefield{doi}}{#1}}%
+  }{\href{\thefield{url}}{#1}}%
+}
+
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}%
+}
+
+\defbibenvironment{cvbib}
+  {\list{}{%
+     \setlength{\leftmargin}{\dimexpr\hintscolumnwidth+\separatorcolumnwidth\relax}%
+     \setlength{\itemindent}{0pt}%
+     \setlength{\labelwidth}{0pt}%
+     \setlength{\labelsep}{0pt}%
+     \setlength{\itemsep}{6bp}%
+     \setlength{\parsep}{0pt}%
+     \setlength{\topsep}{2bp}%
+   }\cvbodyfont}
+  {\endlist}
+  {\item}
+
+\newif\ifcv@aftersec
+
+\renewcommand{\subsection}[1]{%
+  \par\ifcv@aftersec\addvspace{4bp}\else\addvspace{10bp}\fi
+  \cv@aftersecfalse
+  \noindent
+  \makebox[\hintscolumnwidth][l]{}%
+  \hspace{\separatorcolumnwidth}%
+  \parbox[t]{\maincolumnwidth}{%
+    \leavevmode\fontsize{11.5bp}{13.5bp}\selectfont\textcolor{color1}{#1}%
+  }\par\nopagebreak
+  \vspace{2bp}%
+}
+
+\newcommand{\printcvpublications}[1][]{%
+  \cv@aftersecfalse
+  \nocite{*}%
+  \ifblank{#1}{%
+    \printbibliography[heading=none,env=cvbib]%
+  }{%
+    \printbibliography[heading=none,env=cvbib,keyword=#1]%
+  }%
+}
+
+% --- Two-Column Grid Layout -------------------------------------------------
+\newlength{\hintscolumnwidth}
+\setlength{\hintscolumnwidth}{59.761bp}
+
+\newlength{\separatorcolumnwidth}
+\setlength{\separatorcolumnwidth}{8.591bp}
+
+\newlength{\maincolumnwidth}
+\setlength{\maincolumnwidth}{\dimexpr\textwidth-\hintscolumnwidth-\separatorcolumnwidth\relax}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\linespread{1.0}
+
+% --- Lists ------------------------------------------------------------------
+\newcommand{\cvbullet}{%
+  \tikz[baseline=-0.55ex]\draw[color1,line width=0.65bp] (0,0) circle (1.55bp);%
+}
+
+\setlist[itemize]{
+  label=\cvbullet,
+  leftmargin=9.96bp,
+  labelindent=0bp,
+  labelwidth=6.46bp,
+  labelsep=3.5bp,
+  align=left,
+  topsep=1.5bp,
+  partopsep=0bp,
+  itemsep=1bp,
+  parsep=0bp,
+  before=\cvsmallfont
+}
+
+\newlist{cvinterests}{itemize}{1}
+\setlist[cvinterests]{
+  label=\cvbullet,
+  leftmargin=9.96bp,
+  labelindent=0bp,
+  labelwidth=6.46bp,
+  labelsep=3.5bp,
+  align=left,
+  topsep=1.5bp,
+  partopsep=0bp,
+  itemsep=1bp,
+  parsep=0bp,
+  before=\cvbodyfont
+}
+
+% --- Header & Footer --------------------------------------------------------
+\newcommand{\footerSep}{\hspace{6bp}{\color{color2}$\bullet$}\hspace{6bp}}
+\newcommand{\cvSep}{\enspace·\enspace}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcommand{\cvcontact}[4]{%
+  \fancyfoot[C]{%
+    \cvfootfont\itshape\color{color2}%
+    {\normalfont\footnotesize\faEnvelope}~\href{mailto:#1}{\textcolor{color2}{#1}}\footerSep
+    {\normalfont\footnotesize\faGlobe}~\href{https://#2}{\textcolor{color2}{#2}}
+  }%
+  \fancyfoot[R]{%
+    \cvfootfont\itshape\color{color2}\thepage/\pageref*{LastPage}%
+  }%
+}
+
+\newcommand{\cvheader}[3]{%
+  \vspace*{2bp}%
+  {\raggedleft
+    \fontsize{32bp}{35bp}\selectfont
+    \textcolor{color2light}{#1}\hspace{\cvnamesep}\textcolor{color2}{#2}\par}%
+  \vspace{4.5bp}%
+  {\color{color2rule}\rule{\textwidth}{1.107bp}}\par
+  \vspace{7bp}%
+  {\raggedleft
+    \fontsize{16.5bp}{19bp}\selectfont\itshape\color{color2}#3\par}%
+  \vspace{4bp}%
+}
+
+% --- Sections & Entries -----------------------------------------------------
+\renewcommand{\section}[1]{%
+  \par\addvspace{10bp}%
+  \noindent
+  \makebox[\hintscolumnwidth][l]{\textcolor{color1}{\rule[2.9bp]{\hintscolumnwidth}{4.206bp}}}%
+  \hspace{\separatorcolumnwidth}%
+  \parbox[t]{\maincolumnwidth}{%
+    \leavevmode\cvsecfont\textcolor{color1}{#1}%
+  }\par\nopagebreak
+  \vspace{2.8bp}%
+  \cv@aftersectrue
+}
+
+\newcommand{\cventry}[4]{%
+  \cv@aftersecfalse
+  \par\addvspace{1.8bp}%
+  \noindent
+  \makebox[\hintscolumnwidth][r]{\cvbodyfont #1}%
+  \hspace{\separatorcolumnwidth}%
+  \begin{minipage}[t]{\maincolumnwidth}%
+    \cvbodyfont
+    \textbf{#2}%
+    \ifblank{#3}{.}{, {\itshape #3}.}%
+    \ifblank{#4}{}{%
+      \par\vspace{1bp}%
+      {\cvsmallfont #4}%
+    }%
+  \end{minipage}\par
+}
+
+\newcommand{\cvitem}[2]{%
+  \cv@aftersecfalse
+  \par\addvspace{1.8bp}%
+  \noindent
+  \makebox[\hintscolumnwidth][r]{\cvbodyfont #1}%
+  \hspace{\separatorcolumnwidth}%
+  \parbox[t]{\maincolumnwidth}{%
+    \leavevmode\cvbodyfont #2%
+  }\par
+}
+
+\newcommand{\cvpub}[1]{%
+  \par\addvspace{6bp}%
+  \noindent
+  \makebox[\hintscolumnwidth][r]{}%
+  \hspace{\separatorcolumnwidth}%
+  \parbox[t]{\maincolumnwidth}{%
+    \leavevmode\cvbodyfont #1%
+  }\par
+}
+
+\endinput

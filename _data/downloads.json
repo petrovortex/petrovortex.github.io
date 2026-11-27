@@ -3,6 +3,14 @@
     "md": "/assets/downloads/note-efficient-ml-lecture-1-en.md",
     "pdf": "/assets/downloads/note-efficient-ml-lecture-1-en.pdf"
   },
+  "/library/onigiri/whats-next-for-ai/": {
+    "md": "/assets/downloads/note-onigiri-whats-next-for-ai-en.md",
+    "pdf": "/assets/downloads/note-onigiri-whats-next-for-ai-en.pdf"
+  },
+  "/ru/library/onigiri/whats-next-for-ai/": {
+    "md": "/assets/downloads/note-onigiri-whats-next-for-ai-ru.md",
+    "pdf": "/assets/downloads/note-onigiri-whats-next-for-ai-ru.pdf"
+  },
   "/dls-agent-en/": {
     "md": "/assets/downloads/post-dls_agent-en.md",
     "pdf": "/assets/downloads/post-dls_agent-en.pdf"

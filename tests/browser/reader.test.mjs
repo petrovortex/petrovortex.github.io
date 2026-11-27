@@ -70,6 +70,25 @@ test('citation navigation reveals folded content and keeps one references list',
   dom.window.close();
 });
 
+test('source return arrows reveal and focus the chosen mention on mobile', () => {
+  const source = '## One\n\nThe [first mention](https://example.org/paper).\n\n## Two\n\nThe [second mention](https://example.org/paper).';
+  const { dom, doc, reader } = fixture(false, renderMarkdown(source, false, 'en', true));
+  const first = doc.getElementById('one'), second = doc.getElementById('two');
+  first.querySelector('[data-fold]').click();
+  second.querySelector('[data-fold]').click();
+  const arrows = doc.querySelectorAll('.collected-references .source-backref');
+  assert.equal(arrows.length, 2);
+  arrows[1].click();
+  const target = doc.getElementById(arrows[1].hash.slice(1));
+  assert.equal(target.textContent, 'second mention');
+  assert.equal(dom.window.location.hash, arrows[1].hash);
+  assert.equal(reader.sections.get(first).hidden, true);
+  assert.equal(reader.sections.get(second).hidden, false);
+  assert.equal(doc.activeElement, target);
+  assert.equal(target.tabIndex, 0, 'The original source link remains reachable by keyboard');
+  dom.window.close();
+});
+
 test('tables get keyboard-accessible scroll regions without a table of contents', () => {
   const dom = new JSDOM('<div class="article-body"><table><tr><td>One</td></tr></table><table><caption>Model comparison</caption><tr><td>Two</td></tr></table></div>');
   const doc = dom.window.document;

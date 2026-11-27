@@ -1,9 +1,7 @@
 name: Aleksandr Petrov
 portrait: /assets/images/main_page.jpg
 portrait_alternate: /assets/images/main_page_back.jpg
-cv:
-  en: https://github.com/petrovortex/resume/blob/master/cv.pdf
-  ru: https://github.com/petrovortex/resume/blob/master/cv.pdf
+cv: /resume/cv.pdf
 timeline:
   - date:
       en: Mar 2026
@@ -15,23 +13,20 @@ timeline:
       en: Junior Research Fellow
       ru: Младший научный сотрудник
     place:
-      en: Institute of Control Sciences, RAS
+      en: Institute of Control Sciences, Russian Academy of Sciences
       ru: Институт проблем управления РАН
-    detail:
-      en: Robustness of AI-generated text detectors under cross-lingual translation.
-      ru: Устойчивость детекторов ИИ-текстов при межъязыковом переводе.
   - date:
       en: Jun 2025
       ru: Июнь 2025
     title:
-      en: MSc graduation with honors
-      ru: Магистратура с отличием
+      en: MS in Applied Mathematics & Physics (with honors)
+      ru: Окончание магистратуры с отличием
     place:
       en: Moscow Institute of Physics and Technology
-      ru: Московский физико-технический институт
+      ru: МФТИ · Прикладная математика и физика
     detail:
-      en: "Applied Mathematics & Physics. GPA: 4.9 / 5."
-      ru: "Прикладные математика и физика. Средний балл: 4,9 / 5."
+      en: "Advisor: Prof. Victor F. Kopiev. GPA: 4.9/5.0."
+      ru: "Научный руководитель: проф. В. Ф. Копьёв. Средний балл: 4,9/5,0."
   - date:
       en: Spring 2025
       ru: Весна 2025
@@ -45,47 +40,51 @@ timeline:
       en: Spring 2025
       ru: Весна 2025
     title:
-      en: Research paper and presentation awards
+      en: Research and presentation awards
       ru: Награды за научную работу и доклад
     place:
       en: 67th All-Russian Scientific Conference of MIPT
       ru: 67-я Всероссийская научная конференция МФТИ
     detail:
-      en: Research Paper Competition prize winner at the School of Aerospace Technology; Best Presentation Award in Theoretical and Applied Aerohydrodynamics.
-      ru: Призёр конкурса научных работ Физтех-школы аэрокосмических технологий; лучший доклад на секции теоретической и прикладной аэрогидродинамики.
+      en: |-
+        Prize Winner, Research Competition (School of Aerospace Technology).
+        Best Presentation Award at the Section of Theoretical and Applied Aerohydrodynamics.
+      ru: |-
+        Призёр конкурса научных работ Физтех-школы аэрокосмических технологий.
+        Лучший доклад на секции теоретической и прикладной аэрогидродинамики.
   - date:
       en: Spring 2025
       ru: Весна 2025
     title:
-      en: Winner, “I am a Professional” Olympiad
-      ru: Победитель олимпиады «Я — профессионал»
+      en: Winner, National Olympiad “I am a Professional”
+      ru: Победитель Всероссийской олимпиады «Я — профессионал»
     place:
       en: Mathematical Modeling
-      ru: Математическое моделирование
+      ru: "Направление: математическое моделирование"
   - date:
       en: Sep 2023
       ru: Сентябрь 2023
     title:
-      en: MSc admission and merit scholarship
-      ru: Поступление в магистратуру и стипендия
+      en: MS admission and merit scholarship
+      ru: Поступление в МФТИ
     place:
       en: MIPT, Applied Mathematics & Physics
-      ru: МФТИ, прикладные математика и физика
+      ru: Магистратура · Прикладная математика и физика
     detail:
-      en: "Government Graduate Merit Scholarship: full tuition and state academic stipend."
-      ru: Полная оплата обучения и государственная академическая стипендия.
+      en: Government Graduate Merit Scholarship (Full Tuition & State Academic Stipend).
+      ru: Бюджетное место и государственная академическая стипендия.
   - date:
       en: Jun 2023
       ru: Июнь 2023
     title:
-      en: BSc graduation
+      en: BS in Applied Mathematics & Physics
       ru: Окончание бакалавриата
     place:
-      en: MIPT, Applied Mathematics & Physics
-      ru: МФТИ, прикладные математика и физика
+      en: Moscow Institute of Physics and Technology
+      ru: МФТИ · Прикладная математика и физика
     detail:
-      en: "GPA: 4.7 / 5."
-      ru: "Средний балл: 4,7 / 5."
+      en: "Advisor: Prof. Victor F. Kopiev. GPA: 4.7/5.0."
+      ru: "Научный руководитель: проф. В. Ф. Копьёв. Средний балл: 4,7/5,0."
   - date:
       en: May 2023
       ru: Май 2023
@@ -96,11 +95,11 @@ timeline:
       en: Research Engineer
       ru: Инженер-исследователь
     place:
-      en: Central Aerohydrodynamic Institute (TsAGI), Aeroacoustics
+      en: Central Aerohydrodynamic Institute (TsAGI), Department of Aeroacoustics
       ru: Центральный аэрогидродинамический институт (ЦАГИ), отделение аэроакустики
     detail:
-      en: Aerodynamic sound generation and radiation in hot flows.
-      ru: Генерация и излучение аэродинамического звука в горячих потоках.
+      en: Conducted theoretical and computational research on aerodynamic sound generation and radiation mechanisms in non-isothermal (hot) flows.
+      ru: Проводил теоретические и численные исследования механизмов генерации и излучения аэродинамического звука в неизотермических (горячих) потоках.
   - date:
       en: Sep 2021
       ru: Сентябрь 2021
@@ -109,13 +108,13 @@ timeline:
       ru: Сентябрь — декабрь 2021
     title:
       en: Fluid Dynamics Instructor
-      ru: Преподаватель гидродинамики
+      ru: Проводил дополнительные семинары по динамике жидкости
     place:
       en: MIPT
       ru: МФТИ
     detail:
-      en: Undergraduate elective course.
-      ru: Факультатив для студентов бакалавриата.
+      en: Elective course for undergraduates.
+      ru: Для студентов бакалавриата.
   - date:
       en: Aug 2021
       ru: Август 2021
@@ -126,11 +125,11 @@ timeline:
       en: Research Intern
       ru: Стажёр-исследователь
     place:
-      en: TsAGI, Aeroacoustics
+      en: TsAGI, Department of Aeroacoustics
       ru: ЦАГИ, отделение аэроакустики
     detail:
-      en: Spectral characteristics of sound generated by turbulent jets.
-      ru: Спектральные характеристики звука турбулентных струй.
+      en: Conducted a comparative analysis of the spectral characteristics of aerodynamic sound generated by a turbulent jet.
+      ru: Проводил сравнительный анализ спектральных характеристик аэродинамического звука, генерируемого турбулентной струёй.
   - date:
       en: Jun 2020
       ru: Июнь 2020
@@ -141,11 +140,11 @@ timeline:
       en: Research Intern
       ru: Стажёр-исследователь
     place:
-      en: TsAGI, Computational Fluid Dynamics
+      en: TsAGI, Department of Computational Fluid Dynamics
       ru: ЦАГИ, вычислительная гидродинамика
     detail:
-      en: Homogeneous turbulence.
-      ru: Теория однородной турбулентности.
+      en: Studied the theory of homogeneous turbulence and presented findings at research group seminars.
+      ru: Изучал теорию однородной турбулентности и представлял результаты на семинарах исследовательской группы.
   - date:
       en: Apr 2020
       ru: Апрель 2020
@@ -153,7 +152,7 @@ timeline:
       en: Apr 2020 — Oct 2021
       ru: Апрель 2020 — октябрь 2021
     title:
-      en: BOTAY FALT Project Lead
+      en: Project Lead at BOTAY FALT
       ru: Руководитель BOTAY FALT
     place:
       en: MIPT student initiative
@@ -165,41 +164,23 @@ timeline:
       en: Apr 2019 — Nov 2024
       ru: Апрель 2019 — ноябрь 2024
     title:
-      en: Basketball Club Manager
-      ru: Руководитель баскетбольного клуба
+      en: Student Club Manager
+      ru: Староста секции баскетбола
     place:
-      en: DAFE, MIPT
+      en: DAFE MIPT Basketball Club
       ru: ФАЛТ МФТИ
     detail:
-      en: Built the team, recruited a coach and sponsors, and established an annual streetball tournament.
-      ru: Собрал команду, привлёк тренера и спонсоров, организовал ежегодный турнир по стритболу.
+      en: Built and managed the departmental basketball team, secured sponsorships, recruited a head coach, and established an annual streetball tournament.
+      ru: Сформировал сборную факультета и руководил командой, нашёл спонсоров и тренера, организовал ежегодный турнир по стритболу.
   - date:
       en: Sep 2018
       ru: Сентябрь 2018
     title:
-      en: BSc admission and merit scholarship
-      ru: Поступление в бакалавриат и стипендия
+      en: BS admission and merit scholarship
+      ru: Поступление в МФТИ
     place:
       en: MIPT, Applied Mathematics & Physics
-      ru: МФТИ, прикладные математика и физика
+      ru: Бакалавриат · ФАЛТ · Прикладная математика и физика
     detail:
-      en: "Government Undergraduate Merit Scholarship: full tuition and state academic stipend."
-      ru: Полная оплата обучения и государственная академическая стипендия.
-  - date:
-      en: "2018"
-      ru: "2018"
-    title:
-      en: School graduation
-      ru: Окончание школы
-    place:
-      en: School No. 1, Stroykeramika
-      ru: Школа № 1, пгт Стройкерамика
-  - date:
-      en: "2007"
-      ru: "2007"
-    title:
-      en: Started school
-      ru: Начало учёбы в школе
-    place:
-      en: School No. 1, Stroykeramika
-      ru: Школа № 1, пгт Стройкерамика
+      en: Government Undergraduate Merit Scholarship (Full Tuition & State Academic Stipend).
+      ru: Бюджетное место и государственная академическая стипендия.

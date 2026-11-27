@@ -7,6 +7,7 @@ import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js';
 import { RegisterHTMLHandler } from 'mathjax-full/js/handlers/html.js';
 import { AllPackages } from 'mathjax-full/js/input/tex/AllPackages.js';
 import { slug } from './documents.mjs';
+import { collectReferences, referenceList } from './collect-references.mjs';
 
 const adaptor = liteAdaptor();
 RegisterHTMLHandler(adaptor);
@@ -21,7 +22,7 @@ function math(tex, display) {
   const svg = html.match(/<svg[\s\S]*<\/svg>/)[0].replace('<svg ', '<svg role="img" aria-label="' + escape(tex) + '" ').replace(/(<svg[^>]*>)/, '$1<title>' + escape(tex) + '</title>');
   return '<' + (display ? 'div' : 'span') + ' class="math-' + (display ? 'display' : 'inline') + '" data-math-source="' + escape(source) + '">' + svg + '</' + (display ? 'div' : 'span') + '>';
 }
-export function renderArticle(source, enableMath = false, lang = 'en') {
+export function renderArticle(source, enableMath = false, lang = 'en', collectLinks = false) {
   const md = new MarkdownIt({ html: true, linkify: false }).use(footnote);
   const references = lang === 'ru' ? 'Ссылки на материалы' : 'References';
   md.renderer.rules.footnote_caption = (tokens, i) => '[' + (tokens[i].meta.id + 1) + ']';
@@ -59,10 +60,28 @@ export function renderArticle(source, enableMath = false, lang = 'en') {
     });
   });
   const env = {};
-  const html = md.render(source, env);
-  return { html, hasFootnotes: Boolean(env.footnotes?.list?.length) };
+  const tokens = md.parse(source, env);
+  const hasFootnotes = Boolean(env.footnotes?.list?.length);
+  const sources = collectLinks ? collectReferences(tokens, taken) : new Map();
+  const referencesMarkdown = articleUrl => referenceList(sources, lang, hasFootnotes, articleUrl);
+  if (sources.size) {
+    const appendix = md.parse(referencesMarkdown(), {});
+    for (const block of appendix) {
+      if (block.type === 'ordered_list_open') block.attrJoin('class', 'collected-references');
+      for (const token of block.children || []) {
+        if (token.type === 'link_open' && token.attrGet('href').startsWith('#source-ref-')) {
+          token.attrSet('class', 'footnote-backref source-backref');
+          token.attrSet('aria-label', token.attrGet('title'));
+        }
+      }
+    }
+    const footnotes = tokens.findIndex(token => token.type === 'footnote_block_open');
+    tokens.splice(footnotes === -1 ? tokens.length : footnotes, 0, ...appendix);
+  }
+  const html = md.renderer.render(tokens, md.options, env);
+  return { html, hasFootnotes, referencesMarkdown };
 }
 
-export function renderMarkdown(source, enableMath = false, lang = 'en') {
-  return renderArticle(source, enableMath, lang).html;
+export function renderMarkdown(source, enableMath = false, lang = 'en', collectLinks = false) {
+  return renderArticle(source, enableMath, lang, collectLinks).html;
 }

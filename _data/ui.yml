@@ -11,19 +11,19 @@ en:
   no_topics: "No matching topics."
   posts: "posts"
   post_counts: {one: post, other: posts}
-  course_counts: {one: course, other: courses}
+  notebook_counts: {one: notebook, other: notebooks}
   note_counts: {one: note, other: notes}
-  courses: "courses"
+  notebooks: "notebooks"
   recently_updated: "Recently updated"
   alphabetical: "Title: A–Z"
-  empty_courses: "No courses match these topics."
-  course_progress: "In progress"
-  course_complete: "Complete"
-  course_progress_hint: "I am still adding or editing these notes."
-  course_complete_hint: "This set of notes is finished."
+  empty_notebooks: "No notebooks match these topics."
+  notebook_progress: "In progress"
+  notebook_complete: "Complete"
+  notebook_progress_hint: "I am still adding or editing these notes."
+  notebook_complete_hint: "This set of notes is finished."
   updated: "Updated"
   created: "Created"
-  open_course: "Open course"
+  open_notebook: "Open notebook"
   links_personal: "Personal pages"
   links_channels: "Channels & blogs"
   links_research: Research
@@ -68,10 +68,10 @@ en:
   unavailable: Translation not available yet
   intro_label: Main page
   greeting: Hi, I'm Aleksandr.
-  bio: "Here you can find all of my public content:"
+  bio: "Here you’ll find:"
   bio_navigation: |-
     - [Blog](./blog/) — my projects and thoughts.
-    - [Library](./library/) — my study notes, organized into courses.
+    - [Library](./library/) — my notes, organized into notebooks.
     - [Publications](./publications/) — my research papers, conference abstracts, and theses.
     - [Links](./links/) to my profiles and channels.
   cv: Curriculum vitae
@@ -105,25 +105,25 @@ en:
   copy_failed: Couldn't copy automatically. Select and copy this link.
   like_failed: Couldn't save your like. Please try again.
   stats_failed: Counts are unavailable right now.
-  toc: On this page
+  toc: Contents
   fold: Toggle section
   section_link: Copy section link
   back_to_top: Back to top
   references: References
   back: Back
-  library_intro: My study notes, organized into courses.
+  library_intro: My notes, organized into notebooks.
   library_empty_title: A little room for learning.
-  library_empty_text: I'm preparing my notes for this space. The first course will appear here when it's ready.
+  library_empty_text: I'm preparing my notes for this space. The first notebook will appear here when it's ready.
   library_empty_link: In the meantime, read the blog
-  course_materials: Course materials
-  course_website: Course website
+  notebook_materials: Notebook materials
+  notebook_website: Source website
   table_scroll: Table — scroll horizontally to see more
   notes: notes
   note: Note
   library_kicker: sapere aude
-  course: Course
-  course_contents: Course contents
-  course_empty: Notes for this course are being prepared.
+  notebook: Notebook
+  notebook_contents: Notebook contents
+  notebook_empty: Notes for this notebook are being prepared.
   previous: Previous note
   next: Next note
   links_intro: Feel free to reach out.
@@ -145,19 +145,19 @@ ru:
   no_topics: "Темы не найдены."
   posts: "публикаций"
   post_counts: {one: публикация, few: публикации, many: публикаций, other: публикации}
-  course_counts: {one: курс, few: курса, many: курсов, other: курса}
+  notebook_counts: {one: блокнот, few: блокнота, many: блокнотов, other: блокнота}
   note_counts: {one: заметка, few: заметки, many: заметок, other: заметки}
-  courses: "курсов"
+  notebooks: "блокнотов"
   recently_updated: "Недавно обновлённые"
   alphabetical: "По названию: А–Я"
-  empty_courses: "Курсов по выбранным темам нет."
-  course_progress: "В работе"
-  course_complete: "Завершён"
-  course_progress_hint: "Я ещё добавляю или редактирую эти конспекты."
-  course_complete_hint: "Этот набор конспектов завершён."
+  empty_notebooks: "Блокнотов по выбранным темам нет."
+  notebook_progress: "В работе"
+  notebook_complete: "Завершён"
+  notebook_progress_hint: "Я ещё добавляю или редактирую заметки в этом блокноте."
+  notebook_complete_hint: "Все заметки в этом блокноте готовы."
   updated: "Обновлено"
   created: "Создано"
-  open_course: "Открыть курс"
+  open_notebook: "Открыть блокнот"
   links_personal: "Личные страницы"
   links_channels: "Каналы и блоги"
   links_research: Исследования
@@ -202,10 +202,10 @@ ru:
   unavailable: Перевод пока не готов
   intro_label: Главная страница
   greeting: Привет, я Александр.
-  bio: "Здесь вы найдёте всё, чем я делюсь публично:"
+  bio: "Здесь вы найдете:"
   bio_navigation: |-
     - [Блог](./blog/) — мои проекты и мысли.
-    - [Библиотека](./library/) — мои учебные заметки, собранные в курсы.
+    - [Библиотека](./library/) — мои заметки, собранные в блокноты.
     - [Публикации](./publications/) — мои научные статьи, тезисы и дипломные работы.
     - [Ссылки](./links/) на мои профили и каналы.
   cv: Резюме
@@ -239,25 +239,25 @@ ru:
   copy_failed: Не удалось скопировать автоматически. Выделите и скопируйте ссылку.
   like_failed: Не удалось сохранить лайк. Попробуйте ещё раз.
   stats_failed: Счётчики сейчас недоступны.
-  toc: В этой статье
+  toc: Содержание
   fold: Свернуть или развернуть раздел
   section_link: Скопировать ссылку на раздел
   back_to_top: Наверх
   references: Ссылки на материалы
   back: Назад
-  library_intro: Мои учебные заметки, собранные в курсы.
-  library_empty_title: Здесь будут мои конспекты.
-  library_empty_text: Я готовлю их к публикации.
+  library_intro: Мои заметки, собранные в блокноты.
+  library_empty_title: Здесь будут мои блокноты.
+  library_empty_text: Я готовлю заметки к публикации.
   library_empty_link: А пока можно почитать блог
-  course_materials: Материалы курса
-  course_website: Сайт курса
+  notebook_materials: Материалы блокнота
+  notebook_website: Сайт источника
   table_scroll: Таблица — прокрутите по горизонтали, чтобы увидеть больше
   notes: заметок
   note: Заметка
   library_kicker: sapere aude
-  course: Курс
-  course_contents: Заметки курса
-  course_empty: Заметки для этого курса готовятся к публикации.
+  notebook: Блокнот
+  notebook_contents: Заметки блокнота
+  notebook_empty: Заметки для этого блокнота готовятся к публикации.
   previous: Предыдущая заметка
   next: Следующая заметка
   links_intro: "Есть вопрос? Не стесняйся написать, один раз живем (наверное). И на тгк подписывайся! :)"

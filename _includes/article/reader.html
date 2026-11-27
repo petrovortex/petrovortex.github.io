@@ -7,8 +7,8 @@
 <div class="reader" data-article-id="{{ statsId }}">
   <nav class="breadcrumbs" aria-label="Breadcrumb">
   {% if isNote %}
-    {% set courseDocument = collections.courses | filterBy('data.lang', lang) | findBy('data.course_id', course) %}
-    <a href="{{ (base + '/library/') | relativeUrl }}">{{ t.library }}</a><span aria-hidden="true">/</span><a href="{{ courseDocument.url | relativeUrl }}">{{ courseDocument.data.title }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ title }}</span>
+    {% set notebookDocument = collections.notebooks | filterBy('data.lang', lang) | findBy('data.notebook_id', notebook) %}
+    <a href="{{ (base + '/library/') | relativeUrl }}">{{ t.library }}</a><span aria-hidden="true">/</span><a href="{{ notebookDocument.url | relativeUrl }}">{{ notebookDocument.data.title }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ title }}</span>
   {% else %}<a href="{{ (base + '/blog/') | relativeUrl }}">{{ t.blog }}</a><span aria-hidden="true">/</span><span aria-current="page">{{ title }}</span>{% endif %}
   </nav>
   <header class="reader-header"><p class="eyebrow">{{ t.note if isNote else t.post }}</p><h1>{{ title }}</h1>
@@ -16,8 +16,8 @@
     {{ engagement(statsId, page.url, title, t) }}
     {% include "article/downloads.html" %}
   </header>
-  {% if isNote %}{% set siblingNotes = collections.notes | filterBy('data.course', course) | filterBy('data.lang', lang) | sort(false, false, 'data.order') %}
-    <details class="course-contents"><summary>{{ t.course_contents }}<span aria-hidden="true">+</span></summary><ol>{% for note in siblingNotes %}<li><a href="{{ note.url | relativeUrl }}" {% if note.url == page.url %}aria-current="page"{% endif %}>{{ note.data.title }}</a></li>{% endfor %}</ol></details>
+  {% if isNote %}{% set siblingNotes = collections.notes | filterBy('data.notebook', notebook) | filterBy('data.lang', lang) | sort(false, false, 'data.order') %}
+    <details class="notebook-contents"><summary>{{ t.notebook_contents }}<span aria-hidden="true">+</span></summary><ol>{% for note in siblingNotes %}<li><a href="{{ note.url | relativeUrl }}" {% if note.url == page.url %}aria-current="page"{% endif %}>{{ note.data.title }}</a></li>{% endfor %}</ol></details>
   {% endif %}
   <div class="reader-grid">
     <article class="article-column">
@@ -27,7 +27,7 @@
       </div>
       <div class="article-end">{{ engagement(statsId, page.url, title, t) }}</div>
       {% if isNote %}
-      <nav class="note-pagination" aria-label="{{ t.course_contents }}">{% for note in siblingNotes %}{% if note.url == page.url %}
+      <nav class="note-pagination" aria-label="{{ t.notebook_contents }}">{% for note in siblingNotes %}{% if note.url == page.url %}
         <div>{% if not loop.first %}{% set previousNote = siblingNotes[loop.index0 - 1] %}<a href="{{ previousNote.url | relativeUrl }}"><span>{{ t.previous }}</span>← {{ previousNote.data.title }}</a>{% endif %}</div><div>{% if not loop.last %}{% set nextNote = siblingNotes[loop.index0 + 1] %}<a href="{{ nextNote.url | relativeUrl }}"><span>{{ t.next }}</span>{{ nextNote.data.title }} →</a>{% endif %}</div>
       {% endif %}{% endfor %}</nav>
       {% endif %}

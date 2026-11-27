@@ -30,7 +30,7 @@ export function collectionsRoot(root, config) {
 }
 export function collectionName(file) {
   const parts = file.replaceAll('\\', '/').split('/');
-  return ['posts', 'notes', 'courses'].find(name => parts.includes('_' + name));
+  return ['posts', 'notes', 'notebooks'].find(name => parts.includes('_' + name));
 }
 export function pageUrl(file, data) {
   if (data.permalink) return data.permalink;

@@ -20,10 +20,10 @@ test('theme follows the system initially, persists a choice, and survives blocke
  dom.window.close();
 });
 test('external links open separately, while relative and canonical site links stay internal',async()=>{
- const dom=new JSDOM('<link rel="canonical" href="https://petrovortex.github.io/"><a id="cv" href="https://github.com/petrovortex/resume">CV</a><a id="email" href="mailto:a@example.com">Mail</a><a id="same" href="https://petrovortex.github.io/blog/">Blog</a><a id="relative" href="/library/">Library</a>',{url:'http://127.0.0.1:4000'});
+ const dom=new JSDOM('<link rel="canonical" href="https://petrovortex.github.io/"><a id="external" href="https://example.org/profile">Profile</a><a id="email" href="mailto:a@example.com">Mail</a><a id="same" href="https://petrovortex.github.io/blog/">Blog</a><a id="relative" href="/library/">Library</a>',{url:'http://127.0.0.1:4000'});
  const doc=dom.window.document;const observer=initExternalLinks(doc);
- assert.equal(doc.querySelector('#cv').target,'_blank');
- assert(doc.querySelector('#cv').relList.contains('noopener'));
+ assert.equal(doc.querySelector('#external').target,'_blank');
+ assert(doc.querySelector('#external').relList.contains('noopener'));
  assert.equal(doc.querySelector('#email').target,'_blank');
  assert.equal(doc.querySelector('#same').target,'');
  assert.equal(doc.querySelector('#relative').target,'');

@@ -19,7 +19,7 @@ layout: default
   <div class="hero-copy">
     <p class="hero-bio">{{ t.bio }}</p>
     <div class="hero-navigation">{{ t.bio_navigation | markdown | safe }}</div>
-    <a class="text-link cv-link" href="{{ profile.cv[lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {{ icon('arrow') }}</a>
+    <a class="text-link cv-link" href="{{ profile.cv | relativeUrl }}" target="_blank" rel="noopener noreferrer">{{ t.cv }} {{ icon('arrow') }}</a>
   </div>
 </section>
 <section class="timeline-section" aria-labelledby="timeline-heading">

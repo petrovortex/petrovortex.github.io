@@ -59,13 +59,13 @@ Keep the terminal error and matching event messages for diagnosis. An operating-
 
 | Symptom | Resolution |
 | --- | --- |
-| Missing course or wrong language | Match the note's `course` to a course's `course_id` with the same `lang` |
-| Duplicate chapter order | Give each note a distinct positive `order` within its course and language, then run `npm run validate` in the site terminal |
+| Missing notebook or wrong language | Match the note's `notebook` to a notebook's `notebook_id` with the same `lang` |
+| Duplicate chapter order | Give each note a distinct positive `order` within its notebook and language, then run `npm run validate` in the site terminal |
 | Chapter appears in the wrong position | Change `order`; dates, likes, and topic filters do not order chapters |
 | Translation is disabled | Create the other language's document with the same `lang_ref` and a distinct public URL |
 | Blog post is missing | Check `published`, `lang`, and whether `date` is in the future; verify the dated filename and front matter |
 | A separate thumbnail is missing or wrong in dark mode | Check `preview_image` and its own `preview_image_dark`; the full cover's dark image is not used for a separate preview |
-| A course banner is missing | Check `image` and its file path. If using the older `banner` setting instead, both `<banner>.svg` and `<banner>-dark.svg` must exist in `assets/images/banners/` |
+| A notebook banner is missing | Check `image` and its file path. If using the older `banner` setting instead, both `<banner>.svg` and `<banner>-dark.svg` must exist in `assets/images/banners/` |
 | Shared link has an old photo, banner, or description | Follow [Link previews](banner-design.md#link-previews), publish the generated images and index, then check the public page's `og:image` and `og:description` tags. If those are current, the receiving app may still be using a cached card |
 | Broken heading link | Check the rendered heading ID, especially duplicate titles or punctuation; use `npm run verify` after building |
 | An empty filtered list persists | Clear selected topics, or remove `topic`/legacy `tag` parameters from the URL |
@@ -82,7 +82,7 @@ Keep the terminal error and matching event messages for diagnosis. An operating-
 | Broken link in a locally downloaded edition | Its canonical URL points to the public site; newly added routes become reachable after publication |
 | PDF contains a link instead of an image | Remote images are not embedded; copy the illustration to site/vault assets and reference it locally |
 | Markdown images do not load offline or before publication | The `.md` contains public image URLs, not bundled image files; publish the referenced assets and use a network connection, or use the PDF for offline reading |
-| No download for a course | Only individual posts and notes have downloadable editions |
+| No download for a notebook | Only individual posts and notes have downloadable editions |
 | Export fails after import succeeds | Fix the reported export input/dependency and rerun; import and export are separate stages |
 | PDF is rebuilt after an image change | PDF caching includes images used by that article. Unrelated site CSS or images do not require rebuilding it |
 

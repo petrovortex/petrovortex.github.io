@@ -1,6 +1,6 @@
 ---
 title: Efficient ML
-course_id: efficient-ml
+notebook_id: efficient-ml
 banner: efficient-ml
 preview_image: /assets/images/banners/efficient-ml-preview.svg
 preview_image_dark: /assets/images/banners/efficient-ml-preview-dark.svg
@@ -21,4 +21,4 @@ permalink: /library/efficient-ml/
 
 My conspectuses of the Efficient ML course, taught by Song Han at MIT.
 
-These are my study notes. The lectures and original course materials belong to their authors.
+These are my notes. The lectures and original course materials belong to their authors.

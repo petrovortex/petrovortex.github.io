@@ -4,20 +4,55 @@
 vault: ../obsidian-vault
 items:
   - id: efficient-ml-lecture-1
-    source: 001 Present notes/Effective ML/Conspectus/Lecture 1. Introduction.md
+    source: 001 Present notes/Effective ML/Notes/Lecture 1. Introduction.md
     destination: content/_notes/en/efficient-ml-lecture-1-en.md
     metadata:
       title: "Lecture 1. Introduction"
       lang: en
       lang_ref: efficient-ml-lecture-1
-      course: efficient-ml
+      notebook: efficient-ml
       order: 1
-      description: "Why efficient machine learning matters: the constraints, trade-offs, and three levers behind the course."
+      description: My notes on the Efficient ML course will appear here soon.
       permalink: /library/efficient-ml/lecture-1-introduction/
       image: /assets/images/banners/efficient-ml-01.svg
       image_dark: /assets/images/banners/efficient-ml-01-dark.svg
       preview_image: /assets/images/banners/efficient-ml-01-preview.svg
       preview_image_dark: /assets/images/banners/efficient-ml-01-preview-dark.svg
       image_alt: "Accuracy versus resource cost, compressed model weights, and deployment on a chip."
-      math: true
       copyright_year: 2026
+  - id: onigiri-whats-next-for-ai-en
+    source: 001 Present notes/Onigiri's streams/What's Next for AI — Extended Podcast Dialogue.md
+    destination: content/_notes/en/onigiri-whats-next-for-ai-en.md
+    collect_references: true
+    metadata:
+      title: "What's Next for AI? — Extended Podcast Dialogue"
+      lang: en
+      lang_ref: onigiri-whats-next-for-ai
+      notebook: onigiri
+      order: 1
+      description: Onigiri’s stream on the changing capabilities of AI, adapted as a dialogue with Antigravity.
+      permalink: /library/onigiri/whats-next-for-ai/
+      image: /assets/images/banners/onigiri.svg
+      image_dark: /assets/images/banners/onigiri-dark.svg
+      image_alt: A studio microphone and two audio waveforms.
+      preview_image: /assets/images/banners/onigiri-preview.svg
+      preview_image_dark: /assets/images/banners/onigiri-preview-dark.svg
+      math: true
+  - id: onigiri-whats-next-for-ai-ru
+    source: 001 Present notes/Onigiri's streams/Что будет дальше с ИИ — Расширенный диалог.md
+    destination: content/_notes/ru/onigiri-whats-next-for-ai-ru.md
+    collect_references: true
+    metadata:
+      title: "Что будет дальше с ИИ? — Расширенный диалог"
+      lang: ru
+      lang_ref: onigiri-whats-next-for-ai
+      notebook: onigiri
+      order: 1
+      description: Стрим Onigiri о том, как меняются возможности ИИ, в форме диалога с Antigravity.
+      permalink: /ru/library/onigiri/whats-next-for-ai/
+      image: /assets/images/banners/onigiri.svg
+      image_dark: /assets/images/banners/onigiri-dark.svg
+      image_alt: Студийный микрофон и две звуковые волны.
+      preview_image: /assets/images/banners/onigiri-preview.svg
+      preview_image_dark: /assets/images/banners/onigiri-preview-dark.svg
+      math: true

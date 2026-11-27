@@ -26,9 +26,8 @@ export async function exportContent(root, { pdf: buildPdf = true } = {}) {
   const origin = config.url.replace(/\/$/, '') + (config.baseurl || '');
   const pdfScript = path.join(root, 'scripts/content/pdf/export.py');
   const generatorHash = buildPdf ? await pdfGeneratorHash(root) : null;
-  const renderMarkdown = buildPdf ? (await import('./render-markdown.mjs')).renderMarkdown : null;
   const files = (await Promise.all(['_posts', '_notes'].map(dir => walk(path.join(contentRoot, dir))))).flat().filter(file => file.endsWith('.md')).sort();
-  const courses = (await Promise.all((await walk(path.join(contentRoot, '_courses'))).filter(f => f.endsWith('.md')).map(async file => frontmatter(await fs.readFile(file, 'utf8')).data)));
+  const notebooks = (await Promise.all((await walk(path.join(contentRoot, '_notebooks'))).filter(f => f.endsWith('.md')).map(async file => frontmatter(await fs.readFile(file, 'utf8')).data)));
   const downloads = {}, jobs = [];
   const temp = path.join(root, '.preview/exports');
   for (const file of files) {
@@ -42,14 +41,21 @@ export async function exportContent(root, { pdf: buildPdf = true } = {}) {
     const key = (note ? 'note-' : 'post-') + data.lang_ref + '-' + data.lang;
     const year = data.copyright_year || String(data.date || '').slice(0, 4) || new Date().getFullYear();
     const author = config.author || 'Aleksandr Petrov';
-    const course = note ? courses.find(s => s.course_id === data.course && s.lang === data.lang) : null;
-    if (note && !course) throw new Error('Missing course for ' + file);
-    const ownership = '© ' + year + ' ' + author + '. ' + (note ? 'Study notes by ' + author + '.' : 'Written by ' + author + '.');
-    const source = course ? 'Based on ' + course.title + ' by ' + course.source_author + '. Original course materials belong to their respective authors.' : '';
+    const notebook = note ? notebooks.find(s => s.notebook_id === data.notebook && s.lang === data.lang) : null;
+    if (note && !notebook) throw new Error('Missing notebook for ' + file);
+    const ownership = '© ' + year + ' ' + author + '. ' + (note ? 'Notes by ' + author + '.' : 'Written by ' + author + '.');
+    const source = notebook ? 'Source material by ' + notebook.source_author + '. Original materials belong to their respective authors.' : '';
     const absolute = value => /^https?:/.test(value) ? value : origin + '/' + value.replace(/^\//, '');
     const image = data.image ? '![' + (data.image_alt || data.title) + '](' + absolute(data.image) + ')\n\n' + (data.image_caption ? '*' + data.image_caption + '*\n\n' : '') : '';
-    const mdBody = (image + body).replace(/(!?\[[^\]\n]*\]\()\/(?!\/)/g, '$1' + origin + '/').replace(/((?:src|href)=["'])\/(?!\/)/g, '$1' + origin + '/');
-    const markdown = '# ' + data.title + '\n\n' + ownership + '\n\nOriginal publication: [' + canonical + '](' + canonical + ')\n\n' + (source ? source + '\n\nCourse: ' + course.source_url + '\n\n' : '') + '---\n\n' + mdBody.trim() + '\n';
+    let appendix = '', html = '';
+    if (buildPdf || data.collect_references) {
+      const { renderArticle, renderMarkdown } = await import('./render-markdown.mjs');
+      const article = renderArticle(body, data.math, data.lang, data.collect_references === true);
+      appendix = article.referencesMarkdown(canonical);
+      if (buildPdf) html = (image ? renderMarkdown(image, data.math, data.lang) : '') + article.html;
+    }
+    const mdBody = (image + body + (appendix ? '\n\n' + appendix : '')).replace(/(!?\[[^\]\n]*\]\()\/(?!\/)/g, '$1' + origin + '/').replace(/((?:src|href)=["'])\/(?!\/)/g, '$1' + origin + '/');
+    const markdown = '# ' + data.title + '\n\n' + ownership + '\n\nOriginal publication: [' + canonical + '](' + canonical + ')\n\n' + (source ? source + '\n\nSource: ' + notebook.source_url + '\n\n' : '') + '---\n\n' + mdBody.trim() + '\n';
     const entry = { md: '/assets/downloads/' + key + '.md' };
     const pdfUrl = '/assets/downloads/' + key + '.pdf';
     const pdf = path.join(root, pdfUrl.slice(1));
@@ -58,8 +64,7 @@ export async function exportContent(root, { pdf: buildPdf = true } = {}) {
     downloads[url] = entry;
     await writeChanged(path.join(root, entry.md.slice(1)), markdown);
     if (buildPdf) {
-      const html = renderMarkdown(image + body, data.math, data.lang);
-      const job = { key, title: data.title, lang: data.lang, author, ownership, source, source_url: course?.source_url, canonical, html, pdf, origin, root };
+      const job = { key, title: data.title, lang: data.lang, author, ownership, source, source_url: notebook?.source_url, canonical, html, pdf, origin, root };
       job.hash = await pdfInputHash(job, generatorHash);
       job.hashFile = path.join(temp, key + '.sha256');
       const cached = await fs.readFile(job.hashFile, 'utf8').catch(() => '');

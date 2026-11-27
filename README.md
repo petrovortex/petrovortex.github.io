@@ -1,6 +1,6 @@
 # Aleksandr Petrov — personal site
 
-Source for [petrovortex.github.io](https://petrovortex.github.io): a bilingual Eleventy site with a personal homepage, a blog, a library of course notes, and a publication list. It builds to static HTML; browser modules add filtering, reading navigation, themes, and engagement controls.
+Source for [petrovortex.github.io](https://petrovortex.github.io): a bilingual Eleventy site with a personal homepage, a blog, a library of notebooks, and a publication list. It builds to static HTML; browser modules add filtering, reading navigation, themes, and engagement controls.
 
 For local preview, install Node.js and run these commands in the site folder. On Windows, use PowerShell:
 
@@ -16,8 +16,8 @@ Run `npm.cmd ci` once after checkout or dependency updates. Open <http://127.0.0
 | Content | Source | Purpose |
 | --- | --- | --- |
 | Blog post | `content/_posts/` | An original article, with its own URL and downloads |
-| Course | `content/_courses/` | A course or book collection, with topics and completion status |
-| Note | `content/_notes/` | One chapter in a course, placed in an explicit sequence |
+| Notebook | `content/_notebooks/` | A collection of notes on a subject or source, with topics and completion status |
+| Note | `content/_notes/` | An individual entry in a notebook, with its own page and reading order |
 
 Each collection groups files by language (`en/` or `ru/`). Main page sources are paired under `pages/en/` and `pages/ru/`; their permalinks preserve the existing public addresses. See the [repository map](docs/architecture.md#content-and-page-sources).
 
@@ -35,9 +35,10 @@ _includes/           Shared page fragments and component macros
 _layouts/            Page layouts
 assets/              Images, styles, browser scripts, and downloads
 config/              Obsidian import settings
-content/             Posts, courses, and notes
+content/             Posts, notebooks, and notes
 docs/                Documentation and content templates
 pages/               English/Russian sections, redirects, and 404 page
+resume/              Academic CV (TeXstudio source, bibliography, style, and PDF)
 scripts/             Import, export, preview, artwork, and check commands
 tests/               Automated tests and sample test content
 package.json         npm commands and Node dependency list
@@ -64,8 +65,8 @@ Choose a task:
 | Install dependencies or run the local preview | [Setup and commands](docs/setup.md) |
 | Edit an existing article | [Choose the source file](docs/author-guide.md#edit-existing-content) |
 | Take an Obsidian draft through import, images, and publication | [Authoring workflow](docs/author-guide.md#from-draft-to-publication) |
-| Add a post, course, or lecture note | [Content authoring](docs/author-guide.md) |
-| Edit the links in Course materials | [Course material settings](docs/author-guide.md#course-materials) |
+| Add a post, notebook, or lecture note | [Content authoring](docs/author-guide.md) |
+| Edit the links in Notebook materials | [Notebook material settings](docs/author-guide.md#notebook-materials) |
 | Look up a front matter field, date, or identifier | [Content reference](docs/content-reference.md) |
 | Update the card shown when a link is shared | [Link previews](docs/banner-design.md#link-previews) |
 | Configure Obsidian imports or understand PDF/Markdown exports | [Import and download reference](docs/content-workflow.md) |
@@ -73,6 +74,7 @@ Choose a task:
 | Add banners and separate list thumbnails | [Artwork](docs/banner-design.md) |
 | Generate consistent artwork with an image model | [Reusable prompts](docs/artwork-prompts.md) |
 | Change profile data, links, language text, or integrations | [Configuration](docs/configuration.md) |
+| Edit the CV and publish its PDF | [CV in TeXstudio](docs/configuration.md#cv-in-texstudio) |
 | Add or edit a publication | [Publication list](docs/configuration.md#publications) |
 | Replace the homepage photos | [Portrait settings](docs/configuration.md#homepage-photos) |
 | Understand sorting, likes, sharing, RSS, or caching | [Site behavior](docs/site-features.md) |

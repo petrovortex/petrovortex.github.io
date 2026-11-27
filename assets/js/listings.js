@@ -17,7 +17,7 @@ export function sortItems(items, sort, stats = new Map(), locale = 'en') {
   });
 }
 
-// Blog posts and library courses use the same controls; chapter lists do not.
+// Blog posts and library notebooks use the same controls; chapter lists do not.
 export function initListings(doc = document) {
   const list = doc.querySelector('[data-listing]');
   if (!list) return;

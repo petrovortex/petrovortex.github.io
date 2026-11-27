@@ -49,7 +49,7 @@
   </header>
   <main id="main" class="page-shell {% if layout == 'post' or layout == 'note' %}reading-shell{% endif %}" tabindex="-1">{{ content | safe }}</main>
   <footer class="site-footer">
-    <div class="footer-top"><a class="footer-name" href="{{ (base + '/') | relativeUrl }}">Aleksandr Petrov<span class="name-dot">.</span></a><nav aria-label="Footer"><a href="{{ (base + '/') | relativeUrl }}">{{ t.home }}</a>{% for navSection in sections %}<a href="{{ (base + '/' + navSection + '/') | relativeUrl }}">{{ t[navSection] }}</a>{% endfor %}<a href="{{ profile.cv[lang] }}" target="_blank" rel="noopener noreferrer">{{ t.cv }}</a></nav></div>
+    <div class="footer-top"><a class="footer-name" href="{{ (base + '/') | relativeUrl }}">Aleksandr Petrov<span class="name-dot">.</span></a><nav aria-label="Footer"><a href="{{ (base + '/') | relativeUrl }}">{{ t.home }}</a>{% for navSection in sections %}<a href="{{ (base + '/' + navSection + '/') | relativeUrl }}">{{ t[navSection] }}</a>{% endfor %}<a class="cv-link" href="{{ profile.cv | relativeUrl }}" target="_blank" rel="noopener noreferrer">{{ t.cv }}</a></nav></div>
     <div class="footer-social">{% for profileLink in social %}<a href="{{ profileLink.url }}" target="_blank" rel="noopener noreferrer">{{ profileLink.label }}</a>{% endfor %}<a href="mailto:{{ site.email }}" target="_blank" rel="noopener noreferrer">{{ t.email }}</a><a href="{{ (base + '/feed.xml') | relativeUrl }}">RSS</a></div>
     {% include "site/credits.html" %}
     <p class="copyright"><span>© {{ site.time | year }} Aleksandr Petrov</span><button class="rainbow-toggle" type="button" aria-label="{{ t.rainbow_on }}" title="{{ t.rainbow_on }}" aria-pressed="false" hidden>{% include "components/rainbow.html" %}</button></p>

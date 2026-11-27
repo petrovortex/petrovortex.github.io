@@ -25,18 +25,18 @@ Blog and Library share these options:
 | Option | Ordering |
 | --- | --- |
 | Newest | Creation `date`, descending; default |
-| Recently updated | `last_modified_at`, descending, with `date` as fallback; courses include their notes' updates |
+| Recently updated | `last_modified_at`, descending, with `date` as fallback; notebooks include their notes' updates |
 | Most viewed | View count, descending |
 | Most liked | Like count, descending |
 | Title: A–Z | Locale-aware title order |
 
 Popularity ties use newer creation dates; equal dates fall back to the stable ID. Unavailable counts sort after available counts and display a dash. Live count updates can reorder results, but reordering waits while a reader is using a control inside the list.
 
-Blog topics come from post `tags`; Library topics come from course `topics`. Their vocabularies are independent. The topic menu is alphabetized, searchable, scrollable, and supports multiple selections. A result matches **any** selected topic. Search only narrows the menu; it does not clear selections.
+Blog topics come from post `tags`; Library topics come from notebook `topics`. Their vocabularies are independent. The topic menu is alphabetized, searchable, scrollable, and supports multiple selections. A result matches **any** selected topic. Search only narrows the menu; it does not clear selections.
 
-Selections use repeated `?topic=...` parameters and `?sort=...`, so filtered views can be shared and browser Back restores them. Legacy `?tag=...` links still work. Inside a course, notes always follow the author's `order`; there are no chapter sort or topic controls.
+Selections use repeated `?topic=...` parameters and `?sort=...`, so filtered views can be shared and browser Back restores them. Legacy `?tag=...` links still work. Inside a notebook, notes always follow the author's `order`; there are no chapter sort or topic controls.
 
-Posts and courses use consistent list separators, dedicated thumbnails, and views/likes/share controls. Sorting and filtering need JavaScript; content and ordinary navigation remain available without it.
+Posts and notebooks use consistent list separators, dedicated thumbnails, and views/likes/share controls. Sorting and filtering need JavaScript; content and ordinary navigation remain available without it.
 
 ## Reading navigation
 
@@ -44,9 +44,9 @@ Posts and notes share the reader layout. The desktop table of contents follows t
 
 Rendered formulas can be clicked or focused and activated with Enter/Space to copy their original Markdown: `$...$` for inline math and `$$...$$` for display math. TeX commands and line breaks are preserved. A pointer cursor and tooltip indicate the action; formulas keep their normal appearance. Keyboard focus has the standard outline. Clipboard success uses a brief toast; blocked clipboard access opens selectable source text.
 
-Notes add breadcrumbs, course contents, and previous/next links in the authored sequence. Original source links appear in the course's collapsed Course materials menu. Each post/note offers its own PDF and Markdown editions; note downloads retain the course's source attribution. See [exports](content-workflow.md#downloadable-editions) for their contents and limits.
+Notes add breadcrumbs, notebook contents, and previous/next links in the authored sequence. Original source links appear in the notebook's collapsed Notebook materials menu. Each post/note offers its own PDF and Markdown editions; note downloads retain the notebook's source attribution. See [exports](content-workflow.md#downloadable-editions) for their contents and limits.
 
-Posts and notes use the same numbered references, generated from footnotes during export, including in PDFs. References form a separate section that can be collapsed independently. Repeated citations share a number; return links reveal the section containing the mention. Ordinary links do not add references. Follow [Add numbered references](author-guide.md#add-numbered-references) to write them in Obsidian or repository Markdown.
+Imported posts and notes list external sources in order of first mention. Each source has one entry with a ↩ for each place it appears. Selecting an arrow opens the section containing that mention. Authors can give a source its full title in Obsidian or write a footnote with additional citation details. See [Add numbered references](author-guide.md#add-numbered-references).
 
 Wide tables scroll horizontally within the article. Readers can swipe, use the scrollbar, or focus the table region with Tab and scroll with the arrow keys.
 
@@ -56,9 +56,9 @@ Wide tables scroll horizontally within the article. Readers can swipe, use the s
 | --- | --- |
 | Blog post | `posts/<lang_ref>` |
 | Note | `posts/library--<lang_ref>` |
-| Course | `posts/course--<lang_ref>` |
+| Notebook | `posts/course--<lang_ref>` |
 
-Translations share counts. The Library row and its course page also share counts. Visiting a list does not increment an article/course view; opening the reading or course page does.
+Translations share counts. The Library row and its notebook page also share counts. Visiting a list does not increment an article/notebook view; opening the reading or notebook page does.
 
 Views and likes are deduplicated using browser storage. There are no visitor accounts and no unlike action. Clearing storage resets local deduplication, so these are interaction counts, not verified unique-person analytics. The store synchronizes repeated controls, preserves views when liking, and allows failed writes to be retried. A statistics failure does not block reading or navigation.
 

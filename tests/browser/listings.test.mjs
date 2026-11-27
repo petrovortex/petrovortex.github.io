@@ -50,13 +50,13 @@ test('unknown topics show an empty state and live counts can reorder posts',()=>
 test('library sorting uses its own topics and title order without changing chapter lists',()=>{
  const dom=fixture('?sort=title','library'),doc=dom.window.document;
  assert.equal(doc.querySelector('[data-list-item]').dataset.postId,'b');
- const course=new JSDOM('<ol class="chapter-list"><li>Second in date, first in course</li><li>First in date, second in course</li></ol>');
- initListings(course.window.document);
- assert.equal(course.window.document.querySelector('li').textContent,'Second in date, first in course');
- course.window.close();dom.window.close();
+ const notebook=new JSDOM('<ol class="chapter-list"><li>Second in date, first in notebook</li><li>First in date, second in notebook</li></ol>');
+ initListings(notebook.window.document);
+ assert.equal(notebook.window.document.querySelector('li').textContent,'Second in date, first in notebook');
+ notebook.window.close();dom.window.close();
 });
 
-test('library popularity responds to course likes and retains selected topics',()=>{
+test('library popularity responds to notebook likes and retains selected topics',()=>{
  const dom=fixture('?sort=likes&topic=AI&topic=Math','library'),doc=dom.window.document;
  const order=()=>[...doc.querySelectorAll('[data-list-item]:not([hidden])')].map(el=>el.dataset.postId);
  doc.dispatchEvent(new dom.window.CustomEvent('site:stats',{detail:{id:'a',ready:true,likes:3}}));

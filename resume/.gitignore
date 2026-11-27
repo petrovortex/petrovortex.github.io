@@ -1,0 +1,69 @@
+# Основные временные файлы LaTeX
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.lol
+
+# Файлы пакетов и стилей
+*.bbl
+*.blg
+*.brf
+*.cb
+*.cb2
+*.dvi
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+
+# Файлы для изображений
+*.auxlock
+*.dpth
+*-eps-converted-to.pdf
+*.md5
+*.pyg
+*.xdv
+
+# Файлы bibtex
+*.bcf
+*.run.xml
+
+# Файлы для minted (подсветка синтаксиса)
+_minted*/
+*.pyg
+
+# Файлы для пакета 'algorithm'
+*.alg
+*.loa
+
+# Файлы для пакета 'glossaries'
+*.acn
+*.acr
+*.glsdefs
+
+# Резервные копии и временные файлы редакторов
+*~
+*.backup
+*.bak
+*.swp
+*.swo
+
+# Файлы операционных систем
+.DS_Store
+Thumbs.db
+
+# Файлы сборки (если используете make или другие инструменты)
+/build/
+/out/
+/output/
+
+/archive/

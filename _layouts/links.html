@@ -7,7 +7,7 @@ layout: default
 <header class="page-heading links-heading"><p class="eyebrow">{{ t.links_kicker }}</p><h1>{{ t.links }}</h1><p>{{ t.links_intro }}</p></header>
 <div class="contact-strip">
   <a href="mailto:{{ site.email }}" target="_blank" rel="noopener noreferrer">{{ icon('mail') }}<span>{{ site.email }}</span></a>
-  <a href="{{ profile.cv[lang] }}" target="_blank" rel="noopener noreferrer"><span>{{ t.cv }}</span>{{ icon('external') }}</a>
+  <a class="cv-link" href="{{ profile.cv | relativeUrl }}" target="_blank" rel="noopener noreferrer"><span>{{ t.cv }}</span>{{ icon('external') }}</a>
 </div>
 {% for group in ['research', 'personal', 'channels', 'competitions'] %}
 <section class="link-group" aria-labelledby="links-{{ group }}"><h2 id="links-{{ group }}" class="small-heading">{{ t['links_' + group] }}</h2>

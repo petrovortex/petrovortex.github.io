@@ -12,12 +12,12 @@ On this page: [Site data](#site-data) · [Publications](#publications) · [Timel
 | --- | --- | --- |
 | Title, author for exports, email, public origin, timezone | [_config.yml](../_config.yml) | Restart the preview after editing; rebuild exports after changing origin or author |
 | Greeting, bio, page introductions, interface translations | [_data/ui.yml](../_data/ui.yml) | Keep corresponding `en` and `ru` keys together |
-| Portrait, CV URLs, career timeline | [_data/profile.yml](../_data/profile.yml) | Timeline labels have language-specific values |
+| Portrait, CV link, career timeline | [_data/profile.yml](../_data/profile.yml) | Both languages use the same CV |
 | Social profiles, platform names, groups, and icons | [_data/social.yml](../_data/social.yml) | Used by Links and the footer; group IDs are `personal`, `channels`, `research`, and `competitions`. Links show platform names without descriptions |
 | Publication citations and their order | [_data/publications.yml](../_data/publications.yml) | One shared list for the English and Russian pages; see [Publications](#publications) |
 | Reader-message handles | [_data/contact.yml](../_data/contact.yml) | Separate from public profile links; email comes from `_config.yml` |
 | Selected vault files | [config/obsidian-imports.yml](../config/obsidian-imports.yml) | Selects vault notes and sets their publication properties |
-| Course description, topics, status, attribution | Its file in [_courses](../content/_courses/) | See [course fields](content-reference.md#course-fields) |
+| Notebook description, topics, status, attribution | Its file in [_notebooks](../content/_notebooks/) | See [notebook fields](content-reference.md#notebook-fields) |
 
 Save the edited file and refresh the browser after the local preview rebuilds. If you changed `_config.yml`, stop the preview with Ctrl+C in its terminal and repeat the [preview start command](setup.md#daily-preview). If you changed the author or public site URL, also run `npm run content:exports` in a [separate site terminal](setup.md#where-to-run-commands) to update downloads.
 
@@ -26,6 +26,12 @@ The displayed author name is also present in `_layouts/default.html`, `_layouts/
 In `_data/contact.yml`, a numeric `discord_id` enables a Discord profile link for reader messages. With only the handle, the form explains how to find the author. Changing a social URL does not automatically change the contact form's destination.
 
 The `research` group is **Research / Исследования** and contains Google Scholar, ORCID, and GitHub. The `competitions` group is **Competitions / Соревнования** and contains Kaggle and LeetCode. Group labels are defined in `_data/ui.yml`; assign each profile's `group` in `_data/social.yml`.
+
+### CV in TeXstudio
+
+Open [resume/cv.tex](../resume/cv.tex) in TeXstudio. Edit the text there, publication entries in [publications.bib](../resume/publications.bib), and formatting in [style.sty](../resume/style.sty). To rebuild the bibliography and PDF, run XeLaTeX, Biber, then XeLaTeX twice on `cv.tex` in TeXstudio.
+
+Commit the edited sources and the resulting [resume/cv.pdf](../resume/cv.pdf) together. The site serves this PDF at `/resume/cv.pdf`. Put previous versions in `resume/archive/`, which stays local.
 
 ### Publications
 
@@ -97,6 +103,6 @@ There is no automatic Substack publisher or messaging backend. See [Site behavio
 The compact footer colophon is defined in [_includes/site/credits.html](../_includes/site/credits.html). It credits Lucide/Feather UI icons, Simple Icons brand icons, Inter, Eleventy, and MathJax. Third-party license files are in [assets/licenses](../assets/licenses/).
 
 
-The custom illustrations and AP favicon are site artwork. Course-specific attribution belongs in course metadata and appears on note pages and downloads, separate from the footer credits. This repository currently has no repository-wide `LICENSE` file.
+The custom illustrations and AP favicon are site artwork. Notebook-specific attribution belongs in notebook metadata and appears on note pages and downloads, separate from the footer credits. This repository currently has no repository-wide `LICENSE` file.
 
 Related: [Site behavior](site-features.md) · [Development](development.md) · [Content reference](content-reference.md)

@@ -12,7 +12,7 @@ This table groups folders by purpose. [README lists every source entry at the ro
 
 | Area | Location | Responsibility |
 | --- | --- | --- |
-| Writing | `content/_posts/`, `content/_courses/`, `content/_notes/` | Articles, course collections, and ordered notes |
+| Writing | `content/_posts/`, `content/_notebooks/`, `content/_notes/` | Articles, notebook collections, and ordered notes |
 | Page entry points | `pages/en/`, `pages/ru/`, `pages/redirects/`, `pages/404.html` | Matching language page sources and explicit public routes |
 | Site configuration | `_config.yml`, `_data/` | Public site settings, translations, profile, publications, social and contact data |
 | Build configuration | `eleventy.config.js` | Eleventy collections, template engines, assets, and preview preparation |
@@ -54,7 +54,7 @@ These entries can appear beside the source files in a local checkout. Their pres
 
 ## Content and page sources
 
-The project's `collections_dir` setting in `_config.yml` points to `content/`. Eleventy collects Markdown files from its `_posts`, `_courses`, and `_notes` subfolders. Each document lives under its `lang` folder; create a language folder when adding its first document.
+The project's `collections_dir` setting in `_config.yml` points to `content/`. Eleventy collects Markdown files from its `_posts`, `_notebooks`, and `_notes` subfolders. Each document lives under its `lang` folder; create a language folder when adding its first document.
 
 ```text
 content/
@@ -62,9 +62,9 @@ content/
     _posts.11tydata.js      Shared post layout, section, and filename-based URL
     en/                    Dated English articles
     ru/                    Dated Russian articles
-  _courses/
-    _courses.11tydata.json  Shared course layout and section
-    en/                    Course/book introductions and metadata
+  _notebooks/
+    _notebooks.11tydata.json  Shared notebook layout and section
+    en/                    Notebook introductions and metadata
   _notes/
     _notes.11tydata.json    Shared note layout and section
     en/                    Individual notes
@@ -75,7 +75,7 @@ pages/
   404.html                 Shared not-found page
 ```
 
-Russian courses and notes belong in `content/_courses/ru/` and `content/_notes/ru/` when those translations exist. Extra folders inside a language folder can group related notes; course membership and reading order still come from `course` and `order`.
+Russian notebooks and notes belong in `content/_notebooks/ru/` and `content/_notes/ru/` when those translations exist. Extra folders inside a language folder can group related notes; notebook membership and reading order still come from `notebook` and `order`.
 
 Pages use Eleventy front matter `permalink` values. For example, `pages/en/blog.html` produces `/blog/`, and `pages/ru/blog.html` produces `/ru/blog/`. The source paths do not appear in public URLs. Directory data files provide shared defaults through Eleventy's data cascade; explicit document front matter can override them. Post filenames retain their language suffixes to preserve filename-derived URLs.
 
@@ -93,10 +93,10 @@ _includes/
   site/                   Contact dialog, footer credits, Atom feed, link metadata
   components/             Icons, banners, preview images, list controls, engagement
   article/                Shared reader and download links
-  library/                Course status and note counts
+  library/                Notebook status and note counts
 ```
 
-HTML and feed templates use Nunjucks. Includes share page context; reusable components use Nunjucks macros with explicit arguments. Translations come from `ui[lang]`. Native collection entries expose front matter as `item.data` and the public address as `item.url`. Small site-specific filters, such as formatted dates and a course's last-update time, live in `scripts/site/template-filters.mjs`.
+HTML and feed templates use Nunjucks. Includes share page context; reusable components use Nunjucks macros with explicit arguments. Translations come from `ui[lang]`. Native collection entries expose front matter as `item.data` and the public address as `item.url`. Small site-specific filters, such as formatted dates and a notebook's last-update time, live in `scripts/site/template-filters.mjs`.
 
 Markdown uses the shared renderer in `scripts/content/render-markdown.mjs`, including static MathJax formulas and numbered references. The reader receives this rendered HTML directly. Browser modules then provide folding, the table of contents, and formula copying.
 
@@ -168,7 +168,7 @@ The import command reads `config/obsidian-imports.yml`; its relative vault and d
 | --- | --- |
 | `tests/browser/` | DOM behavior, reader, filtering, sharing, themes, and engagement |
 | `tests/content/` | Vault conversion, metadata, Markdown/math rendering, export separation, and launcher behavior |
-| `tests/fixtures/` | Synthetic posts, courses, and notes for integration checks |
+| `tests/fixtures/` | Synthetic posts, notebooks, and notes for integration checks |
 
 Behavior tests run through `npm test`. Generated-site checks live in `scripts/checks/` because they inspect build output rather than importing application modules. The synthetic fixture site is built under `.preview/` and is never published.
 
